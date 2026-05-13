@@ -1,0 +1,45 @@
+// .devcontainer/devcontainer.json
+{
+  "name": "Edge AI Causal FMEA Dev",
+  "build": {
+    "dockerfile": "Dockerfile",
+    "context": "..",
+    "args": {
+      "CUDA_ARCH": "89"   // 在除RTX4000系显卡上需修改，例如3000系为86
+    }
+  },
+  
+  // 强制指定我们刚刚创建的用户，告别 root 裸奔
+  "remoteUser": "hehe",
+
+  // 极限硬件压榨：将宿主机的 GPU 物理直通进容器 (针对你的 4060 必须开启)
+  "runArgs": [
+    "--gpus", "all",
+    "--shm-size", "8g" // 增加共享内存，防止多线程张量处理时崩溃
+  ],
+
+  // 挂载工作区 不管别人在本地把文件夹叫什么名字，只要进了这个集装箱，工作区的绝对路径永远叫 /workspaces/causal_fmea_system
+  // 加上 consistency=cached 后，我们是在告诉 Docker：“宿主机的文件是老大，容器内的读取可以有极其微小的延迟缓存
+  // 否则，每次你在本地按 Ctrl+S 保存代码，或者在容器里用 cargo build 编译 Rust，文件系统都会进行极其沉重的“强一致性同步”。你的编译器会卡在那里等硬盘读写，慢得令人发指
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/causal_fmea_system,type=bind,consistency=cached",
+  "workspaceFolder": "/workspaces/causal_fmea_system",
+
+  // 预装我们开发所需的底层与顶层推演神器
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",        // Python 顶层 Agent 开发
+        "rust-lang.rust-analyzer", // Rust 底层 FMEA 引擎开发必备
+        "ms-vscode.cpptools",      // llama.cpp 源码阅读与微调
+        "charliermarsh.ruff"       // 强制 PEP8 静态审查工具 [cite: 205]
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/bin/python3",
+        "rust-analyzer.cargo.features": "all"
+      }
+    }
+  },
+
+  // 容器启动后，自动升级 pip 并安装 maturins 编译脚手架 [cite: 99]
+  "postCreateCommand": "pip3 install --upgrade pip && pip3 install maturin pytest"
+}
