@@ -2,6 +2,33 @@ use pyo3::prelude::*;
 use indexmap::IndexSet;
 use std::sync::{Arc, Mutex};   // Arc（原子引用计数指针）和 Mutex（互斥锁）
 
+// 实现FMEA算法 SOD
+
+#[pyclass]
+#[derive(Clone, Copy, Debug)]
+pub struct FmeaScore {
+    #[pyo3(get, set)] pub s: u32, // 让 s、o、d 这三个字段在 Python 侧可以直接读写（即 obj.s、obj.s = 1）。
+    #[pyo3(get, set)] pub o: u32,
+    #[pyo3(get, set)] pub d: u32,
+}
+
+#[pymethods]
+impl FmeaScore {
+    #[new]
+    pub fn new(s: u32, o: u32, d: u32) -> Self {
+        FmeaScore { s, o, d }
+    }
+
+    /// 核心任务：用 Rust 确立裁判法则
+    pub fn calculate_rpn(&self) -> u32 {
+        // 隐式返回法则：这行不加分号，直接将其作为 u32 结果扔给 Python
+        (100 * self.s) + (10 * self.o) + self.d
+    }
+}
+
+// ----------------------------------------------------------------------------------------
+// 实现将输入的字符串注册到驻留池，并返回一个唯一的 ID，后续可以通过这个 ID 来查询原始字符串
+
 #[pyclass]
 pub struct CausalParadigmEngine {   // 声明 Rust 结构体可以暴露给 Python 使用
     interner: Arc<Mutex<IndexSet<String>>>,  // 类型为 Arc<Mutex<IndexSet<String>>>，即线程安全、可共享的字符串集合
@@ -41,6 +68,7 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
 
 #[pymodule]  // 声明为 Python 模块初始化函数
 fn causal_fmea_core(_py: Python, m: &PyModule) -> PyResult<()> {
+    m.add_class::<FmeaScore>()?;
     m.add_class::<CausalParadigmEngine>()?;
     Ok(())
 }

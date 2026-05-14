@@ -10,3 +10,11 @@ wget https://hf-mirror.com/bartowski/Qwen2.5-7B-Instruct-GGUF/resolve/main/Qwen2
 /opt/llama.cpp/build/bin/llama-cli -m qwen2.5.gguf -ngl 999 -c 4096 -p "系统提示：你现在是 CausalForge 通用因果推演系统。请分析以下事件的因果链条：【传感器 A 数据异常导致冷却系统停机，最终引发反应堆过热。】\n请输出推演结果：" -n 200
 
 
+建立物理隔离沙盒 (Venv)
+python3 -m venv .venv
+
+激活沙盒权限,用虚拟环境的Python
+source .venv/bin/activate
+
+再次执行,制成Python包
+maturin develop --release
