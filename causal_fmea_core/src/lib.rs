@@ -2,6 +2,15 @@ use pyo3::prelude::*;
 use indexmap::IndexSet;
 use std::sync::{Arc, Mutex};   // Arc（原子引用计数指针）和 Mutex（互斥锁）
 
+// 物理连线：告诉 Rust 编译器去加载那个新文件
+pub mod fmea_evaluator; 
+// 提取武器：把 FmeaScore 拉到当前作用域
+use fmea_evaluator::FmeaScore;
+
+pub mod dag;  // 加载我们定义的图结构模块
+use dag::CompactCausalGraph;  // 把 CompactCausalGraph 拉到当前作用域
+
+
 // 变量销毁，显存回收😋
 // ==========================================
 struct LlamaMemoryReaper {
@@ -24,41 +33,17 @@ impl Drop for LlamaMemoryReaper {
     }
 }
 
-// ----------------------------------------------------------------------------------------
-// ----------------------------------------------------------------------------------------
-
-// 实现FMEA算法 SOD
-
-#[pyclass]
-#[derive(Clone, Copy, Debug)]
-pub struct FmeaScore {
-    #[pyo3(get, set)] pub s: u32, // 让 s、o、d 这三个字段在 Python 侧可以直接读写（即 obj.s、obj.s = 1）。
-    #[pyo3(get, set)] pub o: u32,
-    #[pyo3(get, set)] pub d: u32,
-}
-
-#[pymethods]
-impl FmeaScore {
-    #[new]
-    pub fn new(s: u32, o: u32, d: u32) -> Self {
-        FmeaScore { s, o, d }
-    }
-
-    /// 核心任务：用 Rust 确立裁判法则
-    pub fn calculate_rpn(&self) -> u32 {
-        // 隐式返回法则：这行不加分号，直接将其作为 u32 结果扔给 Python
-        (100 * self.s) + (10 * self.o) + self.d
-    }
-}
 
 // ----------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------
+
 // 实现将输入的字符串注册到驻留池，并返回一个唯一的 ID，后续可以通过这个 ID 来查询原始字符串
 
 #[pyclass]
 pub struct CausalParadigmEngine {   // 声明 Rust 结构体可以暴露给 Python 使用  ARC:引用计数
     interner: Arc<Mutex<IndexSet<String>>>,  // 字符串驻留池，Arc 和 Mutex 包裹保证线程安全和可共享
     _reaper: Arc<LlamaMemoryReaper>,  // 挂载死神, 只要引擎实例活着，死神就沉睡；一旦实例被销毁，死神就苏醒，执行内存清理
+    graph: CompactCausalGraph,  // 因果图结构，存储节点和边的信息
 }
 
 #[pymethods]  // 声明这是实现的方法
@@ -71,6 +56,7 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
             interner: Arc::new(Mutex::new(IndexSet::new())),  // 初始化为一个空的 IndexSet，并用 Arc 和 Mutex 包裹，保证线程安全和可共享
             // 实例化这颗死神炸弹
             _reaper: Arc::new(LlamaMemoryReaper { is_active: true }),
+            graph: CompactCausalGraph::new(100),  // 初始化一个容量为 100 的空图
         }
     }
 
@@ -99,5 +85,6 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
 fn causal_fmea_core(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<FmeaScore>()?;
     m.add_class::<CausalParadigmEngine>()?;
+
     Ok(())
 }
