@@ -1,0 +1,12 @@
+watch -n 1 nvidia-smi   每 1 秒钟强制刷新一次,观察显存
+
+sudo apt-get update && sudo apt-get install htop -y && htop   观察CPU
+
+安装QWen2.5-7b-q4km量化
+wget https://hf-mirror.com/bartowski/Qwen2.5-7B-Instruct-GGUF/resolve/main/Qwen2.5-7B-Instruct-Q4_K_M.gguf -O qwen2.5.gguf
+
+
+运行model：
+/opt/llama.cpp/build/bin/llama-cli -m qwen2.5.gguf -ngl 999 -c 4096 -p "系统提示：你现在是 CausalForge 通用因果推演系统。请分析以下事件的因果链条：【传感器 A 数据异常导致冷却系统停机，最终引发反应堆过热。】\n请输出推演结果：" -n 200
+
+
