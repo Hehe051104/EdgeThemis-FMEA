@@ -41,3 +41,6 @@ RUN sudo mkdir -p /opt/llama.cpp \
     && cd /opt/llama.cpp \
     && cmake -B build -DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \
     && cmake --build build --config Release -j $(nproc)
+
+# [终极清洗] 编译全部结束后，卸磨杀驴，抹除骗编译器的假驱动，把运行期的路让给宿主机的真实 4060 驱动
+RUN rm -rf /usr/local/cuda/lib64/stubs

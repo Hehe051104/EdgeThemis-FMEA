@@ -9,4 +9,5 @@ name = "causal_fmea_core"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = "0.28.3"
+indexmap = "2.1.0"
+pyo3 = { version = "0.20.2", features = ["extension-module", "abi3-py310"] }
