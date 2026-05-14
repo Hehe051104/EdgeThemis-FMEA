@@ -13,7 +13,7 @@ wget https://hf-mirror.com/bartowski/Qwen2.5-7B-Instruct-GGUF/resolve/main/Qwen2
 建立物理隔离沙盒 (Venv)
 python3 -m venv .venv
 
-激活沙盒权限,用虚拟环境的Python
+激活沙盒权限,用虚拟环境的Python运行指令
 source .venv/bin/activate
 
 再次执行,制成Python包

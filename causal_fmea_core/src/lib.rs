@@ -2,6 +2,31 @@ use pyo3::prelude::*;
 use indexmap::IndexSet;
 use std::sync::{Arc, Mutex};   // Arc（原子引用计数指针）和 Mutex（互斥锁）
 
+// 变量销毁，显存回收😋
+// ==========================================
+struct LlamaMemoryReaper {
+    is_active: bool,
+}
+
+// 当 Rust 检测到没有任何变量再持有 LlamaMemoryReaper 时，也就是Arc=0时会自动调用 drop 方法
+impl Drop for LlamaMemoryReaper {
+    fn drop(&mut self) {
+        // 死神苏醒时的动作
+        println!("🔥 [Rust 死神机制] 侦测到 Python 宿主抛弃了引擎！");
+        println!("🔥 [Rust 死神机制] 正在跨界挥下镰刀，清除 4060 底层物理内存...");
+        self.is_active = false; // 表示“死神”已执行清理动作
+        // 在这里，你可以调用 unsafe { llama_free(...) } 来强行释放 C++ 分配的显存
+        // 真正的杀招（伪代码）：
+        // unsafe {
+        //     llama_free_model(self.model_ptr);
+        //     llama_free(self.ctx_ptr);
+        // }
+    }
+}
+
+// ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
+
 // 实现FMEA算法 SOD
 
 #[pyclass]
@@ -27,11 +52,13 @@ impl FmeaScore {
 }
 
 // ----------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------
 // 实现将输入的字符串注册到驻留池，并返回一个唯一的 ID，后续可以通过这个 ID 来查询原始字符串
 
 #[pyclass]
-pub struct CausalParadigmEngine {   // 声明 Rust 结构体可以暴露给 Python 使用
-    interner: Arc<Mutex<IndexSet<String>>>,  // 类型为 Arc<Mutex<IndexSet<String>>>，即线程安全、可共享的字符串集合
+pub struct CausalParadigmEngine {   // 声明 Rust 结构体可以暴露给 Python 使用  ARC:引用计数
+    interner: Arc<Mutex<IndexSet<String>>>,  // 字符串驻留池，Arc 和 Mutex 包裹保证线程安全和可共享
+    _reaper: Arc<LlamaMemoryReaper>,  // 挂载死神, 只要引擎实例活着，死神就沉睡；一旦实例被销毁，死神就苏醒，执行内存清理
 }
 
 #[pymethods]  // 声明这是实现的方法
@@ -42,6 +69,8 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
         println!("⚡ [CausalForge] 正在开辟底层字符串驻留池...");
         CausalParadigmEngine {
             interner: Arc::new(Mutex::new(IndexSet::new())),  // 初始化为一个空的 IndexSet，并用 Arc 和 Mutex 包裹，保证线程安全和可共享
+            // 实例化这颗死神炸弹
+            _reaper: Arc::new(LlamaMemoryReaper { is_active: true }),
         }
     }
 
