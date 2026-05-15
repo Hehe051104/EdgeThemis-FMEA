@@ -10,6 +10,9 @@ use fmea_evaluator::FmeaScore;
 pub mod dag;  // 加载我们定义的图结构模块
 use dag::CompactCausalGraph;  // 把 CompactCausalGraph 拉到当前作用域
 
+pub mod algorithms;  // 加载算法模块
+use algorithms::CausalAlgorithms;  // 把 CausalAlgorithms 拉到当前作用域
+
 
 // 变量销毁，显存回收😋
 // ==========================================
@@ -78,6 +81,16 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
         
         // 获取引用，并克隆一份 String 扔回给 Python 把内部数据“拷贝”出来，安全返回给 Python
         Ok(pool.get_index(node_id).cloned())
+    }
+
+
+    /// 新增：检查图是否为有向无环图
+    pub fn check_graph_health(&self) -> PyResult<bool> {
+        let is_healthy = CausalAlgorithms::kahn_cycle_detect(&self.graph);
+        if !is_healthy {
+            println!("[Rust 物理拦截] 侦测到大模型发生逻辑死循环幻觉！");
+        }
+        Ok(is_healthy)
     }
 }
 
