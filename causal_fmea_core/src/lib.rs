@@ -14,7 +14,7 @@ pub mod algorithms;  // 加载算法模块
 use algorithms::CausalAlgorithms;  // 把 CausalAlgorithms 拉到当前作用域
 
 
-// 变量销毁，显存回收😋
+// 变量销毁，内存回收😋
 // ==========================================
 struct LlamaMemoryReaper {
     is_active: bool,
@@ -27,6 +27,11 @@ impl Drop for LlamaMemoryReaper {
         println!("🔥 [Rust 死神机制] 侦测到 Python 宿主抛弃了引擎！");
         println!("🔥 [Rust 死神机制] 正在跨界挥下镰刀，清除 4060 底层物理内存...");
         self.is_active = false; // 表示“死神”已执行清理动作
+
+        // 注意：没有任何 unsafe 代码。
+        // Rust 的编译器会自动在这里插入代码，把 interner 和 graph 彻底销毁！
+
+
         // 在这里，你可以调用 unsafe { llama_free(...) } 来强行释放 C++ 分配的显存
         // 真正的杀招（伪代码）：
         // unsafe {
@@ -63,7 +68,7 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
         }
     }
 
-    /// 任务 1：注册节点
+    /// 任务 1：注册节点    光荣退役，由inject_edges接管
     pub fn register_node(&self, node_name: String) -> PyResult<usize> {
         // 你的逻辑 1：极其粗暴地拿锁，并声明为可变 (mut)
         let mut pool = self.interner.lock().unwrap();
@@ -84,7 +89,7 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
     }
 
 
-    /// 新增：检查图是否为有向无环图
+    /// 检查图是否为有向无环图
     pub fn check_graph_health(&self) -> PyResult<bool> {
         let is_healthy = CausalAlgorithms::kahn_cycle_detect(&self.graph);
         if !is_healthy {
@@ -92,6 +97,28 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
         }
         Ok(is_healthy)
     }
+
+
+    /// 跨界物理注射器：接收 Python 传来的 [(String, String)] 列表
+    pub fn inject_edges(&mut self, py_edges: Vec<(String, String)>) -> PyResult<()> {
+        // 物理动作 1：获取驻留池的互斥锁
+        let mut pool = self.interner.lock().unwrap();
+        
+        for (source, target) in py_edges {
+            // 物理动作 2：极其暴力的字符串没收！
+            // insert_full 会检查池子里有没有这个词。没有就塞进去，有就直接返回它的唯一 ID！
+            let (src_id, _) = pool.insert_full(source);
+            let (tgt_id, _) = pool.insert_full(target);
+            
+            // 物理动作 3：把纯数字 ID 压入我们的一维数组图谱中！
+            self.graph.add_edge(src_id, tgt_id);
+        }
+        
+        Ok(())
+    }
+
+
+
 }
 
 #[pymodule]  // 声明为 Python 模块初始化函数

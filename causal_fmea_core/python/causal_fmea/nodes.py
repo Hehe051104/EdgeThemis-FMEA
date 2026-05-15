@@ -23,7 +23,7 @@ llm = Llama(
 graph_grammar = LlamaGrammar.from_pydantic(ExtractedGraph)
 
 
-def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
+def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:    # 用模型
     """
     LangGraph 的 Generator 节点：负责暴力榨取因果图
     """
@@ -80,3 +80,59 @@ def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
             "rust_interception_report": f"JSON 语法损坏，请严格遵守格式：{str(e)}",
             "interception_count": interception_count + 1
         }
+    
+
+
+from .context_guard import AgentContext
+
+def validate_graph_node(state: CausalAgentState) -> Dict[str, Any]:   # 用rust
+    """
+    LangGraph 的 Validator 节点：将数据押送进 Rust 底层进行生死审判
+    """
+    print("⚖️ [死神审判] 数据正在通过 FFI 虫洞，进入 Rust 物理测谎仪...")
+    
+    graph_data = state.get("extracted_graph")
+    interception_count = state.get("interception_count", 0)
+
+    if not graph_data or not graph_data.edges:
+        return {
+            "rust_interception_report": "大模型吐出的图谱为空，涉嫌逃避推演！",
+            "is_safe": False,
+            "current_phase": "generate_graph"
+        }
+
+    # 物理动作 1：把 Pydantic 对象降维成极其轻量的 Tuple 列表 [(source, target), ...]
+    py_edges = [(edge.source, edge.target) for edge in graph_data.edges]
+
+    # ==========================================
+    # 🛡️ 开启绝对物理沙盒！
+    # ==========================================
+    with AgentContext() as rust_engine:
+        # 动作 2：注射数据！Python 字符串在这里化为乌有，变成 Rust 的 usize
+        rust_engine.inject_edges(py_edges)
+
+        # 动作 3：拔刀！触发底层 Kahn 环路检测 (以及后续的 d-分离测谎)
+        is_healthy = rust_engine.check_graph_health()
+
+        if is_healthy:
+            print("✅ [审判通过] 完美通过图灵测谎，未发现逻辑幻觉！")
+            return {
+                "is_safe": True,
+                "rust_interception_report": "",
+                "current_phase": "finish" # 流水线完美收工
+            }
+        else:
+            print("🚨 [物理拦截] 测谎仪亮红灯！发现因果死循环或伪相关！")
+            return {
+                "is_safe": False,
+                # 这里生成一份冷酷的报错报告，准备甩在大模型脸上
+                "rust_interception_report": "【致命幻觉】底层图引擎侦测到因果死循环（拓扑环路）或 d-分离拦截！请立刻重新梳理因果链，打破闭环！",
+                "current_phase": "generate_graph", # 💥 无情的一脚！把大模型踹回 Generator 节点重写！
+                "interception_count": interception_count + 1
+            }
+    
+    # 💥💥💥 缩进结束！这里是全场最爽的一幕：
+    # AgentContext 的 __exit__ 瞬间触发！
+    # 刚刚还在运转的 Rust 测谎仪被当场销毁，驻留池清空，底层 4060 显存里的垃圾被扫荡一空！
+    # 绝不给大模型的下一次重试留下任何内存隐患！
+
