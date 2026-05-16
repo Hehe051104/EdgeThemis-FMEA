@@ -88,15 +88,23 @@ if __name__ == "__main__":
     print("🚀 开始注入测试数据，启动大模型与 Rust 跨界审判...")
     print("="*50 + "\n")
 
-    # 启动履带！用 stream 模式可以看到数据流转的每一步
+    # 🌟 专属保险箱：专门用来存放最后一次成功生成的因果图
+    final_extracted_graph = None
 
-    final_state_data = None
-
+    # 启动履带！保留你最爱的机械感进度监控！
     for output in causal_agent.stream(initial_state):
-        for key, value in output.items():
-            print(f"📦 [流水线进度] 当前刚刚跑完车间: {key}")
-            # print(f"当前病历本状态: {value}")
+        for node_name, state_update in output.items():
+            print(f"📦 [流水线进度] 当前刚刚跑完车间: {node_name}")
+            
+            # 只要当前车间（通常是 Generator）在状态里更新了图谱，我们立马备份！
+            if "extracted_graph" in state_update and state_update["extracted_graph"] is not None:
+                final_extracted_graph = state_update["extracted_graph"]
 
-    print("\n🎉 [推演结束] 最终的病历本状态：")
-    # 打印被我们拦截下来的最终数据
-    pprint(final_state_data)
+    print("\n🎉 [推演结束] EdgeThemis 引擎最终提取的因果图谱：")
+    
+    # 打印保险箱里的战利品
+    if final_extracted_graph:
+        # 剥开 Pydantic 的外衣，转化为极度干净的 JSON 字典打印
+        pprint(final_extracted_graph.model_dump())
+    else:
+        print("🚨 提取失败：大模型未生成图谱，或因触发 Rust 底层物理熔断被强制终止。")
