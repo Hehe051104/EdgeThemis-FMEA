@@ -5,7 +5,7 @@ from llama_cpp import Llama
 from llama_cpp.llama_grammar import LlamaGrammar
 from pydantic import ValidationError
 
-from .agent_state_machine import CausalAgentState, ExtractedGraph
+from agent_state_machine import CausalAgentState, ExtractedGraph
 
 # ==========================================
 # 物理动作 0：在 4060 上点火 (单例加载，防止重复爆显存)
@@ -13,14 +13,17 @@ from .agent_state_machine import CausalAgentState, ExtractedGraph
 print("🔥 [硬件预热] 正在将 4-bit 模型权重载入 8GB VRAM...")
 # 这里的模型路径请替换为你下载的 GGUF 模型文件
 llm = Llama(
-    model_path="../../qwen2.5.gguf",
+    model_path="../../../qwen2.5.gguf",
     n_gpu_layers=-1,       # 绝对指令：把所有层强制塞进 4060 显存！
     n_ctx=2048,            # 锁死上下文窗口，防止 KV Cache 膨胀导致 OOM
     verbose=False          # 关闭底层 C++ 的啰嗦日志
 )
 
-#  祭出物理枷锁：将 Pydantic 结构直接编译为底层 C++ 的 GBNF 语法树
-graph_grammar = LlamaGrammar.from_pydantic(ExtractedGraph)
+# 1. 把 Pydantic 对象降维成标准的 JSON Schema 字典，再转成字符串
+schema_json_str = json.dumps(ExtractedGraph.model_json_schema())
+
+# 2. 将字符串狠狠砸进底层的 C++ 语法树编译器！
+graph_grammar = LlamaGrammar.from_json_schema(schema_json_str)
 
 
 def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:    # 用模型
@@ -83,7 +86,7 @@ def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:    # 用模�
     
 
 
-from .context_guard import AgentContext
+from context_guard import AgentContext
 
 def validate_graph_node(state: CausalAgentState) -> Dict[str, Any]:   # 用rust
     """

@@ -89,12 +89,14 @@ if __name__ == "__main__":
     print("="*50 + "\n")
 
     # 启动履带！用 stream 模式可以看到数据流转的每一步
+
+    final_state_data = None
+
     for output in causal_agent.stream(initial_state):
         for key, value in output.items():
             print(f"📦 [流水线进度] 当前刚刚跑完车间: {key}")
-            # print(f"当前病历本状态: {value}") # 如果你想看极其详细的数据，可以取消注释
+            # print(f"当前病历本状态: {value}")
 
     print("\n🎉 [推演结束] 最终的病历本状态：")
-    # 只取最终状态打印
-    final_state = causal_agent.get_state(builder.compile().config).values
-    pprint(final_state)
+    # 打印被我们拦截下来的最终数据
+    pprint(final_state_data)
