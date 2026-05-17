@@ -5,7 +5,7 @@ from llama_cpp import Llama
 from llama_cpp.llama_grammar import LlamaGrammar
 from pydantic import ValidationError
 
-from agent_state_machine import CausalAgentState, ExtractedGraph
+from agent_state_machine import CausalAgentState, ExtractedGraph, ReflectorVerdict
 from context_guard import AgentContext
 
 from causal_fmea_core import FmeaScore
@@ -24,9 +24,11 @@ llm = Llama(
 
 # 1. 把 Pydantic 对象降维成标准的 JSON Schema 字典，再转成字符串
 schema_json_str = json.dumps(ExtractedGraph.model_json_schema())
-
 # 2. 将字符串狠狠砸进底层的 C++ 语法树编译器！
 graph_grammar = LlamaGrammar.from_json_schema(schema_json_str)
+
+reflector_schema_str = json.dumps(ReflectorVerdict.model_json_schema())
+reflector_grammar = LlamaGrammar.from_json_schema(reflector_schema_str)
 
 
 def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:    # 用模型
@@ -162,33 +164,114 @@ def validate_graph_node(state: CausalAgentState) -> Dict[str, Any]:   # 用rust
         rust_engine.inject_edges(py_edges)
         topology_safe = rust_engine.check_graph_health()
     
-    # ==========================================
-    # 🌟 战术核心：联合绞杀机制！
-    # 必须满足两个条件：拓扑无死循环 且 没有任何 FMEA 警报
-    # ==========================================
-    is_safe = topology_safe 
+        # ==========================================
+        # 🌟 战术核心：联合绞杀机制！
+        # 必须满足两个条件：拓扑无死循环 且 没有任何 FMEA 警报
+        # ==========================================
+        is_safe = topology_safe 
 
-    # 大模型只有在画出“死循环”时，才会被踹回去重写
-    report_lines = []
-    if not topology_safe:
-        report_lines.append("🚨 [拓扑错误] Rust 底层引擎检测到逻辑死循环（A导致B，B又导致A）！请严谨反思！")
+        # 大模型只有在画出“死循环”时，才会被踹回去重写
+        report_lines = []
+        if not topology_safe:
+            report_lines.append("🚨 [拓扑错误] Rust 底层引擎检测到逻辑死循环（A导致B，B又导致A）！请严谨反思！")
+            
+        interception_report = "\n".join(report_lines) if not is_safe else ""
         
-    interception_report = "\n".join(report_lines) if not is_safe else ""
-    
-    # 打印给人类指挥官看
-    if not is_safe:
-        print(f"🔴 [拒绝放行] 发现致命错误，已生成拦截报告，准备触发时光倒流！")
+        # 打印给人类指挥官看
+        if not is_safe:
+            print(f"🔴 [拒绝放行] 发现致命错误，已生成拦截报告，准备触发时光倒流！")
 
-    # 返回给 LangGraph 状态机
-    return {
-        "is_safe": is_safe,
-        "rust_interception_report": interception_report,
-        "current_phase": "validate_graph",
-        "interception_count": state.get("interception_count", 0) + 1
-    }
+        # ==========================================
+        # 🌟 终极大招：从 Rust 底层榨取真实的 d-分离断言！
+        # ==========================================
+        # 只要拓扑没有死循环，我们就去提取破绽
+        real_claims = []
+        if topology_safe:
+            # rust并不懂真实世界逻辑，只懂图论的正确与否。
+            # Rust 找到了图中数学上 true 的阻断点，正是为了把它翻译成人话，让大模型在现实常识中去证伪它！如果现实中它根本阻断不了，就说明大模型一开始画的图是彻头彻尾的垃圾！
+            print("🔬 [测谎仪启动] Rust 正在执行 O(N^3) 贝叶斯球探测，试图提取常识破绽...")
+            real_claims = rust_engine.extract_testable_claims()
+            if real_claims:
+                print(f"🎯 [破绽锁定] Rust 成功提取出 {len(real_claims)} 条物理断言！")
+
+        if not topology_safe:
+            report_msg = "🚨 [拓扑错误] Rust 底层引擎检测到逻辑死循环！"
+            is_finally_safe = False
+        elif real_claims:
+            report_msg = "⚠️ [逻辑破绽] 检测到因果图涉嫌伪独立，移交 Reflector 车间执行常识盘问！"
+            is_finally_safe = False
+        else:
+            report_msg = ""  # 🟢 完美无瑕！直接清空案底！
+            is_finally_safe = True
+
+        return {
+            "is_safe": is_finally_safe,
+            "d_separation_claims": real_claims,
+            "rust_interception_report": report_msg,
+            "current_phase": "validate_graph",
+            # 顺手修一个隐患：只有在真的被拦截时，才增加拦截次数！
+            "interception_count": state.get("interception_count", 0) + (1 if not is_finally_safe else 0) 
+        }
+
+# -------------------------------------------------------------------------------------------
+
+def reflector_node(state: CausalAgentState) -> Dict[str, Any]:
+    """
+    LangGraph 的 Reflector 节点：
+    用大模型脆弱的常识，去审判它自己用图论画出的伪命题
+    """
+    claims = state.get("d_separation_claims", [])
+    interception_count = state.get("interception_count", 0)
     
-    # 💥💥💥 缩进结束！这里是全场最爽的一幕：
-    # AgentContext 的 __exit__ 瞬间触发！
-    # 刚刚还在运转的 Rust 测谎仪被当场销毁，驻留池清空，底层 4060 显存里的垃圾被扫荡一空！
-    # 绝不给大模型的下一次重试留下任何内存隐患！
+    if not claims:
+        # 如果 Rust 没挑出任何毛病，说明图结构连链条或分叉都没有，直接放行
+        return {"is_safe": True, "current_phase": "reflector"}
+
+    print(f"🕵️ [前额叶重塑] 赋予 Qwen 2.5 铁面审查官人格，开始终极质问...")
+    
+    # 构造极其尖锐的常识质问提示词
+    claims_text = "\n".join([f"断言 {i+1}: {claim}" for i, claim in enumerate(claims)])
+    
+    system_prompt = """
+    你是一个理智、宽容且极其客观的现实世界审查法官。
+    现在有系统基于拓扑图提取了几条物理因果断言。请判断这些断言是否违背现实常识。
+    
+    【核心判决铁律 - 绝对遵守】
+    1. 除非该断言包含了极其荒谬、严重违背地球基本物理法则的陈述（例如“公鸡打鸣导致太阳升起”、“求神拜佛导致疾病痊愈”这类绝对的伪科学），否则你必须给出 PASS！
+    2. 不要过度发散思维！绝对禁止脑补微小的、间接的蝴蝶效应！
+    3. 如果该断言是探讨“控制某个共同变量（环境/背景）后，另外两个表面相关的变量互不干涉”，这在统计学和常识上是合理的，必须无条件 PASS！
+    
+    你必须输出标准的 JSON 格式：
+    {
+      "verdict": "REJECT" 或 "PASS",
+      "reason": "言简意赅的反驳或赞同理由"
+    }
+    """
+    
+    user_prompt = f"【待审判的物理断言列表】\n{claims_text}\n\n请问上述断言在真实世界中能站得住脚吗？请给出你的判决。"
+
+    # 戴着单脑口罩再次执行推理
+    response = llm.create_chat_completion(
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt}
+        ],
+        grammar=reflector_grammar,  # 固定输出格式
+        # 实际开发中此处可以复用或编写一个简单的 JSON 语法树限制组件
+        max_tokens=256,
+        temperature=0.0  # 逼迫它动用最死板、最坚固的物理常识
+    )
+    
+    res_json = json.loads(response["choices"][0]["message"]["content"])
+    
+    if res_json["verdict"] == "REJECT":
+        print(f"🔴 [逻辑自爆] 大模型无法说服自己的常识！反思反驳理由：{res_json['reason']}")
+        return {
+            "is_safe": False,
+            "rust_interception_report": f"你的因果图推导出了荒谬的物理断言！反思结论：{res_json['reason']}",
+            "current_phase": "reflector"
+        }
+    
+    print(f"🟢 [反思通过] 大模型的图谱成功说服了自己的常识神经！")
+    return {"is_safe": True, "current_phase": "reflector"}
 

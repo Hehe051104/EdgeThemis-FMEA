@@ -1,72 +1,111 @@
-# 文件：python/causal_fmea/app.py
 from langgraph.graph import StateGraph, START, END
 from pprint import pprint
 
 # 引入我们在前线打磨好的装甲和弹药
 from agent_state_machine import CausalAgentState
-from nodes import generate_graph_node, validate_graph_node
+from nodes import generate_graph_node, validate_graph_node, reflector_node
 
 # ==========================================
-# ⚡️ 核心算子：上帝视角的“铁面路由” (Conditional Router)
-# 它决定了 Validator 验伤完毕后，数据该往哪走！
+# ⚡️ 核心算子 1：Validator (验伤车间) 出口路由
 # ==========================================
-def should_continue(state: CausalAgentState) -> str:
+def route_from_validator(state: CausalAgentState):
     """
-    检查病历本，决定是完美结案、强制熔断，还是时光倒流！
+    第一道防爆门：检查拓扑环路和 Rust d-分离破绽
+    """
+    is_safe = state.get("is_safe", False)
+    claims = state.get("d_separation_claims", [])
+    interception_count = state.get("interception_count", 0)
+
+    # 结局 A：物理熔断 (保护 4060 显存免遭无限死循环)
+    if interception_count >= 3:
+        print(f"🔴 [致命熔断] 大模型在 Validator 连续发癫 {interception_count} 次！强制拔电源，结束推演！")
+        return END
+
+    # 结局 B：拓扑死循环，当场踢回重写
+    if not is_safe and not claims:
+        print(f"🟡 [路由决策] 拓扑死循环！开启时光倒流，踹回 Generator 进行第 {interception_count + 1} 次重试！")
+        return "generate_graph"
+    
+    # 结局 C：拓扑没问题，但 Rust 查出了伪独立破绽，押送审讯室！
+    if claims:
+        print(f"🟠 [路由决策] 拓扑正常，但发现 {len(claims)} 条 d-分离破绽！押送至 Reflector 接受常识审判！")
+        return "reflector"
+
+    # 结局 D：既没死循环，也没逻辑破绽，完美通关
+    print("🟢 [路由决策] 测谎仪放行！因果图完美无瑕，直接结案！")
+    return END
+
+# ==========================================
+# ⚡️ 核心算子 2：Reflector (审讯车间) 出口路由
+# ==========================================
+def route_from_reflector(state: CausalAgentState):
+    """
+    第二道防爆门：检查大模型在常识审判中的认罪态度
     """
     is_safe = state.get("is_safe", False)
     interception_count = state.get("interception_count", 0)
 
-    # 结局 1：完美通关
-    if is_safe:
-        print("🟢 [路由决策] 测谎仪放行！因果图完美无瑕，直接结案！")
-        return "finish"
-    
-    # 结局 2：物理熔断 (保护 4060 显存免遭无限死循环)
+    # 结局 A：物理熔断
     if interception_count >= 3:
-        print(f"🔴 [致命熔断] 大模型已连续发癫 {interception_count} 次！强制拔电源，结束推演！")
-        return "finish"
+        print(f"🔴 [致命熔断] 审讯超时！大模型连续发癫 {interception_count} 次！强制拔电源！")
+        return END
 
-    # 结局 3：时光倒流 (踹回起点重做)
-    print(f"🟡 [路由决策] 测谎仪拦截！开启时光倒流，将大模型踹回 Generator 进行第 {interception_count + 1} 次重试！")
-    return "generate_graph"
+    # 结局 B：嫌疑犯防线崩溃，承认画的图违背常识
+    if not is_safe:
+        print(f"🟡 [路由决策] 嫌疑犯防线崩溃！带着反思报告踹回 Generator 进行第 {interception_count + 1} 次重写！")
+        return "generate_graph"
+
+    # 结局 C：嫌疑犯说服了自己（或断言确实合理），结案
+    print("🟢 [路由决策] 嫌疑犯通过了常识审判！结案！")
+    return END
+
 
 # ==========================================
-# 🛠️ 开始焊接：组装 LangGraph 状态机
+# 🛠️ 开始焊接：组装 LangGraph 多体状态机
 # ==========================================
-print("⚙️ [系统组装] 正在焊接因果推理流水线...")
+print("⚙️ [系统组装] 正在焊接因果推理双重防爆流水线...")
 
-# 1. 创建基于我们病历本的空图纸
 builder = StateGraph(CausalAgentState)
 
-# 2. 挂载两个干活的车间 (Nodes)
+# 1. 挂载三大物理车间
 builder.add_node("generate_graph", generate_graph_node)
 builder.add_node("validate_graph", validate_graph_node)
+builder.add_node("reflector", reflector_node)
 
-# 3. 焊接正向单行道 (Edges)
+# 2. 焊接绝对单行道
 builder.add_edge(START, "generate_graph")               # 起点 -> Generator
 builder.add_edge("generate_graph", "validate_graph")    # Generator -> Validator
 
-# 4. 🌟 焊接反向齿轮与出口 (Conditional Edges)
+# 3. 🌟 焊接第一道分流阀门 (Validator 出口)
 builder.add_conditional_edges(
-    "validate_graph",  # 从 Validator 出来后...
-    should_continue,   # 交给路由函数去判断...
+    "validate_graph",
+    route_from_validator,
     {
-        "generate_graph": "generate_graph", # 如果返回这个，踹回起点
-        "finish": END                       # 如果返回 finish，流水线彻底终止！
+        "generate_graph": "generate_graph",
+        "reflector": "reflector",
+        END: END
     }
 )
 
-# 5. 浇筑成型：把图纸编译成可执行的图引擎！
+# 4. 🌟 焊接第二道分流阀门 (Reflector 出口)
+builder.add_conditional_edges(
+    "reflector",
+    route_from_reflector,
+    {
+        "generate_graph": "generate_graph",
+        END: END
+    }
+)
+
+# 5. 浇筑成型！
 causal_agent = builder.compile()
-print("✅ [系统就绪] EdgeThemis 引擎组装完毕！防爆舱舱门已锁死！")
+print("✅ [系统就绪] EdgeThemis 引擎组装完毕！双重防爆舱门已锁死！")
 
 
 # ==========================================
 # 🚀 实战点火：高危场景推演测试
 # ==========================================
 if __name__ == "__main__":
-    # 这是一个极其容易诱发大模型产生“伪相关 (Confounder)”的经典测试用例
     test_scenario = """
     案发现场报告：
     昨天晚上发生了一起离奇的事件。记录显示，市区的冰激凌销量突然暴增。
@@ -74,37 +113,33 @@ if __name__ == "__main__":
     请提取这其中的因果关系。
     """
     
-    # 初始化一本干净的病历本
+    # 初始化一本极其干净、带有最新字段的病历本
     initial_state = {
         "scenario_description": test_scenario,
         "current_phase": "start",
         "extracted_graph": None,
         "rust_interception_report": "",
+        "d_separation_claims": [],  # 🌟 必须初始化这个口袋，用来装 Rust 吐出的破绽
         "interception_count": 0,
         "is_safe": False
     }
 
     print("\n" + "="*50)
-    print("🚀 开始注入测试数据，启动大模型与 Rust 跨界审判...")
+    print("🚀 开始注入测试数据，启动大模型与 Rust 跨界联合审判...")
     print("="*50 + "\n")
 
-    # 🌟 专属保险箱：专门用来存放最后一次成功生成的因果图
     final_extracted_graph = None
 
-    # 启动履带！保留你最爱的机械感进度监控！
     for output in causal_agent.stream(initial_state):
         for node_name, state_update in output.items():
             print(f"📦 [流水线进度] 当前刚刚跑完车间: {node_name}")
             
-            # 只要当前车间（通常是 Generator）在状态里更新了图谱，我们立马备份！
             if "extracted_graph" in state_update and state_update["extracted_graph"] is not None:
                 final_extracted_graph = state_update["extracted_graph"]
 
     print("\n🎉 [推演结束] EdgeThemis 引擎最终提取的因果图谱：")
     
-    # 打印保险箱里的战利品
     if final_extracted_graph:
-        # 剥开 Pydantic 的外衣，转化为极度干净的 JSON 字典打印
         pprint(final_extracted_graph.model_dump())
     else:
-        print("🚨 提取失败：大模型未生成图谱，或因触发 Rust 底层物理熔断被强制终止。")
+        print("🚨 提取失败：大模型未生成图谱，或因触发底层物理熔断被强制终止。")

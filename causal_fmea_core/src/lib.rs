@@ -118,6 +118,65 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
     }
 
 
+    /// 战术核心：跨界破绽提取器！自动寻找 Z 节点，验证 d-分离，并翻译成常识断言
+    pub fn extract_testable_claims(&self) -> PyResult<Vec<String>> {
+        let mut claims = Vec::new();
+        // 拿锁读取驻留池，这样我们就能把 node_id 翻译回中文了
+        let pool = self.interner.lock().unwrap();
+        let n = self.graph.node_count;
+
+        // 1. 遍历所有可能的 (X, Y) 节点对
+        for i in 0..n {
+            for j in (i + 1)..n {
+                // 如果 X 和 Y 有直接连线，绝对不可能独立，跳过
+                let has_direct = self.graph.adjacency_list[i].contains(&j) || 
+                                 self.graph.adjacency_list[j].contains(&i);
+                if has_direct { continue; }
+
+                // ==========================================
+                //  补全：测试“无条件独立”（适用于 Collider 对撞结构）
+                // ==========================================
+                let name_i = pool.get_index(i).unwrap();
+                let name_j = pool.get_index(j).unwrap();
+
+                let empty_observed = std::collections::HashSet::new();
+                if CausalAlgorithms::is_d_separated(&self.graph, i, j, &empty_observed) {
+                    let claim = format!(
+                        "物理断言：在没有任何外界干预（不固定任何条件）的情况下，【{}】和【{}】在物理上是完全独立的两个事件，互不影响。",
+                        name_i, name_j
+                    );
+                    claims.push(claim);
+                    continue; // 既然已经无条件独立了，就不需要再去寻找中间阀门 Z 了，直接测下一对！
+                }
+
+                // 适用于chain与confounder结构的断言提取
+                // 2. 暴力寻找能斩断 X 和 Y 联系的阀门节点 Z      有某个Z就能让X与Y独立，就能组成一句claim了
+                for k in 0..n {
+                    if k == i || k == j { continue; }
+                    
+                    let mut observed = std::collections::HashSet::new();
+                    observed.insert(k);
+
+                    // 3. 呼叫你的底层算子进行贝叶斯球探测！
+                    if CausalAlgorithms::is_d_separated(&self.graph, i, j, &observed) {
+                        // 翻译回中文节点名
+                        let name_i = pool.get_index(i).unwrap();
+                        let name_j = pool.get_index(j).unwrap();
+                        let name_k = pool.get_index(k).unwrap();
+                        
+                        // 4. 组装终极绞杀宣言！
+                        let claim = format!(
+                            "物理断言：假设我们强行控制住【{}】的状态绝对恒定，那么无论【{}】如何波动，都绝对无法影响【{}】的发生概率。",
+                            name_k, name_i, name_j
+                        );
+                        claims.push(claim);
+                        break; // 找到一个 Z 节点能证明它俩独立就足够了，立刻退出内层循环
+                    }
+                }
+            }
+        }
+        Ok(claims)
+    }
 
 }
 

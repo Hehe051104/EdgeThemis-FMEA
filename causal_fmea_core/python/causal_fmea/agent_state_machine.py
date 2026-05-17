@@ -21,8 +21,13 @@ class ExtractedGraph(BaseModel):  # 代表大模型输出的整个因果图
     )
     edges: List[CausalEdge] = Field(description="基于上一步的推理，严格提取出的因果拓扑边。")
 
+# -----------------------------------------------------------------------------------------------------------------
+# 限制reflector的输出格式
+class ReflectorVerdict(BaseModel):
+    verdict: str = Field(description="必须严格输出 PASS 或 REJECT")
+    reason: str = Field(description="言简意赅的反驳或赞同理由")
 
-    
+
 # ==========================================
 # 枷锁 2：LangGraph 的纯因果状态栈 (State)
 # 剥离一切业务逻辑，只保留推演和物理拦截状态
@@ -37,3 +42,4 @@ class CausalAgentState(TypedDict):
     rust_interception_report: str                # Rust 测谎仪返回的物理诊断书
     interception_count: int                      # 物理拦截计数器 (防止大模型无限卡死)
     is_safe: bool                                # 最终是否通过了 Rust 的 d-分离和环路测谎
+    d_separation_claims: list[str]               # 新增：存放 Rust 从当前图中榨取出的 d-分离物理断言
