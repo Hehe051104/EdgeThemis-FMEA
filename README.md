@@ -1,115 +1,155 @@
-# ⚡ EdgeThemis-FMEA: 8GB VRAM 极限边缘因果纠错系统
+# EdgeThemis: A Deterministic Causal Inference Engine for Edge LLMs
 
+![CUDA](https://img.shields.io/badge/CUDA-12.4-green.svg) ![Rust](https://img.shields.io/badge/rustc-1.95.0-orange.svg) ![FFI](https://img.shields.io/badge/PyO3-Zero__Copy__FFI-yellow.svg) ![VRAM](https://img.shields.io/badge/VRAM-8GB_Limit-blue.svg) ![Paper](https://img.shields.io/badge/Target-NeurIPS%2FICLR-purple.svg)
 
-![CUDA](https://img.shields.io/badge/CUDA-12.4-green.svg) ![Rust](https://img.shields.io/badge/Rust-Zero_Copy_FFI-orange.svg) ![VRAM](https://img.shields.io/badge/VRAM-8GB_Limit-blue.svg) ![Paper](https://img.shields.io/badge/Target-NeurIPS%2FICLR-purple.svg)
+**EdgeThemis (因果失效模式与影响分析系统)** 是一个专为受限边缘硬件设计的混合架构因果推理引擎。它旨在解决大语言模型（LLM）在复杂因果拓扑图提取中普遍存在的“拓扑幻觉”问题。
 
-**面向 8GB 边缘算力的 Agentic 因果推理失效模式分析（FMEA）与动态纠错范式**
-
-本项目是一个专为显存受限环境（如 RTX 4060 8GB）设计的工业级因果推理引擎。核心架构采用 **Python (LangGraph) + Rust (PyO3)** 混合开发。
-
-设计思路很明确：用大模型（LLM）做逻辑推演，但绝不信任其输出。通过强类型约束（Pydantic/JSON Schema）限制生成格式，并将生成的拓扑图直接打入底层的 Rust 引擎执行 Kahn 环路检测与 d-分离验证。一旦发现逻辑死循环或伪相关，Rust 会立即中断并强制模型重写，同时清理显存。
+本系统通过将**形式化数学验证（Rust）**无缝嵌入**大模型推理循环（Python 状态机）**，并剥离**底层张量计算（C++）**，实现了一个能够在 8GB VRAM (如 RTX 4060) 物理环境下稳定运行的工业级防爆架构。适用于自动驾驶 ROS 级联失效分析、复杂软件架构崩溃溯源等高危场景。
 
 ---
 
-## ⚡ 快速上手
+## 🗂️ 拓扑与文件分级
 
-我们已经将完整的 C++ 编译环境、CUDA 加速算子以及依赖沙盒固化在了 `.devcontainer` 中，强烈建议直接使用 VS Code 的 Dev Container 启动，避免本地配环境踩坑。
+系统采用极端物理隔离的异构设计，工作区物理切割如下：
 
-### 1. 环境准备
+```text
+Causal_FMEA/
+├── qwen2.5.gguf                        # 量化模型权重 (~4GB, Q8_0)，纯算力燃料
+├── .devcontainer/                      # 基础设施层
+│   ├── Dockerfile                      # CUDA 12.4 + llama.cpp + Rust + maturin 全栈构建环境
+│   └── devcontainer.json               # GPU 直通配置，含生命周期自动编译钩子
+│
+└── causal_fmea_core/                   # 核心子系统（Rust/Python 混合 crate）
+    ├── Cargo.toml / pyproject.toml     # 跨语言构建约束
+    ├── scripts/
+    │   └── run_llama_server.sh         # C++ 张量推理层独立点火脚本（微服务化核心）
+    │
+    ├── src/                            # ⚙️ Rust 底层算力层 (The Judge)
+    │   ├── lib.rs                      # FFI 门面：暴露引擎与内存防爆控制
+    │   ├── dag.rs                      # 紧凑邻接表：因果图的物理容器
+    │   ├── algorithms.rs               # 算法心脏：Kahn 环检测 + O(N³) 贝叶斯球 d-分离
+    │   └── fmea_evaluator.rs           # 边缘 RPN 风险评分引擎
+    │
+    └── python/causal_fmea/             # 🧠 Python 高层编排层 (The Orchestrator)
+        ├── app.py                      # 运行时入口：LangGraph 状态机组装与条件路由
+        ├── nodes.py                    # 业务车间：Generator、Validator、Reflector 及 HTTP 雷达
+        ├── agent_state_machine.py      # Pydantic 强类型约束与状态流转数据包
+        └── context_guard.py            # Rust 引擎生命周期沙盒（跨语言显存回收）
 
-1. 宿主机安装 Docker 与 VS Code 的 Dev Containers 插件。
-2. 使用 VS Code 打开项目根目录，点击右下角 `Reopen in Container`。
-3. 等待镜像构建（初次启动会自动编译带 CUDA 支持的 `llama-cpp-python`）。
-4. 将量化好的模型文件（如 `qwen2.5.gguf`）放入工作区根目录。
+```
 
-### 2. 编译 Rust 底层核心
+---
 
-进入核心目录并使用 Maturin 编译 Rust 代码到当前的 Python 虚拟环境中：
+## 🎯 核心痛点与解决思路
+
+在传统因果推断管线中，直接要求 LLM 生成因果图往往面临灾难性后果：大模型极易凭空捏造死循环环路、忽视隐藏的混淆因子（Confounders），或将时间先后误判为伪独立关系。
+
+**EdgeThemis 的破局之道：注入图论与贝叶斯数学枷锁。**
+我们不奢求小参数量化模型具备完美的逻辑闭环能力。当 LLM 输出因果图后，系统强制将其送入 Rust 引擎，在内存中执行严格的形式化数学验证。我们将这套“测谎”机制抽象为三大数学定理的强制执行：
+
+**1. 有向无环图 (DAG) 的拓扑绝对约束**
+系统首先剥夺 LLM 产生死循环的权力。对于生成的因果图 $G=(V,E)$，底层 Kahn 算法强制要求拓扑图必须满足：
+
+
+$$\forall v_i \in V, \nexists \text{ path } v_i \rightarrow \dots \rightarrow v_i$$
+
+
+一旦检测到有向环，物理防爆门瞬间落下，强行打回重做。
+
+**2. d-分离 (d-separation) 与条件独立性反演**
+对于无环的合法 DAG，系统利用 $O(|V|^3)$ 的贝叶斯球（Bayes Ball）算法，全量遍历提取图中的条件独立性断言。如果节点 $Z$ 阻断了 $X$ 和 $Y$ 之间的所有路径，系统提取出严谨的数学供词：
+
+
+$$X \perp\!\!\!\perp Y \mid Z$$
+
+
+这条冰冷的数学公式随即被翻译为人类自然语言，作为反向 Prompt 注入 LLM 的“常识审判庭”。如果该断言在现实物理世界中荒谬至极，系统便利用“反证法”撕毁 LLM 伪造的因果图。
+
+**3. 边缘自适应风险评估 (FMEA RPN)**
+在确认图谱结构符合地球物理常识后，系统跨越了传统 FMEA (失效模式与影响分析) 的连乘限制，采用自定义的指数级加权公式，以适应边缘软件系统的敏锐度：
+
+
+$$RPN=100 \cdot S+10 \cdot O+D$$
+
+
+通过拉大严重度 ($S$) 的方差，确保高危失效节点在边缘设备的日志监控中无处遁形。
+
+本质上，EdgeThemis 是将**形式化验证的确定性**与 **LLM 的生成式直觉** 在数学层面上完成了一次暴力的物理缝合。
+
+---
+
+## 🔄 运行时动态交火机制 (The Loop)
+
+当复杂案卷输入系统时，跨越三重异构边界的推演流程如下：
+
+1. **创世提取 (Python -> C++):** 状态机将案卷封装为 HTTP JSON Payload 打向本地 `llama-server`。强制 LLM 按结构化 CoT 输出带节点与 FMEA 评分的图谱。
+2. **物理熔断 (Python -> Rust):** 边列表通过 FFI `inject_edges` 零拷贝抛入 Rust 沙盒。执行 Kahn 算法，若检测到逻辑死循环，当场熔断并踢回重写。
+3. **常识测谎仪 (Rust):** 若拓扑无环，执行 $O(N^3)$ 复杂度的 d-分离，全量扫描提取反直觉的“物理条件独立性断言”。
+4. **终极审判 (Python -> C++):** 提取的断言被发回 LLM (`Reflector` 节点)。若 LLM 自身的常识网络拒绝了该数学结构，判决 `REJECT`，触发纠错循环；若通过，则安全结案。
+
+---
+
+## 🚀 极速部署指南 (Quick Start)
+
+为保证底层 C++ 与 Rust 编译环境的纯净，本项目强制要求在 VS Code Devcontainers 下运行。
+
+需要在Linux环境下，选择使用虚拟机或WSL2
+
+### 1. 容器部署
+
+* 在 VS Code 中打开项目根目录，点击 `Reopen in Container`。
+* 需要手动完成跨语言动态链接库的注入，在项目根目录终端中执行
 
 ```bash
-cd causal_fmea_core
 maturin develop --release
+
 ```
 
-### 3. 运行推理测试
+### 2. 启动纯 C++ 推理服务 (Terminal 1)
 
-退回 Python 侧工作目录，启动 LangGraph 状态机：
+切勿将高强度张量计算与业务逻辑混同。打开终端 1 启动微服务：
 
 ```bash
-cd ../python/causal_fmea
+source ~/.venv/bin/activate
+cd causal_fmea_core/scripts
+./run_llama_server.sh
+
+```
+
+等待出现 `HTTP server listening on 127.0.0.1:8080`，确保 GPU 内存挂载完成。
+
+### 3. 执行推演管线 (Terminal 2)
+
+打开独立终端 2，发射推演指令：
+
+```bash
+source ~/.venv/bin/activate
+cd causal_fmea_core/python/causal_fmea
 python app.py
-```
-
----
-
-## 📂 目录结构
-
-```text
-causal_fmea_core/
-├── Cargo.toml                          # Rust 依赖配置
-├── pyproject.toml                      # Maturin 构建配置
-├── src/                                # Rust 底层图引擎 (编译为 Python 扩展)
-│   ├── lib.rs                          # PyO3 FFI 接口与内存回收生命周期管理
-│   ├── dag.rs                          # 基于一维数组的高性能邻接表图结构
-│   ├── algorithms.rs                   # Kahn 环路检测与贝叶斯球 d-分离算法
-│   └── fmea_evaluator.rs               # FMEA (SOD) 风险评分计算模块
-├── python/
-│   └── causal_fmea/                    # Python 上层控制流
-│       ├── app.py                      # LangGraph 状态机定义与执行入口
-│       ├── agent_state_machine.py      # 全局状态字典与 Pydantic 结构约束
-│       ├── nodes.py                    # 大模型生成节点 (Generator) 与 Rust 验证节点 (Validator)
-│       └── context_guard.py            # VRAM 上下文管理器，控制 Rust 引擎销毁与 GC
-└── testpy/                             # 早期功能测试脚本
 
 ```
 
 ---
 
-## ⚙️ 核心模块解析
+## 🔬 已知局限性与未来探索方向
 
-### Rust 侧核心 (`src/`)
+作为探索边缘算力极限的研究系统，EdgeThemis 在极值压榨下面临以下物理断层，系后续研究重点：
 
-负责所有计算密集型操作与严格的内存管理：
-
-* **`dag.rs`**: 抛弃冗余的对象结构，直接用 `Vec<Vec<usize>>` 构建极度轻量的拓扑图。
-* **`algorithms.rs`**: 核心测谎仪。包含查环路（Kahn）和查伪相关（d-separation）的实现。
-* **`lib.rs`**: 暴露 `CausalParadigmEngine` 类给 Python。内置线程安全的字符串驻留池（String Interner），确保跨界数据零拷贝。通过实现 `Drop trait` 的 `LlamaMemoryReaper`，保证每次 Python 抛弃引擎引用时，底层内存被彻底回收。
-
-### Python 侧核心 (`python/causal_fmea/`)
-
-负责业务编排与大模型交互：
-
-* **`agent_state_machine.py`**: 定义了 LangGraph 的全局数据总线 `CausalAgentState`。通过 Pydantic 定义 `ExtractedGraph`，配合 llama.cpp 的 GBNF 语法树强制约束 LLM 只输出合法 JSON。
-* **`context_guard.py`**: 实现 `AgentContext`，确保 `validate_graph_node` 跑完后强制调用 `gc.collect()` 触发 Rust 底层的析构函数，防止 KV Cache 撑爆 8GB 显存。
-* **`nodes.py`**: 包含两个工作节点。Generator 调用本地量化模型，Validator 将数据通过 FFI 传入 Rust 并返回拦截报告。
-* **`app.py`**: 用 `should_continue` 函数实现条件路由（打回重做、达到重试上限熔断、验证通过结案）。
+1. **$O(V^3)$ 算法的并发阻塞:** d-分离断言提取采用全量 $(X, Y | Z)$ 遍历。当节点数 $N > 50$ 时，Rust 底层 Mutex 锁持有时间呈指数级飙升，可能阻塞 Python 宿主的并发请求。
+2. **大模型注意力坍塌:** 在多轮重试与超长上下文中，边缘量化模型（如 8B 4-bit）容易出现 JSON 语法截断；在 FMEA 风险打分时，暴露出严重的“方差坍塌”顽疾（倾向全局打中庸分数以节省算力）。
+3. **硬编码僵化:** Rust 底层 FMEA 公式当前硬编码为 `100S + 10O + D`，未来将重构为跨语言动态注入的自适应权重分配器。
 
 ---
 
-## 🔄 系统数据流转图
+## 📚 学术支撑与理论溯源 (Academic References)
 
-```text
- 用户场景输入 ─→ [本地 LLM + JSON Schema 硬约束] ─→ ExtractedGraph (Pydantic)
-                                                        │
-                                                        ▼
-                                             [(source, target)] 边列表
-                                                        │
-                                                   [ PyO3 FFI ]
-                                                        │
-                                                        ▼
-                     ┌────────────────────────────────────────────────────────┐
-                     │ Rust 底层引擎处理:                                     │
-                     │ 1. 字符串驻留池映射为 usize ID                         │
-                     │ 2. 写入 CompactCausalGraph 邻接表                      │
-                     │ 3. 执行算法验证 (Kahn 查环 / d-分离)                   │
-                     └────────────────────────────────────────────────────────┘
-                                                        │
-                                            ┌───────────┴───────────┐
-                                            │                       │
-                                          验证通过                验证失败 
-                                            │                       │
-                                            ▼                       ▼
-                                       任务结束 END          附带 Rust 诊断报告
-                                                             触发重试路由回滚至 LLM
+本系统的底层逻辑闭环与防爆架构，构建于以下两篇前沿顶会论文的理论基础之上，并对其进行了 边缘设备 适应性改造与工业级复现：
 
-```
+1. **痛点定义与问题定位：**
+* **文献：** *Can Large Language Models Infer Causation from Correlation?* (Microsoft Research, 2023)
+* **架构映射：** 该论文揭示了“大模型极易将相关性误判为因果性，并在复杂网络中产生拓扑幻觉”的致命缺陷。EdgeThemis 将此痛点作为系统开发的核心矛盾，彻底抛弃了单靠 Prompt 约束 LLM 画图的幻想。
+
+
+2. **核心反思机制与解决方案：**
+* **文献：** *Reflexion: Language Agents with Verbal Reinforcement Learning* (NeurIPS 2023)
+* **架构映射：** 论文提出了“Actor 动作 -> Evaluator 评估 -> Reflection 反思”的语言强化学习闭环。EdgeThemis 对此架构进行了硬核升级：我们用 $O(N^3)$ 复杂度的 Rust 图论测谎仪取代了传统的软性 Evaluator，用 LangGraph 状态机实现了无情而精准的反思循环（Self-Reflection），利用底层系统语言（Rust）运行时的绝对规则生成prompt，对大模型进行冷酷的常识反问

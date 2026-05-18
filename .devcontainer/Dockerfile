@@ -3,7 +3,7 @@ FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 1. 基础系统弹药库 (🌟 新增 python3-venv)
+# 1. 基础系统弹药库
 RUN apt-get update && apt-get install -y \
     build-essential cmake git curl wget sudo \
     python3 python3-pip python3-dev python3-venv \
@@ -28,7 +28,6 @@ ENV PATH="/home/${USERNAME}/.cargo/bin:${PATH}"
 
 # ==========================================
 # 🛡️ 战术升级：在镜像层直接焊死 Python 隔离沙盒
-# 必须放在 /home 下，绝不能放在工作区，防止被挂载动作物理抹除！
 # ==========================================
 ENV VIRTUAL_ENV=/home/$USERNAME/.venv
 RUN python3 -m venv $VIRTUAL_ENV
@@ -52,13 +51,15 @@ RUN sudo mkdir -p /opt/llama.cpp \
     && cmake -B build -DGGML_CUDA=ON -DCMAKE_CUDA_ARCHITECTURES=${CUDA_ARCH} \
     && cmake --build build --config Release -j $(nproc)
 
-# 5. 注入高层推演组件 (自动装入刚刚建好的 .venv 中)
-RUN pip install --upgrade pip --no-cache-dir \
-    && pip install --no-cache-dir maturin pytest pydantic langgraph
+# 将 C++ 裸机编译出来的二进制文件强行暴露给全局！   llama-server -m xxx ...
+ENV PATH="/opt/llama.cpp/build/bin:${PATH}"
 
-# 6. 🌟 全场核心：在构建期硬刚编译带 CUDA 加速的 llama-cpp-python
-# 让 Docker 引擎替你承担长达几分钟的 C++ 编译痛苦！
-RUN CMAKE_ARGS="-DGGML_CUDA=on" pip install llama-cpp-python --upgrade --force-reinstall --no-cache-dir
+# 5. 注入高层推演组件
+RUN pip install --upgrade pip --no-cache-dir \
+    && pip install --no-cache-dir maturin pytest pydantic langgraph openai
+
+# ：加上 [server] 尾缀，强行编译带 HTTP 服务的 CUDA 胶囊包！  也可以选择用python -m llama_cpp.server -m xxx ...运行模型
+RUN CMAKE_ARGS="-DGGML_CUDA=on" pip install 'llama-cpp-python[server]' --upgrade --force-reinstall --no-cache-dir
 
 # 7. [终极清洗] 卸磨杀驴，抹除骗编译器的假驱动
 RUN sudo rm -rf /usr/local/cuda/lib64/stubs

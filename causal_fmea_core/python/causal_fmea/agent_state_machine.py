@@ -14,7 +14,7 @@ class CausalEdge(BaseModel):  # 代表一条因果关系的边
     D: int = Field(ge=1, le=10, description="探测度 (1-10)")
 
 class ExtractedGraph(BaseModel):  # 代表大模型输出的整个因果图
-    # 🌟 战术核心：强制前置思考流！
+    #  战术核心：强制前置思考流！
     # 注意：这个字段必须写在 edges 的前面！大模型在生成 JSON 时必须先填这个坑！
     reasoning_process: str = Field(
         description="【核心步骤】在提取边之前，必须先在这里写下详细的案情推理过程。必须拆解出幕后黑手(C)以及中间物理传导过程(Z)。"

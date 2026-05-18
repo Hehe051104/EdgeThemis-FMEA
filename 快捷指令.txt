@@ -18,3 +18,13 @@ source .venv/bin/activate
 
 再次执行,制成Python包
 maturin develop --release
+
+
+
+运行步骤
+
+1.在scripts下运行
+./run_llama_server.sh
+
+2.在app.py目录下运行
+python app.py
