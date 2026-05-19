@@ -24,13 +24,13 @@ Causal_FMEA/
     ├── scripts/
     │   └── run_llama_server.sh         # C++ 张量推理层独立点火脚本（微服务化核心）
     │
-    ├── src/                            # ⚙️ Rust 底层算力层 (The Judge)
+    ├── src/                            # Rust 底层算力层 (The Judge)
     │   ├── lib.rs                      # FFI 门面：暴露引擎与内存防爆控制
     │   ├── dag.rs                      # 紧凑邻接表：因果图的物理容器
     │   ├── algorithms.rs               # 算法心脏：Kahn 环检测 + O(N³) 贝叶斯球 d-分离
     │   └── fmea_evaluator.rs           # 边缘 RPN 风险评分引擎
     │
-    └── python/causal_fmea/             # 🧠 Python 高层编排层 (The Orchestrator)
+    └── python/causal_fmea/             # Python 高层编排层 (The Orchestrator)
         ├── app.py                      # 运行时入口：LangGraph 状态机组装与条件路由
         ├── nodes.py                    # 业务车间：Generator、Validator、Reflector 及 HTTP 雷达
         ├── agent_state_machine.py      # Pydantic 强类型约束与状态流转数据包
@@ -89,7 +89,7 @@ $$RPN=100 \cdot S+10 \cdot O+D$$
 
 ---
 
-## 🚀 极速部署指南 (Quick Start)
+## 🚀 快速部署 (Quick Start)
 
 为保证底层 C++ 与 Rust 编译环境的纯净，本项目强制要求在 VS Code Devcontainers 下运行。
 
@@ -153,3 +153,10 @@ python app.py
 2. **核心反思机制与解决方案：**
 * **文献：** *Reflexion: Language Agents with Verbal Reinforcement Learning* (NeurIPS 2023)
 * **架构映射：** 论文提出了“Actor 动作 -> Evaluator 评估 -> Reflection 反思”的语言强化学习闭环。EdgeThemis 对此架构进行了硬核升级：我们用 $O(N^3)$ 复杂度的 Rust 图论测谎仪取代了传统的软性 Evaluator，用 LangGraph 状态机实现了无情而精准的反思循环（Self-Reflection），利用底层系统语言（Rust）运行时的绝对规则生成prompt，对大模型进行冷酷的常识反问
+
+3. **其余相关论文**
+*    **评测基准**：CausalFlip: A Benchmark for LLM Causal Judgment Beyond Semantic Matching (arXiv: 2602.20094)
+
+ *   **方法论假想敌 1**：CRAwDAD: Causal Reasoning Augmentation with Dual-Agent Debate (arXiv: 2511.22854)    “双 Agent 辩论”
+
+  *  **架构层假想敌 2**：Causal Agent based on Large Language Model (arXiv: 2408.06849)  让LLM 去调用外部的 Python 因果库来处理

@@ -3,7 +3,7 @@ FROM nvidia/cuda:12.4.1-devel-ubuntu22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 1. 基础系统弹药库
+# 1. 基础系统
 RUN apt-get update && apt-get install -y \
     build-essential cmake git curl wget sudo \
     python3 python3-pip python3-dev python3-venv \
@@ -27,7 +27,7 @@ RUN curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
 ENV PATH="/home/${USERNAME}/.cargo/bin:${PATH}"
 
 # ==========================================
-# 🛡️ 战术升级：在镜像层直接焊死 Python 隔离沙盒
+# 在镜像层先行制作 Python 隔离沙盒
 # ==========================================
 ENV VIRTUAL_ENV=/home/$USERNAME/.venv
 RUN python3 -m venv $VIRTUAL_ENV
@@ -35,7 +35,7 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 ENV PYO3_PYTHON="$VIRTUAL_ENV/bin/python3"
 
 # ==========================================
-# ⚙️ 编译期防爆衣：双重变量齐下，彻底镇压链接器
+#  编辑变量
 # ==========================================
 ARG CUDA_ARCH=89
 ENV LIBRARY_PATH=/usr/local/cuda/lib64/stubs:$LIBRARY_PATH
@@ -54,12 +54,12 @@ RUN sudo mkdir -p /opt/llama.cpp \
 # 将 C++ 裸机编译出来的二进制文件强行暴露给全局！   llama-server -m xxx ...
 ENV PATH="/opt/llama.cpp/build/bin:${PATH}"
 
-# 5. 注入高层推演组件
+# 5. 注入高层推演组件 Python
 RUN pip install --upgrade pip --no-cache-dir \
-    && pip install --no-cache-dir maturin pytest pydantic langgraph openai
+    && pip install --no-cache-dir maturin pytest pydantic langgraph openai pandas
 
-# ：加上 [server] 尾缀，强行编译带 HTTP 服务的 CUDA 胶囊包！  也可以选择用python -m llama_cpp.server -m xxx ...运行模型
+# ：加上 [server] 尾缀，强行编译带 HTTP 服务的 CUDA 包  也可以选择用python -m llama_cpp.server -m xxx ...运行模型
 RUN CMAKE_ARGS="-DGGML_CUDA=on" pip install 'llama-cpp-python[server]' --upgrade --force-reinstall --no-cache-dir
 
-# 7. [终极清洗] 卸磨杀驴，抹除骗编译器的假驱动
+# 7. [清洗] 抹除骗编译器的假驱动
 RUN sudo rm -rf /usr/local/cuda/lib64/stubs
