@@ -44,11 +44,17 @@ def route_from_reflector(state: CausalAgentState):
     """
     is_safe = state.get("is_safe", False)
     interception_count = state.get("interception_count", 0)
+    retry_reflector = state.get("retry_reflector", False)
 
     # 结局 A：物理熔断
     if interception_count >= 3:
         print(f"🔴 [致命熔断] 审讯超时！大模型连续发癫 {interception_count} 次！强制拔电源！")
         return END
+
+    # 结局 A2：上下文溢出自救——带着裁剪后的 claims 直接重回 Reflector，不绕 Generator
+    if retry_reflector:
+        print("🔄 [路由决策] 上下文溢出自救！携裁剪后的断言直接重回 Reflector！")
+        return "reflector"
 
     # 结局 B：嫌疑犯防线崩溃，承认画的图违背常识
     if not is_safe:
@@ -93,6 +99,7 @@ builder.add_conditional_edges(
     route_from_reflector,
     {
         "generate_graph": "generate_graph",
+        "reflector": "reflector",
         END: END
     }
 )
@@ -124,9 +131,10 @@ if __name__ == "__main__":
         "current_phase": "start",
         "extracted_graph": None,
         "rust_interception_report": "",
-        "d_separation_claims": [],  # 🌟 必须初始化这个口袋，用来装 Rust 吐出的破绽
+        "d_separation_claims": [],
         "interception_count": 0,
-        "is_safe": False
+        "is_safe": False,
+        "retry_reflector": False
     }
 
     print("\n" + "="*50)

@@ -42,4 +42,5 @@ class CausalAgentState(TypedDict):
     rust_interception_report: str                # Rust 测谎仪返回的物理诊断书
     interception_count: int                      # 物理拦截计数器 (防止大模型无限卡死)
     is_safe: bool                                # 最终是否通过了 Rust 的 d-分离和环路测谎
-    d_separation_claims: list[str]               # 新增：存放 Rust 从当前图中榨取出的 d-分离物理断言
+    d_separation_claims: list[str]               # Rust 从当前图中榨取出的 d-分离物理断言
+    retry_reflector: bool                        # 上下文溢出时直接回 Reflector 重试，不绕 Generator

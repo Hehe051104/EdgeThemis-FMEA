@@ -28,7 +28,7 @@
         "charliermarsh.ruff"
       ],
       "settings": {
-        // 🌟 物理瞄准：直接将 VS Code 的默认解释器锁死在我们镜像里构建好的沙盒上！
+        // 直接将 VS Code 的默认解释器锁死在我们镜像里构建好的沙盒上！
         "python.defaultInterpreterPath": "/home/hehe/.venv/bin/python3",
         "rust-analyzer.cargo.features": "all"
       }

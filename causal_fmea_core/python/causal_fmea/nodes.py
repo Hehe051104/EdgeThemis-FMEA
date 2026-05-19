@@ -62,14 +62,12 @@ def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
         print(f"🔄 [动态纠错] 大模型正在进行第 {interception_count} 次强制反思...")
 
     try:
-        # ⚡️ 致命重构：向后台 C++ 引擎发射网络请求！
         response = client.chat.completions.create(
-            model="qwen2.5", # llama-server 不看名字，但标准 API 必须传
+            model="qwen2.5",
             messages=[
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt}
             ],
-            # 🌟 原生支持！直接将 Pydantic 转换为 JSON Schema 枷锁传给服务器！
             response_format={
                 "type": "json_schema",
                 "json_schema": {
@@ -77,29 +75,40 @@ def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
                     "schema": ExtractedGraph.model_json_schema()
                 }
             },
-            max_tokens=512,
+            max_tokens=1024,
             temperature=0.1
         )
-        
-        # 获取返回的字符串 (注意 openai 客户端的数据结构变了，用 .属性 访问)
+
         raw_json_str = response.choices[0].message.content
-        
-        extracted_data = ExtractedGraph.model_validate_json(raw_json_str)
-        
+
+        # 尝试直接解析
+        try:
+            extracted_data = ExtractedGraph.model_validate_json(raw_json_str)
+        except ValidationError:
+            # 常见失败模式：模型在 JSON 外包了 markdown 代码块 ```json ... ```
+            if "```" in raw_json_str:
+                cleaned = raw_json_str.split("```json")[-1].split("```")[0].strip()
+                if cleaned:
+                    extracted_data = ExtractedGraph.model_validate_json(cleaned)
+                else:
+                    raise
+            else:
+                raise
+
         return {
-            "current_phase": "generate_graph", 
+            "current_phase": "generate_graph",
             "extracted_graph": extracted_data
         }
-        
+
     except ValidationError as e:
-        print("💥 [解析崩溃] 模型输出了乱码，强制要求重试。")
+        print(f"💥 [解析崩溃] Pydantic 校验失败：{str(e)[:200]}")
+        print(f"📄 [原始输出（前300字符）] {raw_json_str[:300]}")
         return {
-            "rust_interception_report": f"JSON 语法损坏，请严格遵守格式：{str(e)}",
+            "rust_interception_report": f"JSON 格式不符，请严格遵循 schema。错误：{str(e)[:150]}",
             "interception_count": interception_count + 1
         }
     except Exception as e:
         print(f"💥 [网络异常] 无法连接到底层 C++ 引擎：{str(e)}")
-        # 假设服务器没开，或者超时，直接报错
         return {
             "rust_interception_report": "无法连接到 llama-server，请检查底层进程！",
             "interception_count": interception_count + 1
@@ -121,7 +130,8 @@ def validate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
         return {
             "rust_interception_report": "大模型吐出的图谱为空，涉嫌逃避推演！",
             "is_safe": False,
-            "current_phase": "validate_graph"
+            "current_phase": "validate_graph",
+            "interception_count": state.get("interception_count", 0) + 1
         }
 
     py_edges = [(edge.source, edge.target) for edge in graph_data.edges]
@@ -165,22 +175,30 @@ def validate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
                 print(f"🎯 [破绽锁定] Rust 成功提取出 {len(real_claims)} 条物理断言！")
 
         if not topology_safe:
-            report_msg = "🚨 [拓扑错误] Rust 底层引擎检测到逻辑死循环！"
-            is_finally_safe = False
+            return {
+                "is_safe": False,
+                "d_separation_claims": [],
+                "rust_interception_report": "🚨 [拓扑错误] Rust 底层引擎检测到逻辑死循环！",
+                "current_phase": "validate_graph",
+                "interception_count": state.get("interception_count", 0) + 1
+            }
         elif real_claims:
-            report_msg = "⚠️ [逻辑破绽] 检测到因果图涉嫌伪独立，移交 Reflector 车间执行常识盘问！"
-            is_finally_safe = False
+            print(f"⚠️ [逻辑破绽] 检测到因果图涉嫌伪独立，移交 Reflector 车间执行常识盘问！")
+            return {
+                "is_safe": False,
+                "d_separation_claims": real_claims,
+                "rust_interception_report": "⚠️ [逻辑破绽] 检测到因果图涉嫌伪独立，移交 Reflector 车间执行常识盘问！",
+                "current_phase": "validate_graph",
+                "interception_count": state.get("interception_count", 0)
+            }
         else:
-            report_msg = ""
-            is_finally_safe = True
-
-        return {
-            "is_safe": is_finally_safe,
-            "d_separation_claims": real_claims,
-            "rust_interception_report": report_msg,
-            "current_phase": "validate_graph",
-            "interception_count": state.get("interception_count", 0) + (1 if not is_finally_safe else 0) 
-        }
+            return {
+                "is_safe": True,
+                "d_separation_claims": [],
+                "rust_interception_report": "",
+                "current_phase": "validate_graph",
+                "interception_count": state.get("interception_count", 0)
+            }
 
 # -------------------------------------------------------------------------------------------
 
@@ -191,12 +209,19 @@ def reflector_node(state: CausalAgentState) -> Dict[str, Any]:
     """
     claims = state.get("d_separation_claims", [])
     interception_count = state.get("interception_count", 0)
-    
+
     if not claims:
         return {"is_safe": True, "current_phase": "reflector"}
 
-    print(f"🕵️ [前额叶重塑] 赋予 Qwen 2.5 铁面审查官人格，开始终极质问...")
-    
+    # 上下文安全裁剪：每条 claim ~60 中文字符 ≈ 90 tokens，system prompt ~350 tokens，响应预留 ~300 tokens
+    # 在 2048 token 窗口下安全上限约 15 条
+    MAX_CLAIMS = 22
+    if len(claims) > MAX_CLAIMS:
+        print(f"⚠️ [上下文裁剪] claims 过多 ({len(claims)}条)，截取前 {MAX_CLAIMS} 条送入审判")
+        claims = claims[:MAX_CLAIMS]
+
+    print(f"🕵️ [前额叶重塑] 赋予 Qwen 2.5 铁面审查官人格，开始终极质问（共 {len(claims)} 条断言）...")
+
     claims_text = "\n".join([f"断言 {i+1}: {claim}" for i, claim in enumerate(claims)])
     
     system_prompt = """
@@ -244,15 +269,30 @@ def reflector_node(state: CausalAgentState) -> Dict[str, Any]:
             return {
                 "is_safe": False,
                 "rust_interception_report": f"你的因果图推导出了荒谬的物理断言！反思结论：{res_json.get('reason')}",
-                "current_phase": "reflector"
+                "current_phase": "reflector",
+                "interception_count": interception_count + 1
             }
         
         print(f"🟢 [反思通过] 大模型的图谱成功说服了自己的常识神经！")
         return {"is_safe": True, "current_phase": "reflector"}
 
     except Exception as e:
-        # 补全了上一轮讨论的安全机制！绝不让模型裸奔！
-        print(f"💥 [审讯室暴乱] 法官输出乱码或网络断开，强制要求重新审判：{str(e)}")
+        error_str = str(e)
+        print(f"💥 [审讯室暴乱] 法官异常：{error_str}")
+
+        # 上下文溢出是基础设施问题——裁剪更激进后直接回 Reflector 重试，不计入熔断
+        if "exceed" in error_str.lower() or "context" in error_str.lower():
+            fallback_claims = claims[:max(len(claims) // 2, 3)]
+            print(f"🔄 [上下文自救] 裁剪至 {len(fallback_claims)} 条，携 retry_reflector 信号直接重回 Reflector！")
+            return {
+                "is_safe": False,
+                "retry_reflector": True,
+                "d_separation_claims": fallback_claims,
+                "rust_interception_report": f"上下文溢出，已自动裁剪至 {len(fallback_claims)} 条断言，请重新审判。",
+                "current_phase": "reflector",
+                "interception_count": interception_count
+            }
+
         return {
             "is_safe": False,
             "rust_interception_report": "你在反思阶段输出了不符合规范的格式或连接失败，请严格按照要求重新提取！",
