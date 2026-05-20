@@ -111,7 +111,8 @@ def run_edgethemis_pipeline(scenario_text: str) -> dict:
         "rust_interception_report": "",
         "d_separation_claims": [],
         "interception_count": 0,
-        "is_safe": False
+        "is_safe": False,
+        "causal_verdict": ""
     })
 
 

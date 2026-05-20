@@ -1,4 +1,4 @@
-# nodes.py — EdgeThemis LangGraph 节点
+# nodes.py — EdgeThemis: Generator(画图) → Validator(图论判 verdict) → Reflector(常识审断言)
 import json
 from typing import Dict, Any
 from pydantic import ValidationError
@@ -8,56 +8,42 @@ from agent_state_machine import CausalAgentState, ExtractedGraph, ReflectorVerdi
 from context_guard import AgentContext
 from causal_fmea_core import FmeaScore
 
-print("[EdgeThemis] 连接 llama-server (127.0.0.1:8080)...")
-client = OpenAI(
-    base_url="http://127.0.0.1:8080/v1",
-    api_key="edge_themis_key"
-)
+print("[EdgeThemis] 连接 llama-server...")
+client = OpenAI(base_url="http://127.0.0.1:8080/v1", api_key="edge_themis_key")
 
 
 # ==========================================
-# GENERATOR — LLM 先下判断，再画图
+# GENERATOR — 只负责：识别实体 + 推理 + 画图。不做判决！
 # ==========================================
 def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
     scenario = state.get("scenario_description", "")
     rust_report = state.get("rust_interception_report", "")
     interception_count = state.get("interception_count", 0)
 
-    system_prompt = """
-You are a causal reasoning engine (EdgeThemis). Given a scenario or causal question, you must:
+    system_prompt = """You are a causal graph extraction engine. Given a scenario or question, extract the TRUE causal structure.
 
-STEP 1 — State your verdict FIRST:
-- Output causal_verdict: "yes" or "no" — your final judgment on the causal question.
-- Output hypothesized_cause: the entity being asked about as the potential cause.
-- Output hypothesized_effect: the entity being asked about as the potential effect.
+CRITICAL: The input may be a QUESTION (e.g. "Does X cause Y?"), not a statement of fact. Do NOT assume X causes Y just because the question asks about it. If X does NOT cause Y, draw the real structure (e.g. both X and Y are effects of a common cause Z). Draw what IS true, not what the question implies.
 
-STEP 2 — Reason and draw the graph:
+STEP 1 — Identify entities:
+- hypothesized_cause: the entity being asked about as the potential CAUSE.
+- hypothesized_effect: the entity being asked about as the potential EFFECT. If the question asks about MULTIPLE effects (e.g. "Does Z cause X and Y?"), include ALL of them separated by " and " (e.g. "X and Y").
+- Identify ALL other entities/conditions mentioned. Every noun phrase is a node.
+
+STEP 2 — Reason and draw the causal graph:
 - Write your reasoning in reasoning_process.
-- Draw causal edges that SUPPORT your verdict.
-  * If verdict is "yes": there MUST be a causal path from hypothesized_cause to hypothesized_effect in your edges.
-  * If verdict is "no": there MUST NOT be a direct edge from hypothesized_cause to hypothesized_effect.
-- Every entity mentioned in the text MUST appear as a node. Do NOT treat any entity as mere "background".
-
-STEP 3 — Causal structures:
-- Chain (A -> B -> C): B mediates A's effect on C
-- Fork (A <- B -> C): B is a common cause of A and C
-- Collider (A -> B <- C): A and C both cause B
+- Draw causal edges. Include ALL identified entities as nodes. Do NOT treat any entity as "background".
+- Causal structures: Chain (A→B→C), Fork (A←B→C), Collider (A→B←C).
+- Only draw A→B if A truly causes B. Correlation is NOT causation.
 
 RULES:
 - Use the SAME LANGUAGE as the input text. Do not translate entity names.
-- FMEA scores (S, O, D) are 1-10 integers. Vary them based on actual semantics.
-- Correlation is NOT causation. Only draw A->B if A truly causes B.
-"""
+- FMEA scores (S, O, D) are 1-10 integers. Vary them based on semantics."""
 
-    user_prompt = f"Input:\n{scenario}\n\nFirst state your verdict (yes/no), identify hypothesized_cause and hypothesized_effect, then draw the causal graph."
+    user_prompt = f"Input:\n{scenario}\n\nIdentify hypothesized_cause and hypothesized_effect, then draw the causal graph."
 
     if rust_report:
-        user_prompt += (
-            f"\n\n*** SYSTEM REJECTION ***\n"
-            f"Your previous submission was rejected:\n{rust_report}\n"
-            f"Please fix the issues and resubmit."
-        )
-        print(f"[Generator] 重试 #{interception_count}...")
+        user_prompt += f"\n\n*** REJECTION FEEDBACK ***\n{rust_report}\nPlease fix and resubmit."
+        print(f"[Generator] 重试 #{interception_count}")
 
     try:
         response = client.chat.completions.create(
@@ -80,9 +66,7 @@ RULES:
         raw_json_str = response.choices[0].message.content
         extracted_data = ExtractedGraph.model_validate_json(raw_json_str)
 
-        print(f"[Generator] verdict={extracted_data.causal_verdict} | "
-              f"cause={extracted_data.hypothesized_cause[:50]} | "
-              f"effect={extracted_data.hypothesized_effect[:50]}")
+        print(f"[Generator] cause={extracted_data.hypothesized_cause[:50]} | effect={extracted_data.hypothesized_effect[:50]}")
         print(f"[Generator] edges={[(e.source, e.target) for e in extracted_data.edges]}")
 
         return {
@@ -99,110 +83,102 @@ RULES:
     except Exception as e:
         print(f"[Generator] 异常: {str(e)[:100]}")
         return {
-            "rust_interception_report": f"Connection/API error: {str(e)[:200]}",
+            "rust_interception_report": f"API error: {str(e)[:200]}",
             "interception_count": interception_count + 1
         }
 
 
 # ==========================================
-# VALIDATOR — 三道拦截
-#   1. 言行一致性 (NetworkX: verdict与图是否自洽)
-#   2. Kahn 环路检测 (Rust)
-#   3. d-分离断言提取 (Rust)
+# VALIDATOR — 图论算法计算 verdict + Rust Kahn + d-分离
 # ==========================================
 def validate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
-    print("[Validator] ===== 开始验证 =====")
+    print("[Validator] ===== 开始 =====")
 
     graph_data = state.get("extracted_graph")
     interception_count = state.get("interception_count", 0)
 
     if not graph_data or not graph_data.edges:
-        print("[Validator] 图为空，拒绝")
+        print("[Validator] 图为空")
         return {
-            "rust_interception_report": "Graph is empty — no edges extracted.",
+            "rust_interception_report": "Graph is empty.",
             "is_safe": False,
             "current_phase": "validate_graph",
             "interception_count": interception_count + 1
         }
 
-    py_edges = [(edge.source, edge.target) for edge in graph_data.edges]
-    verdict = (getattr(graph_data, "causal_verdict", "") or "").strip().lower()
+    py_edges = [(e.source, e.target) for e in graph_data.edges]
     cause = (getattr(graph_data, "hypothesized_cause", "") or "").strip()
-    effect = (getattr(graph_data, "hypothesized_effect", "") or "").strip()
+    effect_raw = (getattr(graph_data, "hypothesized_effect", "") or "").strip()
 
-    print(f"[Validator] verdict={verdict} | cause='{cause[:60]}' | effect='{effect[:60]}'")
+    print(f"[Validator] cause='{cause[:60]}' | effect='{effect_raw[:60]}'")
     print(f"[Validator] edges={py_edges}")
 
-    # ---- 拦截 1: 言行一致性 (NetworkX) ----
-    if verdict in ("yes", "no") and cause and effect:
-        import networkx as nx
-        G = nx.DiGraph()
-        for s, t in py_edges:
-            G.add_edge(s.strip().lower(), t.strip().lower())
+    # ---- Step 1: Compute verdict from graph structure (NetworkX) ----
+    import networkx as nx
+    import re
 
-        nodes_lower = list(G.nodes)
+    G = nx.DiGraph()
+    for s, t in py_edges:
+        G.add_edge(s.strip().lower(), t.strip().lower())
+    nodes_lower = list(G.nodes)
 
-        def fuzzy_match(target, candidates):
-            t = target.strip().lower()
-            for c in candidates:
-                if t == c or t in c or c in t:
-                    return c
-            t_tokens = set(t.split())
-            best, best_score = None, 0
-            for c in candidates:
-                c_tokens = set(c.split())
-                if not c_tokens:
-                    continue
-                score = len(t_tokens & c_tokens) / len(t_tokens) if t_tokens else 0
-                if score > best_score:
-                    best_score, best = score, c
-            return best if best_score >= 0.5 else None
+    def fuzzy_match(target, candidates):
+        t = target.strip().lower()
+        if not t: return None
+        for c in candidates:
+            if t == c or t in c or c in t:
+                return c
+        t_tokens = set(t.split())
+        best, best_score = None, 0
+        for c in candidates:
+            c_tokens = set(c.split())
+            if not c_tokens: continue
+            score = len(t_tokens & c_tokens) / len(t_tokens) if t_tokens else 0
+            if score > best_score: best_score, best = score, c
+        return best if best_score >= 0.5 else None
 
-        cause_node = fuzzy_match(cause, nodes_lower)
-        effect_node = fuzzy_match(effect, nodes_lower)
-        print(f"[Validator] 实体匹配: cause -> [{cause_node}] | effect -> [{effect_node}]")
+    # Split effect on " and " / " or " for compound questions (e.g., "X and Y")
+    effect_parts = re.split(r'\s+and\s+|\s+or\s+', effect_raw)
+    effect_parts = [e.strip() for e in effect_parts if e.strip()]
 
-        if cause_node and effect_node:
-            path_exists = nx.has_path(G, cause_node, effect_node)
+    cause_node = fuzzy_match(cause, nodes_lower)
+    effect_nodes = [fuzzy_match(e, nodes_lower) for e in effect_parts]
+    effect_nodes = [n for n in effect_nodes if n is not None]
 
-            if verdict == "yes" and not path_exists:
-                print("[Validator] REJECT: verdict=Yes but no path in graph!")
-                return {
-                    "rust_interception_report": f"Verdict is YES but no causal path from '{cause}' to '{effect}' exists in your graph. Add edges or change verdict to No.",
-                    "is_safe": False, "d_separation_claims": [],
-                    "current_phase": "validate_graph",
-                    "interception_count": interception_count + 1
-                }
+    print(f"[Validator] cause_node={cause_node} | effect_nodes={effect_nodes}")
 
-            if verdict == "no" and path_exists:
-                print("[Validator] REJECT: verdict=No but path exists in graph!")
-                return {
-                    "rust_interception_report": f"Verdict is NO but a causal path from '{cause}' to '{effect}' exists in your graph. Remove the path or change verdict to Yes.",
-                    "is_safe": False, "d_separation_claims": [],
-                    "current_phase": "validate_graph",
-                    "interception_count": interception_count + 1
-                }
+    # ---- Verdict: pure graph-based, language-agnostic, no keyword heuristics ----
+    # Chain:  X→Z→Y → has_path(X,Y)=True  → Yes (X causes Y through Z)
+    # Fork:   Z→X, Z→Y → has_path(X,Y)=False → No  (X does not cause Y)
+    # Collider: X→Z←Y → has_path(X,Y)=False → No  (X and Y are independent causes)
+    if cause_node and effect_nodes:
+        all_paths_exist = all(nx.has_path(G, cause_node, en) for en in effect_nodes)
+        computed_verdict = "yes" if all_paths_exist else "no"
+    else:
+        computed_verdict = "no"
+        print("[Validator] 实体匹配失败, verdict默认为no")
 
-            print(f"[Validator] 言行一致: verdict={verdict}, path_exists={path_exists} [OK]")
+    print(f"[Validator] VERDICT={computed_verdict} | has_path")
 
-    # ---- FMEA 扫描 ----
+    # ---- FMEA scan ----
     for edge in graph_data.edges:
         scorer = FmeaScore(edge.S, edge.O, edge.D)
         rpn = scorer.calculate_rpn()
         if rpn > 500:
             print(f"[Validator] FMEA高危: {edge.source}->{edge.target} RPN={rpn}")
 
-    # ---- 拦截 2+3: Rust Kahn + d-分离 ----
+    # ---- Rust: Kahn + d-separation ----
     with AgentContext() as rust_engine:
         rust_engine.inject_edges(py_edges)
         topology_safe = rust_engine.check_graph_health()
-        print(f"[Validator] Kahn环路: {'OK' if topology_safe else 'FAIL(有环)'}")
+        print(f"[Validator] Kahn: {'OK' if topology_safe else 'FAIL(环路)'}")
 
         if not topology_safe:
-            print("[Validator] REJECT: 环路!")
             return {
-                "rust_interception_report": "Cycle detected: A->B and B->A cannot both be true. Fix the loop.",
-                "is_safe": False, "d_separation_claims": [],
+                "causal_verdict": computed_verdict,
+                "rust_interception_report": "Cycle detected. Fix the loop.",
+                "is_safe": False,
+                "d_separation_claims": [],
                 "current_phase": "validate_graph",
                 "interception_count": interception_count + 1
             }
@@ -213,18 +189,19 @@ def validate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
             print(f"  -> {c[:150]}")
 
         if real_claims:
-            report_msg = "D-separation claims extracted — forwarding to Reflector."
+            report_msg = "D-separation claims extracted. Forwarding to Reflector."
             is_finally_safe = False
         else:
             report_msg = ""
             is_finally_safe = True
 
         return {
+            "causal_verdict": computed_verdict,
             "is_safe": is_finally_safe,
             "d_separation_claims": real_claims,
             "rust_interception_report": report_msg,
             "current_phase": "validate_graph",
-            "interception_count": interception_count  # claims are normal, not errors
+            "interception_count": interception_count
         }
 
 
@@ -239,24 +216,18 @@ def reflector_node(state: CausalAgentState) -> Dict[str, Any]:
         return {"is_safe": True, "current_phase": "reflector"}
 
     claims_text = "\n".join([f"Claim {i+1}: {claim}" for i, claim in enumerate(claims)])
-    print(f"[Reflector] 审查 {len(claims)} 条d-分离断言...")
+    print(f"[Reflector] 审查 {len(claims)} 条断言...")
 
-    system_prompt = """You are a common-sense judge. The system extracted a causal graph and derived d-separation claims from it. Your ONLY job: judge whether these claims are ABSURD based on human common sense.
+    system_prompt = """You are a common-sense judge. The system extracted a causal graph and derived d-separation claims. Judge: are any of these claims ABSURD?
 
-A d-separation claim is a conditional independence statement like:
-- "X and Y are completely independent (no causal link at all)"
-- "If we hold Z constant, then X has no effect on Y"
-
-Judgment criteria:
-- If the claim clearly VIOLATES basic common sense or physical laws (e.g., "rooster crowing causes the sun to rise", "prayer cures terminal cancer") -> REJECT
-- If the claim is about "controlling a common factor Z makes two things independent" — this is STATISTICALLY VALID and should PASS
-- If the claim seems plausible or you are unsure -> PASS
-
-Only REJECT truly absurd claims. Do NOT overthink. When in doubt, PASS.
+- "X and Y are completely independent" — REJECT only if the real world clearly links them.
+- "Controlling Z, X has no effect on Y" — this is a CONDITIONAL statement. If Z is a common cause of X and Y, this is MATHEMATICALLY VALID → PASS.
+- Only REJECT claims that violate basic common sense (e.g., "rooster crowing causes sunrise").
+- When in doubt, PASS.
 
 Output JSON: {"verdict": "REJECT or PASS", "reason": "brief reason"}"""
 
-    user_prompt = f"D-Separation Claims to Judge:\n{claims_text}\n\nAre any of these claims absurd or physically impossible? If not, PASS."
+    user_prompt = f"D-Separation Claims:\n{claims_text}\n\nAny absurd claims? If not, PASS."
 
     try:
         response = client.chat.completions.create(

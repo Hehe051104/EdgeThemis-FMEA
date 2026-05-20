@@ -32,18 +32,15 @@ def ask_edgethemis(question: str) -> str:
     try:
         final_state = run_edgethemis_pipeline(question)
 
-        # If pipeline rejected or melted down, return "no"
+        # If pipeline rejected or melted down → conservative "no"
         if not final_state.get("is_safe", False):
             print(f"  [EdgeThemis] 流水线拒绝/熔断 → no")
             return "no"
 
-        # Pipeline passed: trust the Generator's verdict
-        graph = final_state.get("extracted_graph")
-        if graph is None:
-            return "no"
-        verdict = (getattr(graph, "causal_verdict", "") or "").strip().lower()
+        # Use the Validator's computed verdict from the state
+        verdict = final_state.get("causal_verdict", "").strip().lower()
         if verdict in ("yes", "no"):
-            print(f"  [EdgeThemis] 采纳 Generator verdict: {verdict}")
+            print(f"  [EdgeThemis] Validator判决={verdict}")
             return verdict
         return "no"
     except Exception as e:
