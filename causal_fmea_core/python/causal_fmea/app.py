@@ -102,6 +102,19 @@ causal_agent = builder.compile()
 print("✅ [系统就绪] EdgeThemis 引擎组装完毕！双重防爆舱门已锁死！")
 
 
+def run_edgethemis_pipeline(scenario_text: str) -> dict:
+    """通用入口：输入文本 → 返回流水线最终状态字典"""
+    return causal_agent.invoke({
+        "scenario_description": scenario_text,
+        "current_phase": "start",
+        "extracted_graph": None,
+        "rust_interception_report": "",
+        "d_separation_claims": [],
+        "interception_count": 0,
+        "is_safe": False
+    })
+
+
 # ==========================================
 # 🚀 实战点火：高危场景推演测试
 # ==========================================

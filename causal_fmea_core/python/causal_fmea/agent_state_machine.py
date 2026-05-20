@@ -14,10 +14,18 @@ class CausalEdge(BaseModel):  # 代表一条因果关系的边
     D: int = Field(ge=1, le=10, description="探测度 (1-10)")
 
 class ExtractedGraph(BaseModel):  # 代表大模型输出的整个因果图
-    #  战术核心：强制前置思考流！
-    # 注意：这个字段必须写在 edges 的前面！大模型在生成 JSON 时必须先填这个坑！
+    # ══════ 假设-验证范式：先下判断，再画图 ══════
+    causal_verdict: str = Field(
+        description="对用户因果疑问的最终判决：Yes 或 No。必须最先给出！"
+    )
+    hypothesized_cause: str = Field(
+        description="用户问题中询问的起因实体（Cause）。"
+    )
+    hypothesized_effect: str = Field(
+        description="用户问题中询问的结果实体（Effect）。"
+    )
     reasoning_process: str = Field(
-        description="【核心步骤】在提取边之前，必须先在这里写下详细的案情推理过程。必须拆解出幕后黑手(C)以及中间物理传导过程(Z)。"
+        description="详细的案情推理过程。必须拆解出幕后黑手(C)以及中间物理传导过程(Z)。"
     )
     edges: List[CausalEdge] = Field(description="基于上一步的推理，严格提取出的因果拓扑边。")
 

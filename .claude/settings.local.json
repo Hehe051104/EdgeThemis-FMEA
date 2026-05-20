@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"\\\\\\\\wsl.localhost\\\\Ubuntu-22.04\\\\home\\\\hehe\\\\Causal_FMEA\" -maxdepth 4 -type f -o -type d)",
+      "Bash(find \"\\\\\\\\wsl.localhost\\\\Ubuntu-22.04\\\\home\\\\hehe\\\\Causal_FMEA\" -maxdepth 3 -type d ! -path \"*/.venv/*\" ! -path \"*/.git/*\" ! -path \"*/target/*\" ! -path \"*/__pycache__/*\" ! -path \"*/node_modules/*\" ! -path \"*/.fingerprint/*\" ! -path \"*/site-packages/*\")",
+      "Bash(find \"\\\\\\\\wsl.localhost\\\\Ubuntu-22.04\\\\home\\\\hehe\\\\Causal_FMEA\" -name \"*.py\" ! -path \"*/.venv/*\" ! -path \"*/__pycache__/*\")",
+      "Bash(ls *)",
+      "Bash(python3 -c \"import ast; ast.parse\\(open\\('python/causal_fmea/nodes.py'\\).read\\(\\)\\); print\\('nodes.py OK'\\)\")",
+      "Bash(python3 -c \"import ast; ast.parse\\(open\\('python/causal_fmea/benchmark_all.py'\\).read\\(\\)\\); print\\('benchmark_all.py OK'\\)\")",
+      "Bash(python3 -c \"import ast; ast.parse\\(open\\('python/causal_fmea/app.py'\\).read\\(\\)\\); print\\('app.py OK'\\)\")",
+      "Bash(python3 -c \"import ast; ast.parse\\(open\\('python/causal_fmea/agent_state_machine.py'\\).read\\(\\)\\); print\\('agent_state_machine.py OK'\\)\")",
+      "Bash(cd \"\\\\\\\\wsl.localhost\\\\Ubuntu-22.04\\\\home\\\\hehe\\\\Causal_FMEA\\\\causal_fmea_core\")",
+      "Bash(python3 -c ' *)",
+      "Bash(python3 *)"
+    ]
+  }
+}
