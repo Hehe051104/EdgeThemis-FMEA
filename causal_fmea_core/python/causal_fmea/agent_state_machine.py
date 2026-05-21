@@ -9,6 +9,7 @@ from pydantic import BaseModel, Field
 class CausalEdge(BaseModel):  # 代表一条因果关系的边
     source: str = Field(description="因果边的起点名词")
     target: str = Field(description="因果边的终点名词")
+    description: str = Field(description="用一句话解释为什么 source 会导致 target，说明具体的因果传导机制")
     S: int = Field(ge=1, le=10, description="严重度 (1-10)")
     O: int = Field(ge=1, le=10, description="频度 (1-10)")
     D: int = Field(ge=1, le=10, description="探测度 (1-10)")
@@ -43,4 +44,3 @@ class CausalAgentState(TypedDict):
     interception_count: int                      # 物理拦截计数器 (防止大模型无限卡死)
     is_safe: bool                                # 最终是否通过了 Rust 的 d-分离和环路测谎
     d_separation_claims: list[str]               # Rust 从当前图中榨取出的 d-分离物理断言
-    retry_reflector: bool                        # 上下文溢出时直接回 Reflector 重试，不绕 Generator

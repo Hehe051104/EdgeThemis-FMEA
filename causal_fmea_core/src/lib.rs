@@ -3,7 +3,7 @@ use indexmap::IndexSet;
 use std::sync::{Arc, Mutex};   // Arc（原子引用计数指针）和 Mutex（互斥锁）
 
 // 物理连线：告诉 Rust 编译器去加载那个新文件
-pub mod fmea_evaluator; 
+pub mod fmea_evaluator;
 // 提取武器：把 FmeaScore 拉到当前作用域
 use fmea_evaluator::FmeaScore;
 
@@ -26,7 +26,7 @@ impl Drop for LlamaMemoryReaper {
         // 死神苏醒时的动作
         println!("🔥 [Rust 死神机制] 侦测到 Python 宿主抛弃了引擎！");
         println!("🔥 [Rust 死神机制] 正在跨界挥下镰刀，清除 4060 底层物理内存...");
-        self.is_active = false; // 表示“死神”已执行清理动作
+        self.is_active = false; // 表示"死神"已执行清理动作
 
         // 注意：没有任何 unsafe 代码。
         // Rust 的编译器会自动在这里插入代码，把 interner 和 graph 彻底销毁！
@@ -72,10 +72,10 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
     pub fn register_node(&self, node_name: String) -> PyResult<usize> {
         // 你的逻辑 1：极其粗暴地拿锁，并声明为可变 (mut)
         let mut pool = self.interner.lock().unwrap();
-        
+
         // 你的逻辑 2：插入数据，并用 .0 提取第一个元素 (ID)  insert_full 返回 (index, bool),取下标
         let id = pool.insert_full(node_name).0;
-        
+
         Ok(id)
     }
 
@@ -83,8 +83,8 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
     pub fn get_node_name(&self, node_id: usize) -> PyResult<Option<String>> {
         // 拿锁（只读，所以不需要 mut）
         let pool = self.interner.lock().unwrap();
-        
-        // 获取引用，并克隆一份 String 扔回给 Python 把内部数据“拷贝”出来，安全返回给 Python
+
+        // 获取引用，并克隆一份 String 扔回给 Python 把内部数据"拷贝"出来，安全返回给 Python
         Ok(pool.get_index(node_id).cloned())
     }
 
@@ -103,74 +103,71 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
     pub fn inject_edges(&mut self, py_edges: Vec<(String, String)>) -> PyResult<()> {
         // 物理动作 1：获取驻留池的互斥锁
         let mut pool = self.interner.lock().unwrap();
-        
+
         for (source, target) in py_edges {
             // 物理动作 2：极其暴力的字符串没收！
             // insert_full 会检查池子里有没有这个词。没有就塞进去，有就直接返回它的唯一 ID！
             let (src_id, _) = pool.insert_full(source);
             let (tgt_id, _) = pool.insert_full(target);
-            
+
             // 物理动作 3：把纯数字 ID 压入我们的一维数组图谱中！
             self.graph.add_edge(src_id, tgt_id);
         }
-        
+
         Ok(())
     }
 
 
     /// 战术核心：跨界破绽提取器！自动寻找 Z 节点，验证 d-分离，并翻译成常识断言
     pub fn extract_testable_claims(&self) -> PyResult<Vec<String>> {
+        const MAX_TOTAL_CLAIMS: usize = 50;
         let mut claims = Vec::new();
-        // 拿锁读取驻留池，这样我们就能把 node_id 翻译回中文了
         let pool = self.interner.lock().unwrap();
         let n = self.graph.node_count;
 
         // 1. 遍历所有可能的 (X, Y) 节点对
         for i in 0..n {
+            if claims.len() >= MAX_TOTAL_CLAIMS { break; }
             for j in (i + 1)..n {
+                if claims.len() >= MAX_TOTAL_CLAIMS { break; }
                 // 如果 X 和 Y 有直接连线，绝对不可能独立，跳过
-                let has_direct = self.graph.adjacency_list[i].contains(&j) || 
+                let has_direct = self.graph.adjacency_list[i].contains(&j) ||
                                  self.graph.adjacency_list[j].contains(&i);
                 if has_direct { continue; }
 
-                // ==========================================
-                //  补全：测试“无条件独立”（适用于 Collider 对撞结构）
-                // ==========================================
+                // 补全：测试"无条件独立"（适用于 Collider 对撞结构）
                 let name_i = pool.get_index(i).unwrap();
                 let name_j = pool.get_index(j).unwrap();
 
                 let empty_observed = std::collections::HashSet::new();
                 if CausalAlgorithms::is_d_separated(&self.graph, i, j, &empty_observed) {
                     let claim = format!(
-                        "物理断言：在没有任何外界干预（不固定任何条件）的情况下，【{}】和【{}】在物理上是完全独立的两个事件，互不影响。",
+                        "图结构推断: 在不引入额外条件时, [{}]与[{}]之间不存在活跃的因果路径. 这两个事件在现实中是否确实互不影响?",
                         name_i, name_j
                     );
                     claims.push(claim);
-                    continue; // 既然已经无条件独立了，就不需要再去寻找中间阀门 Z 了，直接测下一对！
+                    continue;
                 }
 
                 // 适用于chain与confounder结构的断言提取
-                // 2. 暴力寻找能斩断 X 和 Y 联系的阀门节点 Z      有某个Z就能让X与Y独立，就能组成一句claim了
+                // 2. 遍历所有可能的阀门节点 Z，收集全部能让 X 和 Y d-分离的 Z
                 for k in 0..n {
+                    if claims.len() >= MAX_TOTAL_CLAIMS { break; }
                     if k == i || k == j { continue; }
-                    
+
                     let mut observed = std::collections::HashSet::new();
                     observed.insert(k);
 
-                    // 3. 呼叫你的底层算子进行贝叶斯球探测！
                     if CausalAlgorithms::is_d_separated(&self.graph, i, j, &observed) {
-                        // 翻译回中文节点名
                         let name_i = pool.get_index(i).unwrap();
                         let name_j = pool.get_index(j).unwrap();
                         let name_k = pool.get_index(k).unwrap();
-                        
-                        // 4. 组装终极绞杀宣言！
+
                         let claim = format!(
-                            "物理断言：假设我们强行控制住【{}】的状态绝对恒定，那么无论【{}】如何波动，都绝对无法影响【{}】的发生概率。",
+                            "图结构推断: 若将[{}]固定为常量, 则[{}]的变化不会经由图中的因果路径传导至[{}]. 这个统计推断在现实中成立吗?",
                             name_k, name_i, name_j
                         );
                         claims.push(claim);
-                        break; // 找到一个 Z 节点能证明它俩独立就足够了，立刻退出内层循环
                     }
                 }
             }

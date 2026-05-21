@@ -31,23 +31,59 @@ def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
     interception_count = state.get("interception_count", 0)
 
     system_prompt = """
-    你是一个极其严苛的通用工业因果推理引擎（EdgeThemis）。你的任务是从案发现场提取绝对的因果拓扑图，适用于任何领域（医疗、机械、软件、金融等）。
-    
-    【绝对法则：打破单线思维，寻找拓扑分叉】
-    当发现事件 A 和事件 B 同时发生或紧密相连时，必须采取怀疑态度！
-    绝大多数情况下，真实世界不是简单的单向链条。你必须寻找隐藏的【共同原因 (Confounder) C】，并构建分叉网络：[C -> A] 且 [C -> B]。
+    你是一个通用因果推理引擎。你的任务是从文本中提取完整的因果拓扑图。因果图由以下三种基本结构组成：
 
-    【格式输出的铁血禁令（绝对遵守）】
-    1. 你必须先在 reasoning_process 里进行强制的结构化思考，必须包含以下两段：
-       - "结构排查：" 明确说明是否存在导致多个并发症状的幕后环境/前置条件。
-       - "传导分析：" 明确说明物理/逻辑的传导链条是如何一步步崩溃的。
-    2. edges 字段里提取出的 source 和 target 必须是具体的中文名词！绝对禁止出现 "->" 符号！
-    3. FMEA 评分 (S, O, D) 必须是 1-10 的整数，严禁所有边给出相同的敷衍分数！
+    结构一（链 Chain）：A 导致 B，B 导致 C。提取时不可合并跳跃——文本中描述了几个传导步骤，你就必须输出几条边。禁止跳过中间环节直接从 A 画到 C。
 
-    【通用 FMEA 绝对物理标尺（跨越一切领域的相对刻度）】
-    - S (严重度): 1=微小的扰动或异常，不影响全局；5=局部系统降级或明显报错；10=系统性的毁灭、生命危险或灾难级的商业崩溃。
-    - O (频度): 1=极端罕见（黑天鹅事件）；5=在特定条件下偶发；10=只要前置条件满足，就必然发生（物理定律级的确定性）。
-    - D (探测度): 1=被自动化监控或人类感官瞬间且明确地捕捉；5=有滞后性，需专门排查才能发现；10=彻底的盲区，完全无法被现有手段提前预警。
+    结构二（共同原因 Confounder）：同一个原因 C 同时导致了多个结果。当多个事件在文本中被描述为同时发生或紧密关联时，考察它们是否共享一个隐藏的共同原因。
+
+    结构三（对撞 Collider）：多个独立原因分别汇聚到同一个结果。当文本描述多个看似无关的因素共同促成了某一结果时，分别提取每条汇聚路径。
+
+    一个完整的因果图通常同时包含以上三种结构。你需要提取文本中存在的所有结构。
+
+    【提取规则】
+    1. 只提取文本中明确描述的因果关系，不可凭空推测。
+    2. 每个节点必须代表一个事件或状态变化，不能是静态的实体名称或人名。实体只有在执行动作或发生状态改变时才构成节点。
+    3. 每条边的 description 字段用一句话解释传导机制。
+    4. 因果链必须包含从初始原因到中间传导再到最终结果的全部环节，不能跳过中间步骤。
+
+    【FMEA 评分标准（S/O/D 各为 1-10 整数，禁止集中在中间段）】
+
+    严重度 S（该边的后果有多严重）：
+    1 = 几乎无影响的微小扰动
+    2 = 极轻微的不便或异常
+    3 = 轻微的局部影响
+    4 = 明显的局部影响，可快速恢复
+    5 = 局部功能降级或明显报错
+    6 = 部分功能丧失，需外部干预才能恢复
+    7 = 关键功能严重受损
+    8 = 系统接近瘫痪，造成重大损失
+    9 = 系统性的严重灾难，不可逆的重大损失
+    10 = 危及生命或组织彻底崩溃
+
+    频度 O（在给定前置条件下，该边发生的可能性）：
+    1 = 极端罕见，几乎不可能发生
+    2 = 非常罕见，需要极端巧合
+    3 = 罕见，需要多种条件同时满足
+    4 = 较少发生，仅在特定场景下出现
+    5 = 偶发，在特定条件下会反复出现
+    6 = 较频繁，在常见条件下就可能出现
+    7 = 频繁发生
+    8 = 非常频繁，几乎常态化
+    9 = 在给定条件下几乎必然发生
+    10 = 只要前置条件满足就绝对发生
+
+    探测度 D（该边代表的因果传导在发生前或发生时能否被察觉）：
+    1 = 可被现有监控或感知手段瞬间明确捕捉
+    2 = 通过常规检查即可发现
+    3 = 需要通过专项检查才能发现
+    4 = 有一定滞后性，需事后排查才能确认
+    5 = 需要专门排查分析才能发现
+    6 = 较难发现，需要深入调查
+    7 = 很难发现，需要专业工具或专业知识
+    8 = 极难发现，需要特殊手段
+    9 = 几乎无法在事前探测
+    10 = 完全无法预知或探测
     """
 
     user_prompt = f"【待分析场景】\n{scenario}\n\n请提取因果图谱。"
@@ -75,7 +111,7 @@ def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
                     "schema": ExtractedGraph.model_json_schema()
                 }
             },
-            max_tokens=1024,
+            max_tokens=2048,
             temperature=0.1
         )
 
@@ -94,6 +130,16 @@ def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
                     raise
             else:
                 raise
+
+        # 去重：3B 等小模型可能重复生成同一条边
+        seen = set()
+        unique_edges = []
+        for edge in extracted_data.edges:
+            key = (edge.source, edge.target)
+            if key not in seen:
+                seen.add(key)
+                unique_edges.append(edge)
+        extracted_data.edges = unique_edges
 
         return {
             "current_phase": "generate_graph",
@@ -213,37 +259,29 @@ def reflector_node(state: CausalAgentState) -> Dict[str, Any]:
     if not claims:
         return {"is_safe": True, "current_phase": "reflector"}
 
-    # 上下文安全裁剪：每条 claim ~60 中文字符 ≈ 90 tokens，system prompt ~350 tokens，响应预留 ~300 tokens
-    # 在 2048 token 窗口下安全上限约 15 条
-    MAX_CLAIMS = 22
-    if len(claims) > MAX_CLAIMS:
-        print(f"⚠️ [上下文裁剪] claims 过多 ({len(claims)}条)，截取前 {MAX_CLAIMS} 条送入审判")
-        claims = claims[:MAX_CLAIMS]
-
     print(f"🕵️ [前额叶重塑] 赋予 Qwen 2.5 铁面审查官人格，开始终极质问（共 {len(claims)} 条断言）...")
 
     claims_text = "\n".join([f"断言 {i+1}: {claim}" for i, claim in enumerate(claims)])
-    
+
     system_prompt = """
-    你是一个理智、宽容且极其客观的现实世界审查法官。
-    现在有系统基于拓扑图提取了几条物理因果断言。请判断这些断言是否违背现实常识。
-    
-    【核心判决铁律 - 绝对遵守】
-    1. 除非该断言包含了极其荒谬、严重违背地球基本物理法则的陈述（例如“公鸡打鸣导致太阳升起”、“求神拜佛导致疾病痊愈”这类绝对的伪科学），否则你必须给出 PASS！
-    2. 不要过度发散思维！绝对禁止脑补微小的、间接的蝴蝶效应！
-    3. 如果该断言是探讨“控制某个共同变量（环境/背景）后，另外两个表面相关的变量互不干涉”，这在统计学和常识上是合理的，必须无条件 PASS！
-    
+    你是一个理智、宽容且客观的因果审查员。
+    现在有一些基于因果图推导出的统计推断，每条推断末尾都带有一个问句。请逐一判断：这条推断在现实世界中是否合理？
+
+    【判决标准】
+    1. 如果这条推断在现实中明显荒谬（例如要求你相信两件显然相关的事在统计上独立），REJECT。
+    2. 如果这条推断在现实中存在争议、但至少有一面说得通，PASS。
+    3. 不要因为"现实中很少有绝对独立的事"这种泛泛理由而 REJECT——你必须找到这条推断中具体的、不合理的点才能 REJECT。
+
     你必须输出标准的 JSON 格式：
     {
       "verdict": "REJECT" 或 "PASS",
-      "reason": "言简意赅的反驳或赞同理由"
+      "reason": "言简意赅的判决理由"
     }
     """
-    
-    user_prompt = f"【待审判的物理断言列表】\n{claims_text}\n\n请问上述断言在真实世界中能站得住脚吗？请给出你的判决。"
+
+    user_prompt = f"【待审查的图结构推断】\n{claims_text}\n\n请逐一回答每条推断末尾的问句。如果所有推断在现实中都合理，给出 PASS；只要有一条明显不合理，给出 REJECT 并说明哪条触犯了什么常识。"
 
     try:
-        # ⚡️ 致命重构：同样转换为网络请求！
         response = client.chat.completions.create(
             model="qwen2.5",
             messages=[
@@ -258,12 +296,12 @@ def reflector_node(state: CausalAgentState) -> Dict[str, Any]:
                 }
             },
             max_tokens=256,
-            temperature=0.0 
+            temperature=0.0
         )
-        
+
         raw_content = response.choices[0].message.content
         res_json = json.loads(raw_content)
-        
+
         if res_json.get("verdict") == "REJECT":
             print(f"🔴 [逻辑自爆] 大模型无法说服自己的常识！反思反驳理由：{res_json.get('reason')}")
             return {
@@ -272,27 +310,12 @@ def reflector_node(state: CausalAgentState) -> Dict[str, Any]:
                 "current_phase": "reflector",
                 "interception_count": interception_count + 1
             }
-        
+
         print(f"🟢 [反思通过] 大模型的图谱成功说服了自己的常识神经！")
         return {"is_safe": True, "current_phase": "reflector"}
 
     except Exception as e:
-        error_str = str(e)
-        print(f"💥 [审讯室暴乱] 法官异常：{error_str}")
-
-        # 上下文溢出是基础设施问题——裁剪更激进后直接回 Reflector 重试，不计入熔断
-        if "exceed" in error_str.lower() or "context" in error_str.lower():
-            fallback_claims = claims[:max(len(claims) // 2, 3)]
-            print(f"🔄 [上下文自救] 裁剪至 {len(fallback_claims)} 条，携 retry_reflector 信号直接重回 Reflector！")
-            return {
-                "is_safe": False,
-                "retry_reflector": True,
-                "d_separation_claims": fallback_claims,
-                "rust_interception_report": f"上下文溢出，已自动裁剪至 {len(fallback_claims)} 条断言，请重新审判。",
-                "current_phase": "reflector",
-                "interception_count": interception_count
-            }
-
+        print(f"💥 [审讯室暴乱] 法官异常：{str(e)}")
         return {
             "is_safe": False,
             "rust_interception_report": "你在反思阶段输出了不符合规范的格式或连接失败，请严格按照要求重新提取！",
