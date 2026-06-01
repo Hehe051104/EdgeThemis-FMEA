@@ -67,17 +67,11 @@ impl CausalAlgorithms {
         observed: &HashSet<usize>
     ) -> bool {
         let n = graph.node_count;
-        if n == 0 || x == y { return false; }
+        if n == 0 { return true; }
+        if x == y { return observed.contains(&x); }
 
-        // 你的战术执行：榨干 CPU！在寄存器里动态开辟内存，临时反转图谱！  down是天生的，但是我们需要up，所以要反转得到
-        let mut rev_adj = vec![Vec::new(); n];
-        for u in 0..n {
-            if u < graph.adjacency_list.len() {
-                for &v in &graph.adjacency_list[u] {
-                    rev_adj[v].push(u); // 逆向记录：v 的上游是 u
-                }
-            }
-        }
+        // 直接使用图中缓存的反向邻接表，避免每次调用都 O(n+m) 重建
+        let rev_adj = graph.rev_adj();
 
         // 物理准备：找出所有观察节点及其孙子节点（用于对撞因子的激活判断）
         // 在对撞结构中，不仅仅是Z被观测到这条路就通，只要Z的孩子被观测到，这条路也通！所以我们需要先找到所有被观测节点的祖先，才能正确判断对撞结构是否被激活。
@@ -85,8 +79,10 @@ impl CausalAlgorithms {
         let mut ancestors_of_observed = HashSet::new();  // 用于存放所有观测节点及其祖先节点
         let mut q = VecDeque::new();  // 创建一个队列，用于广度优先遍历
         for &obs in observed {
-            q.push_back(obs);
-            ancestors_of_observed.insert(obs);
+            if obs < n {  // 边界检查：过滤越界节点ID，防止 rev_adj 索引 panic
+                q.push_back(obs);
+                ancestors_of_observed.insert(obs);
+            }
         }
         while let Some(node) = q.pop_front() {  // 拿到所有父节点是为了collider，因为collider
             for &parent in &rev_adj[node] {  // 逆着箭头往父节点走，找到所有祖先
@@ -110,36 +106,33 @@ impl CausalAlgorithms {
         while let Some((curr, is_down)) = queue.pop_front() {
             // 未来在完整系统中我们会提前把X➡️Y的合法路径先剪断掉，这样下面都是在判断非法路径能不能到终点
             // 如果贝叶斯球成功滚到了终点，说明没有被 d-分离（存在连通的幻觉路径）
-            
-            // chain和confounder中Z没观测到才能往后走，因为观测到意味着路径被阻断了（不用手动放个墙拦截，不给分支（通行证）就行）；
-            // 而collider中Z被观测到或者Z的孩子被观测到才能往后走，因为观测到意味着路径被激活了。
-            
-            //能走通道终点才有问题！！！  说明d分离没有成功，路径没被阻断，X与Y之间有非法相关性
-            if curr == y { return false; }  // 找到一条边通就有问题 类似BFS，最后的时候能到Y说明路径是通的；d-separated = false，没有分离成功
+            if curr == y { return false; }
 
-            // 向上后往下 confounder  要未观测才通路
-            if !is_down && !observed.contains(&curr) {
+            // 起始节点特殊处理：X 不是中间节点，观测到 X 不阻断从 X 出发的路径
+            let is_start = curr == x;
+
+            // 向上后往下 confounder  要未观测才通路（起始节点始终可走）
+            if !is_down && (is_start || !observed.contains(&curr)) {
                 for &child in &graph.adjacency_list[curr] {
                     if visited.insert((child, true)) { queue.push_back((child, true)); }
                 }
-            // 向下后往上
-            } else if is_down {  // 要观测到才通路
-                // 如果是 Collider（对撞），只有它或它的孙子节点被观察到时，路径才通！
-                if ancestors_of_observed.contains(&curr) {   // 如果观测到Z的孩子那也算Z被观测了，路径就通了
+            // 向下后往上 collider  要观测到才通路（起始节点始终可走）
+            } else if is_down {
+                if is_start || ancestors_of_observed.contains(&curr) {
                     for &parent in &rev_adj[curr] {
                         if visited.insert((parent, false)) { queue.push_back((parent, false)); }
                     }
                 }
             }
 
-            // 先上后向上 chain反向    要未观测才通路
-            if !is_down && !observed.contains(&curr) {
+            // 先上后向上 chain反向  要未观测才通路（起始节点始终可走）
+            if !is_down && (is_start || !observed.contains(&curr)) {
                 for &parent in &rev_adj[curr] {
                     if visited.insert((parent, false)) { queue.push_back((parent, false)); }
                 }
-            //  向下后向下         要未观测才通路
-            } else if is_down && !observed.contains(&curr) {    // Chain 正向 合法路径    纯粹的X➡️Y最开始就没了，这里的chain只是为了能让路线传递下去，因为很有可能有这种情况
-                for &child in &graph.adjacency_list[curr] {            // X⬅️Z➡️A➡️B➡️Y  起码要让这个线路中间跑通      没观测到才能往后走
+            // 向下后向下 chain正向  要未观测才通路（起始节点始终可走）
+            } else if is_down && (is_start || !observed.contains(&curr)) {
+                for &child in &graph.adjacency_list[curr] {
                     if visited.insert((child, true)) { queue.push_back((child, true)); }
                 }
             }

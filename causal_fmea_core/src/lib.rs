@@ -68,21 +68,19 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
         }
     }
 
-    /// 任务 1：注册节点    光荣退役，由inject_edges接管
-    pub fn register_node(&self, node_name: String) -> PyResult<usize> {
-        // 你的逻辑 1：极其粗暴地拿锁，并声明为可变 (mut)
-        let mut pool = self.interner.lock().unwrap();
-
-        // 你的逻辑 2：插入数据，并用 .0 提取第一个元素 (ID)  insert_full 返回 (index, bool),取下标
+    /// 任务 1：注册节点（已废弃，请使用 inject_edges）
+    #[deprecated(note = "请使用 inject_edges 替代，该方法会同时更新 interner 和 graph")]
+    pub fn register_node(&mut self, node_name: String) -> PyResult<usize> {
+        let mut pool = self.interner.lock().unwrap_or_else(|e| e.into_inner());
         let id = pool.insert_full(node_name).0;
-
+        drop(pool);  // 释放锁后再操作 graph
+        self.graph.ensure_capacity(id);
         Ok(id)
     }
 
     /// 任务 2：反向查询
     pub fn get_node_name(&self, node_id: usize) -> PyResult<Option<String>> {
-        // 拿锁（只读，所以不需要 mut）
-        let pool = self.interner.lock().unwrap();
+        let pool = self.interner.lock().unwrap_or_else(|e| e.into_inner());
 
         // 获取引用，并克隆一份 String 扔回给 Python 把内部数据"拷贝"出来，安全返回给 Python
         Ok(pool.get_index(node_id).cloned())
@@ -101,16 +99,17 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
 
     /// 跨界物理注射器：接收 Python 传来的 [(String, String)] 列表
     pub fn inject_edges(&mut self, py_edges: Vec<(String, String)>) -> PyResult<()> {
-        // 物理动作 1：获取驻留池的互斥锁
-        let mut pool = self.interner.lock().unwrap();
+        let mut pool = self.interner.lock().unwrap_or_else(|e| e.into_inner());
 
         for (source, target) in py_edges {
-            // 物理动作 2：极其暴力的字符串没收！
-            // insert_full 会检查池子里有没有这个词。没有就塞进去，有就直接返回它的唯一 ID！
             let (src_id, _) = pool.insert_full(source);
             let (tgt_id, _) = pool.insert_full(target);
 
-            // 物理动作 3：把纯数字 ID 压入我们的一维数组图谱中！
+            // 物理拦截：跳过自环边（source == target），自环在因果图中无意义且会导致 Kahn 算法误判
+            if src_id == tgt_id {
+                continue;
+            }
+
             self.graph.add_edge(src_id, tgt_id);
         }
 
@@ -122,7 +121,7 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
     pub fn extract_testable_claims(&self) -> PyResult<Vec<String>> {
         const MAX_TOTAL_CLAIMS: usize = 50;
         let mut claims = Vec::new();
-        let pool = self.interner.lock().unwrap();
+        let pool = self.interner.lock().unwrap_or_else(|e| e.into_inner());
         let n = self.graph.node_count;
 
         // 1. 遍历所有可能的 (X, Y) 节点对
@@ -135,37 +134,47 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
                                  self.graph.adjacency_list[j].contains(&i);
                 if has_direct { continue; }
 
-                // 补全：测试"无条件独立"（适用于 Collider 对撞结构）
                 let name_i = pool.get_index(i).unwrap();
                 let name_j = pool.get_index(j).unwrap();
 
+                // 测试 1：无条件独立性（适用于 Collider 对撞结构 X→Z←Y）
                 let empty_observed = std::collections::HashSet::new();
-                if CausalAlgorithms::is_d_separated(&self.graph, i, j, &empty_observed) {
+                let unconditionally_independent = CausalAlgorithms::is_d_separated(
+                    &self.graph, i, j, &empty_observed
+                );
+
+                if unconditionally_independent {
                     let claim = format!(
                         "图结构推断: 在不引入额外条件时, [{}]与[{}]之间不存在活跃的因果路径. 这两个事件在现实中是否确实互不影响?",
                         name_i, name_j
                     );
                     claims.push(claim);
-                    continue;
                 }
 
-                // 适用于chain与confounder结构的断言提取
-                // 2. 遍历所有可能的阀门节点 Z，收集全部能让 X 和 Y d-分离的 Z
+                // 测试 2：遍历所有可能的阀门节点 Z
                 for k in 0..n {
                     if claims.len() >= MAX_TOTAL_CLAIMS { break; }
                     if k == i || k == j { continue; }
 
+                    let name_k = pool.get_index(k).unwrap();
                     let mut observed = std::collections::HashSet::new();
                     observed.insert(k);
+                    let conditionally_independent = CausalAlgorithms::is_d_separated(
+                        &self.graph, i, j, &observed
+                    );
 
-                    if CausalAlgorithms::is_d_separated(&self.graph, i, j, &observed) {
-                        let name_i = pool.get_index(i).unwrap();
-                        let name_j = pool.get_index(j).unwrap();
-                        let name_k = pool.get_index(k).unwrap();
-
+                    if conditionally_independent && !unconditionally_independent {
+                        // Confounder 结构：Z 是阻断阀门，观测 Z 后 X 与 Y 独立
                         let claim = format!(
                             "图结构推断: 若将[{}]固定为常量, 则[{}]的变化不会经由图中的因果路径传导至[{}]. 这个统计推断在现实中成立吗?",
                             name_k, name_i, name_j
+                        );
+                        claims.push(claim);
+                    } else if !conditionally_independent && unconditionally_independent {
+                        // Collider 结构：Z 是对撞因子，观测 Z 后 X 与 Y 变得相关
+                        let claim = format!(
+                            "图结构推断: [{}]与[{}]在无条件下互不影响, 但若观测到[{}], 则二者之间会出现活跃的因果路径. 这个对撞因子激活现象在现实中是否成立?",
+                            name_i, name_j, name_k
                         );
                         claims.push(claim);
                     }
