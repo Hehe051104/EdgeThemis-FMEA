@@ -29,6 +29,8 @@ def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
     scenario = state.get("scenario_description", "")
     rust_report = state.get("rust_interception_report", "")
     interception_count = state.get("interception_count", 0)
+    prev_graph = state.get("extracted_graph")
+    claims = state.get("d_separation_claims", [])
 
     system_prompt = """
     你是一个通用因果推理引擎。你的任务是从文本中提取完整的因果拓扑图。因果图由以下三种基本结构组成：
@@ -76,14 +78,17 @@ def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
     """
 
     user_prompt = f"【待分析场景】\n{scenario}\n\n请提取因果图谱。"
-    
+
     if rust_report:
-        user_prompt += (
-            f"\n\n🚨【系统严重警告】🚨\n"
-            f"你上一次提交的因果图被底层的 Rust d-分离测谎仪拦截！\n"
-            f"拦截报告：{rust_report}\n"
-            f"请仔细反思并修正上述虚假的混淆因子或环路，重新输出！"
-        )
+        user_prompt += f"\n\n🚨【系统警告】上一次提交的因果图存在问题：\n{rust_report}\n"
+        if prev_graph:
+            prev_edges = [(e.source, e.target) for e in prev_graph.edges]
+            user_prompt += f"\n【上一轮图谱的边】\n{prev_edges}\n"
+        if claims:
+            user_prompt += f"\n【Rust d-分离测谎仪提取的具体断言】\n"
+            for i, c in enumerate(claims[:10]):
+                user_prompt += f"  断言{i+1}: {c}\n"
+            user_prompt += "\n请针对上述断言修正图谱，不要从头重写。只修改有问题的边，保留合理的边。"
         print(f"🔄 [动态纠错] 大模型正在进行第 {interception_count} 次强制反思...")
 
     try:
@@ -130,11 +135,14 @@ def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
                 unique_edges.append(edge)
         extracted_data.edges = unique_edges
 
-        return {
+        result = {
             "current_phase": "generate_graph",
             "extracted_graph": extracted_data,
-            "best_graph": extracted_data  # 每次成功生成都保留一份，熔断时兜底返回
         }
+        # 只在首次成功生成时设置 best_graph，后续由 validator 在验证通过时更新
+        if not state.get("best_graph"):
+            result["best_graph"] = extracted_data
+        return result
 
     except ValidationError as e:
         print(f"💥 [解析崩溃] Pydantic 校验失败：{str(e)[:200]}")
@@ -158,11 +166,19 @@ def generate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
 # -------------------------------------------------------------------------------------------
 def validate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
     print("⚖️ [死神审判] 数据正在通过 FFI 虫洞，进入 Rust 物理测谎仪...")
-    
+
     graph_data = state.get("extracted_graph")
     interception_count = state.get("interception_count", 0)
 
-    if not graph_data or not graph_data.edges:
+    # Issue 4 fix: Generator 失败时 extracted_graph 为 None，跳过验证避免浪费重试
+    if graph_data is None:
+        print("⏭️ [跳过验证] Generator 未生成图谱，直接进入下一轮。")
+        return {
+            "is_safe": False,
+            "current_phase": "validate_graph",
+        }
+
+    if not graph_data.edges:
         return {
             "rust_interception_report": "大模型吐出的图谱为空，涉嫌逃避推演！",
             "is_safe": False,
@@ -228,10 +244,12 @@ def validate_graph_node(state: CausalAgentState) -> Dict[str, Any]:
                 "interception_count": state.get("interception_count", 0)
             }
         else:
+            # 验证完全通过：更新 best_graph
             return {
                 "is_safe": True,
                 "d_separation_claims": [],
                 "rust_interception_report": "",
+                "best_graph": graph_data,
                 "current_phase": "validate_graph",
                 "interception_count": state.get("interception_count", 0)
             }
@@ -302,10 +320,18 @@ def reflector_node(state: CausalAgentState) -> Dict[str, Any]:
         res_json = json.loads(raw_content)
 
         if res_json.get("verdict") == "REJECT":
-            print(f"🔴 [逻辑自爆] 大模型无法说服自己的常识！反思反驳理由：{res_json.get('reason')}")
+            reason = res_json.get('reason', '')
+            # 把具体断言和拒绝理由一起喂回 generator，做定向修复
+            claims_summary = "\n".join([f"  - {c}" for c in claims[:10]])
+            report = (
+                f"Reflector 常识审判 REJECT。理由：{reason}\n"
+                f"以下是被拒绝的具体 d-分离断言：\n{claims_summary}\n"
+                f"请修正图谱中导致这些断言的因果边。"
+            )
+            print(f"🔴 [逻辑自爆] 反思理由：{reason}")
             return {
                 "is_safe": False,
-                "rust_interception_report": f"你的因果图推导出了荒谬的物理断言！反思结论：{res_json.get('reason')}",
+                "rust_interception_report": report,
                 "current_phase": "reflector",
                 "interception_count": interception_count + 1
             }
