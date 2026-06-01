@@ -119,7 +119,7 @@ impl CausalParadigmEngine {     // 实现 CausalParadigmEngine 的方法，并�
 
     /// 战术核心：跨界破绽提取器！自动寻找 Z 节点，验证 d-分离，并翻译成常识断言
     pub fn extract_testable_claims(&self) -> PyResult<Vec<String>> {
-        const MAX_TOTAL_CLAIMS: usize = 50;
+        const MAX_TOTAL_CLAIMS: usize = 20;
         let mut claims = Vec::new();
         let pool = self.interner.lock().unwrap_or_else(|e| e.into_inner());
         let n = self.graph.node_count;

@@ -16,19 +16,19 @@ def route_from_validator(state: CausalAgentState):
     claims = state.get("d_separation_claims", [])
     interception_count = state.get("interception_count", 0)
 
-    # 结局 A：物理熔断 (保护 4060 显存免遭无限死循环)
-    if interception_count >= 3:
-        print(f"🔴 [致命熔断] 大模型在 Validator 连续发癫 {interception_count} 次！强制拔电源，结束推演！")
+    # 结局 A：物理熔断，返回当前最佳图谱
+    if interception_count >= 5:
+        print(f"🔴 [熔断] 已尝试 {interception_count} 次，返回当前最佳图谱。")
         return END
 
     # 结局 B：拓扑死循环，当场踢回重写
     if not is_safe and not claims:
-        print(f"🟡 [路由决策] 拓扑死循环！开启时光倒流，踹回 Generator 进行第 {interception_count + 1} 次重试！")
+        print(f"🟡 [路由决策] 拓扑死循环！踹回 Generator 进行第 {interception_count + 1} 次重试！")
         return "generate_graph"
-    
+
     # 结局 C：拓扑没问题，但 Rust 查出了伪独立破绽，押送审讯室！
     if claims:
-        print(f"🟠 [路由决策] 拓扑正常，但发现 {len(claims)} 条 d-分离破绽！押送至 Reflector 接受常识审判！")
+        print(f"🟠 [路由决策] 拓扑正常，发现 {len(claims)} 条 d-分离破绽！押送至 Reflector！")
         return "reflector"
 
     # 结局 D：既没死循环，也没逻辑破绽，完美通关
@@ -45,9 +45,9 @@ def route_from_reflector(state: CausalAgentState):
     is_safe = state.get("is_safe", False)
     interception_count = state.get("interception_count", 0)
 
-    # 结局 A：物理熔断
-    if interception_count >= 3:
-        print(f"🔴 [致命熔断] 审讯超时！大模型连续发癫 {interception_count} 次！强制拔电源！")
+    # 结局 A：物理熔断，返回当前最佳图谱
+    if interception_count >= 5:
+        print(f"🔴 [熔断] 已尝试 {interception_count} 次，返回当前最佳图谱。")
         return END
 
     # 结局 B：嫌疑犯防线崩溃，承认画的图违背常识
@@ -135,6 +135,7 @@ if __name__ == "__main__":
         "scenario_description": test_scenario,
         "current_phase": "start",
         "extracted_graph": None,
+        "best_graph": None,
         "rust_interception_report": "",
         "d_separation_claims": [],
         "interception_count": 0,
@@ -150,13 +151,15 @@ if __name__ == "__main__":
     for output in causal_agent.stream(initial_state):
         for node_name, state_update in output.items():
             print(f"📦 [流水线进度] 当前刚刚跑完车间: {node_name}")
-            
+
             if "extracted_graph" in state_update and state_update["extracted_graph"] is not None:
                 final_extracted_graph = state_update["extracted_graph"]
+            if "best_graph" in state_update and state_update["best_graph"] is not None:
+                final_extracted_graph = state_update["best_graph"]
 
     print("\n🎉 [推演结束] EdgeThemis 引擎最终提取的因果图谱：")
-    
+
     if final_extracted_graph:
         pprint(final_extracted_graph.model_dump())
     else:
-        print("🚨 提取失败：大模型未生成图谱，或因触发底层物理熔断被强制终止。")
+        print("🚨 提取失败：大模型未生成任何图谱。")

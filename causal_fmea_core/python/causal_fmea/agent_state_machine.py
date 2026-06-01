@@ -40,6 +40,7 @@ class CausalAgentState(TypedDict):
     scenario_description: str                    # 原始场景文本 (不论是车祸、断电还是案件)
     current_phase: str                           # 当前阶段 (generate_graph, validate_graph, refine_graph)
     extracted_graph: Optional[ExtractedGraph]    # 大模型吐出的拓扑图
+    best_graph: Optional[ExtractedGraph]         # 历次尝试中保留的最佳图谱（熔断时兜底返回）
     rust_interception_report: str                # Rust 测谎仪返回的物理诊断书
     interception_count: int                      # 物理拦截计数器 (防止大模型无限卡死)
     is_safe: bool                                # 最终是否通过了 Rust 的 d-分离和环路测谎
