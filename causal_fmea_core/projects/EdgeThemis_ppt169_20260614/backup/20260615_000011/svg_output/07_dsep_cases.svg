@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor"/>
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <!-- Header -->
+  <g id="p07-header">
+    <rect x="60" y="25" width="5" height="32" rx="2" fill="#1A3C6E"/>
+    <text x="78" y="52" font-family="Georgia, SimHei, serif" font-size="30" font-weight="bold" fill="#1A3C6E">规则 3 &amp; 4：Chain + Collider</text>
+    <text x="560" y="52" font-family="Arial, sans-serif" font-size="15" fill="#7F8C8D">：合法通路 vs 致命陷阱</text>
+    <line x1="60" y1="66" x2="1220" y2="66" stroke="#D5D8DC" stroke-width="1"/>
+  </g>
+  <!-- LEFT: Rule 3 — Chain, unobserved -->
+  <g id="p07-rule3">
+    <rect x="60" y="80" width="570" height="265" rx="10" fill="#FFFFFF" stroke="#27AE60" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <rect x="60" y="80" width="570" height="6" rx="3" fill="#27AE60"/>
+    <rect x="80" y="100" width="300" height="24" rx="12" fill="#27AE60" fill-opacity="0.12"/>
+    <text x="230" y="117" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60" font-weight="bold">规则 3: Down + 未观测 → 只允许 Down</text>
+    <!-- DAG: Drug → Recovery → Sports -->
+    <g transform="translate(100, 155)">
+      <circle cx="0" cy="0" r="22" fill="#27AE60" fill-opacity="0.1" stroke="#27AE60" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60" font-weight="bold">X</text>
+      <text x="0" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7F8C8D">用药</text>
+      <line x1="22" y1="-10" x2="68" y2="-10" stroke="#27AE60" stroke-width="2.5"/>
+      <polygon points="68,-10 60,-14 60,-6" fill="#27AE60"/>
+      <circle cx="90" cy="-10" r="22" fill="none" stroke="#27AE60" stroke-width="2" stroke-dasharray="4,3"/>
+      <text x="90" y="-4" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60" font-weight="bold">M</text>
+      <text x="90" y="12" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7F8C8D">病情好转</text>
+      <line x1="112" y1="-10" x2="158" y2="-10" stroke="#27AE60" stroke-width="2.5"/>
+      <polygon points="158,-10 150,-14 150,-6" fill="#27AE60"/>
+      <circle cx="180" cy="0" r="22" fill="none" stroke="#27AE60" stroke-width="2"/>
+      <text x="180" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60" font-weight="bold">Y</text>
+      <text x="180" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7F8C8D">恢复运动</text>
+    </g>
+    <!-- Ball trace -->
+    <g transform="translate(340, 100)">
+      <text x="0" y="16" font-family="Consolas, monospace" font-size="12" fill="#27AE60" font-weight="bold">球的移动轨迹：</text>
+      <text x="0" y="36" font-family="Consolas, monospace" font-size="11" fill="#2C3E50">Step0: (X, Up) 出发</text>
+      <text x="0" y="54" font-family="Consolas, monospace" font-size="11" fill="#2C3E50">Step1: X未观测 → Rule1</text>
+      <text x="12" y="70" font-family="Consolas, monospace" font-size="11" fill="#27AE60">→ Down到M: (M, Down)</text>
+      <text x="0" y="90" font-family="Consolas, monospace" font-size="11" fill="#2C3E50">Step2: M未观测 → Rule3</text>
+      <text x="12" y="106" font-family="Consolas, monospace" font-size="11" fill="#27AE60">→ 只允许Down，到Y: (Y, Down)</text>
+      <text x="0" y="130" font-family="Consolas, monospace" font-size="13" fill="#27AE60" font-weight="bold">球到Y! → return false</text>
+      <text x="0" y="150" font-family="Arial, sans-serif" font-size="12" fill="#27AE60">X和Y未被d-分离</text>
+    </g>
+    <text x="80" y="325" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">这是<tspan font-weight="bold" fill="#27AE60">唯一合法的因果通路</tspan>：用药→病情好转→恢复运动，Chain结构本身无罪</text>
+    <text x="80" y="342" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Rule3 允许球通过，是因为这是真实因果链。LLM 正确描述了 Chain 结构时，系统不应报警。</text>
+  </g>
+  <!-- RIGHT: Rule 4 — Collider, observed -->
+  <g id="p07-rule4">
+    <rect x="650" y="80" width="570" height="265" rx="10" fill="#FFFFFF" stroke="#E74C3C" stroke-width="1.5" filter="url(#cardShadow)"/>
+    <rect x="650" y="80" width="570" height="6" rx="3" fill="#E74C3C"/>
+    <rect x="670" y="100" width="300" height="24" rx="12" fill="#E74C3C" fill-opacity="0.12"/>
+    <text x="820" y="117" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C" font-weight="bold">规则 4: Down + 已观测 → 只允许 Up</text>
+    <!-- DAG: Ability → Partner ← Connections -->
+    <g transform="translate(690, 155)">
+      <circle cx="0" cy="0" r="22" fill="#E74C3C" fill-opacity="0.1" stroke="#E74C3C" stroke-width="2"/>
+      <text x="0" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C" font-weight="bold">X</text>
+      <text x="0" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7F8C8D">业务能力</text>
+      <line x1="22" y1="-10" x2="68" y2="-10" stroke="#E74C3C" stroke-width="2.5"/>
+      <polygon points="68,-10 60,-14 60,-6" fill="#E74C3C"/>
+      <circle cx="90" cy="-10" r="22" fill="#E74C3C" fill-opacity="0.2" stroke="#E74C3C" stroke-width="2"/>
+      <text x="90" y="-4" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C" font-weight="bold">Z</text>
+      <text x="90" y="12" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#E74C3C" font-weight="bold">合伙人(已知)✓</text>
+      <line x1="112" y1="-10" x2="158" y2="-10" stroke="#E74C3C" stroke-width="2.5"/>
+      <polygon points="112,-10 120,-14 120,-6" fill="#E74C3C"/>
+      <circle cx="180" cy="0" r="22" fill="none" stroke="#E74C3C" stroke-width="2"/>
+      <text x="180" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C" font-weight="bold">Y</text>
+      <text x="180" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#7F8C8D">人脉关系</text>
+    </g>
+    <!-- Ball trace -->
+    <g transform="translate(930, 100)">
+      <text x="0" y="16" font-family="Consolas, monospace" font-size="12" fill="#E74C3C" font-weight="bold">球的移动轨迹：</text>
+      <text x="0" y="36" font-family="Consolas, monospace" font-size="11" fill="#2C3E50">Step0: (X, Up) 出发</text>
+      <text x="0" y="54" font-family="Consolas, monospace" font-size="11" fill="#2C3E50">Step1: X未观测 → Rule1</text>
+      <text x="12" y="70" font-family="Consolas, monospace" font-size="11" fill="#27AE60">→ Down到Z: (Z, Down)</text>
+      <text x="0" y="90" font-family="Consolas, monospace" font-size="11" fill="#2C3E50">Step2: Z已观测 → Rule4</text>
+      <text x="12" y="106" font-family="Consolas, monospace" font-size="11" fill="#E74C3C">→ 只允许Up，到Y: (Y, Up)</text>
+      <text x="0" y="130" font-family="Consolas, monospace" font-size="13" fill="#E74C3C" font-weight="bold">球到Y! → return false</text>
+      <text x="0" y="150" font-family="Arial, sans-serif" font-size="12" fill="#E74C3C">对撞陷阱激活! → 报警!</text>
+    </g>
+    <text x="670" y="325" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50"><tspan font-weight="bold" fill="#E74C3C">explaining away</tspan>：知道是合伙人后，能力差→推断靠关系，产生虚假负相关</text>
+    <text x="670" y="342" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Rule4 允许球"探测"到这条通路，是为了让上层引擎发现漏洞并生成 FMEA 拦截报告</text>
+  </g>
+  <!-- Bottom: 6 Cases Summary Table -->
+  <g id="p07-summary">
+    <text x="60" y="375" font-family="Georgia, SimHei, serif" font-size="18" font-weight="bold" fill="#1A3C6E">6 种情况总结</text>
+    <!-- Compact table -->
+    <rect x="60" y="390" width="1160" height="32" rx="5" fill="#1A3C6E"/>
+    <text x="150" y="411" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF">结构</text>
+    <text x="310" y="411" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF">Z 含 M?</text>
+    <text x="440" y="411" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF">判定</text>
+    <text x="590" y="411" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF">对应规则</text>
+    <text x="770" y="411" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF">DAG</text>
+    <text x="1000" y="411" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="#FFFFFF">直觉解释</text>
+    <!-- Row 1 -->
+    <rect x="60" y="425" width="1160" height="38" rx="3" fill="#27AE60" fill-opacity="0.04"/>
+    <text x="150" y="449" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2C3E50" font-weight="bold">Chain</text>
+    <rect x="260" y="433" width="100" height="22" rx="11" fill="#27AE60" fill-opacity="0.12"/>
+    <text x="310" y="449" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">是</text>
+    <rect x="390" y="433" width="100" height="22" rx="11" fill="#27AE60" fill-opacity="0.12"/>
+    <text x="440" y="449" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">阻断 ✓</text>
+    <text x="590" y="449" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#7F8C8D">Rule2</text>
+    <text x="770" y="449" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#2C3E50">X→M→Y M被观测</text>
+    <text x="1000" y="449" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2C3E50">M 被观测，信息传递截断</text>
+    <!-- Row 2 -->
+    <rect x="60" y="466" width="1160" height="38" rx="3" fill="#FFFFFF"/>
+    <text x="150" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2C3E50" font-weight="bold">Chain</text>
+    <rect x="260" y="474" width="100" height="22" rx="11" fill="#E74C3C" fill-opacity="0.12"/>
+    <text x="310" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">否</text>
+    <rect x="390" y="474" width="100" height="22" rx="11" fill="#E74C3C" fill-opacity="0.12"/>
+    <text x="440" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">连通 ✓</text>
+    <text x="590" y="490" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#7F8C8D">Rule3</text>
+    <text x="770" y="490" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#2C3E50">X→M→Y M未观测</text>
+    <text x="1000" y="490" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#27AE60">唯一合法通路（真实因果链）</text>
+    <!-- Row 3 -->
+    <rect x="60" y="507" width="1160" height="38" rx="3" fill="#27AE60" fill-opacity="0.04"/>
+    <text x="150" y="531" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2C3E50" font-weight="bold">Fork</text>
+    <rect x="260" y="515" width="100" height="22" rx="11" fill="#27AE60" fill-opacity="0.12"/>
+    <text x="310" y="531" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">是</text>
+    <rect x="390" y="515" width="100" height="22" rx="11" fill="#27AE60" fill-opacity="0.12"/>
+    <text x="440" y="531" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">阻断 ✓</text>
+    <text x="590" y="531" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#7F8C8D">Rule2</text>
+    <text x="770" y="531" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#2C3E50">X←M→Y M被观测</text>
+    <text x="1000" y="531" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2C3E50">M 被观测，共同原因被控制</text>
+    <!-- Row 4 -->
+    <rect x="60" y="548" width="1160" height="38" rx="3" fill="#FFFFFF"/>
+    <text x="150" y="572" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2C3E50" font-weight="bold">Fork</text>
+    <rect x="260" y="556" width="100" height="22" rx="11" fill="#E74C3C" fill-opacity="0.12"/>
+    <text x="310" y="572" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">否</text>
+    <rect x="390" y="556" width="100" height="22" rx="11" fill="#E74C3C" fill-opacity="0.12"/>
+    <text x="440" y="572" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">连通 ⚠</text>
+    <text x="590" y="572" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#7F8C8D">Rule1</text>
+    <text x="770" y="572" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#2C3E50">X←M→Y M未观测</text>
+    <text x="1000" y="572" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#E74C3C">后门大开：LLM 常见错误</text>
+    <!-- Row 5 -->
+    <rect x="60" y="589" width="1160" height="38" rx="3" fill="#E74C3C" fill-opacity="0.04"/>
+    <text x="150" y="613" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2C3E50" font-weight="bold">Collider</text>
+    <rect x="260" y="597" width="100" height="22" rx="11" fill="#E74C3C" fill-opacity="0.15"/>
+    <text x="310" y="613" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">是</text>
+    <rect x="390" y="597" width="100" height="22" rx="11" fill="#E74C3C" fill-opacity="0.15"/>
+    <text x="440" y="613" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">激活 ⚠</text>
+    <text x="590" y="613" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#7F8C8D">Rule4</text>
+    <text x="770" y="613" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#2C3E50">X→M←Y M被观测</text>
+    <text x="1000" y="613" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#E74C3C" font-weight="bold">致命陷阱：explaining away</text>
+    <!-- Row 6 -->
+    <rect x="60" y="630" width="1160" height="38" rx="3" fill="#FFFFFF"/>
+    <text x="150" y="654" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2C3E50" font-weight="bold">Collider</text>
+    <rect x="260" y="638" width="100" height="22" rx="11" fill="#27AE60" fill-opacity="0.12"/>
+    <text x="310" y="654" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">否</text>
+    <rect x="390" y="638" width="100" height="22" rx="11" fill="#27AE60" fill-opacity="0.12"/>
+    <text x="440" y="654" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">阻断 ✓</text>
+    <text x="590" y="654" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#7F8C8D">—</text>
+    <text x="770" y="654" text-anchor="middle" font-family="Consolas, monospace" font-size="11" fill="#2C3E50">X→M←Y M未观测</text>
+    <text x="1000" y="654" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2C3E50">天然绝缘：不翻垃圾桶就安全</text>
+  </g>
+  <!-- Legend -->
+  <g id="p07-legend">
+    <rect x="60" y="678" width="300" height="24" rx="5" fill="#F5F7FA"/>
+    <circle cx="80" cy="690" r="5" fill="#27AE60" fill-opacity="0.3"/>
+    <text x="92" y="694" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">= 阻断 (安全)</text>
+    <circle cx="190" cy="690" r="5" fill="#E74C3C" fill-opacity="0.3"/>
+    <text x="202" y="694" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">= 连通/激活 (需判断)</text>
+  </g>
+  <g id="p07-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">07</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

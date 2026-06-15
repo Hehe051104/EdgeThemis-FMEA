@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs><filter id="cs" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur in="SourceAlpha" stdDeviation="4"/><feOffset dx="0" dy="2" result="ob"/><feFlood flood-color="#000" flood-opacity="0.06" result="sc"/><feComposite in="sc" in2="ob" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <g id="header"><rect x="60" y="30" width="5" height="32" rx="2" fill="#1A3C6E"/>
+  <text x="78" y="56" font-family="Georgia, SimHei, serif" font-size="28" font-weight="bold" fill="#1A3C6E">Case 6: 对撞+未观测→天然阻断</text>
+  <text x="78" y="76" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">Collider X→M←Y · M NOT observed → Blocked</text>
+  <line x1="60" y1="88" x2="1220" y2="88" stroke="#D5D8DC" stroke-width="1"/></g>
+<g id="stage-indicator" transform="translate(590, 14)">
+<rect x="0" y="0" width="640" height="42" rx="6" fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1"/>
+<circle cx="30" cy="14" r="6" fill="#D5D8DC"/>
+<text x="30" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Input</text>
+<circle cx="110" cy="14" r="6" fill="#D5D8DC"/>
+<text x="110" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Generator</text>
+<circle cx="190" cy="14" r="6" fill="#D5D8DC"/>
+<text x="190" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Interning</text>
+<circle cx="275" cy="14" r="6" fill="#D5D8DC"/>
+<text x="275" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Kahn Cycle</text>
+<circle cx="365" cy="14" r="10" fill="#1A3C6E"/>
+<text x="365" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1A3C6E" font-weight="bold">d-Separation</text>
+<circle cx="450" cy="14" r="6" fill="#D5D8DC"/>
+<text x="450" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">FMEA RPN</text>
+<circle cx="530" cy="14" r="6" fill="#D5D8DC"/>
+<text x="530" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Reflector</text>
+<circle cx="605" cy="14" r="6" fill="#D5D8DC"/>
+<text x="605" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Output</text>
+<line x1="40" y1="14" x2="100" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="120" y1="14" x2="180" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="200" y1="14" x2="265" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="285" y1="14" x2="355" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="375" y1="14" x2="440" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="460" y1="14" x2="520" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="540" y1="14" x2="595" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<rect x="630" y="5" width="60" height="30" rx="4" fill="#FFF" stroke="#D5D8DC" stroke-width="0.5"/>
+<circle cx="640" cy="14" r="3" fill="#E8B931"/><text x="648" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="640" cy="26" r="3" fill="#2E86DE"/><text x="648" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+
+  
+  <g id="dag" transform="translate(80, 120)">
+    <rect x="-10" y="-10" width="400" height="280" rx="10" fill="#FFF" stroke="#D5D8DC" stroke-width="1"/>
+    <text x="190" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#1A3C6E" font-weight="bold">Collider: X→M←Y</text>
+    <line x1="85.7" y1="89.0" x2="174.3" y2="51.0" stroke="#27AE60" stroke-width="3"/>
+    <polygon points="174.3,51.0 161.3,66.4 154.2,49.8" fill="#27AE60" stroke="#FFF" stroke-width="1.5"/>
+    <line x1="314.3" y1="89.0" x2="225.7" y2="51.0" stroke="#27AE60" stroke-width="3"/>
+    <polygon points="225.7,51.0 245.8,49.8 238.7,66.4" fill="#27AE60" stroke="#FFF" stroke-width="1.5"/>
+    <circle cx="60" cy="100" r="26" fill="#FFF" stroke="#27AE60" stroke-width="2.5" stroke-dasharray="5,3"/>
+    <text x="60" y="106" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#27AE60" font-weight="bold">X</text>
+    <circle cx="200" cy="40" r="26" fill="#FFF" stroke="#27AE60" stroke-width="2.5" stroke-dasharray="5,3"/>
+    <text x="200" y="46" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#27AE60" font-weight="bold">M</text>
+    <circle cx="340" cy="100" r="26" fill="#FFF" stroke="#27AE60" stroke-width="2.5" stroke-dasharray="5,3"/>
+    <text x="340" y="106" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#27AE60" font-weight="bold">Y</text>
+  </g>
+  <g id="trace" transform="translate(500, 110)">
+    <rect x="0" y="0" width="320" height="260" rx="10" fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1"/>
+    <text x="160" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#1A3C6E" font-weight="bold">贝叶斯球移动轨迹</text>
+    <line x1="20" y1="38" x2="300" y2="38" stroke="#D5D8DC" stroke-width="1"/>
+    <text x="20" y="60" font-family="Consolas, monospace" font-size="13" fill="#2C3E50">Step0: (X,Up)出发</text>
+<text x="20" y="82" font-family="Consolas, monospace" font-size="13" fill="#2C3E50">Step1: X未观测→Rule1→Down到Z</text>
+<text x="20" y="104" font-family="Consolas, monospace" font-size="13" fill="#2C3E50">Step2: Z未观测→Rule3</text>
+<text x="20" y="126" font-family="Consolas, monospace" font-size="13" fill="#2C3E50">  → 只允许Down，但Z无向下边</text>
+<text x="20" y="148" font-family="Consolas, monospace" font-size="13" fill="#2C3E50">  → 球卡死在Z</text>
+<text x="20" y="170" font-family="Consolas, monospace" font-size="13" fill="#2C3E50"><tspan fill='#27AE60' font-weight='bold'>→ return true (天然阻断，安全)</tspan></text>
+  </g>
+  <g id="verdict" transform="translate(850, 110)">
+    <rect x="0" y="0" width="370" height="90" rx="10" fill="#27AE60" fill-opacity="0.08" stroke="#27AE60" stroke-width="1.5"/>
+    <text x="185" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#27AE60" font-weight="bold">判定: 天然阻断</text>
+    <text x="185" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#27AE60" font-weight="bold">X⊥Y 阻断</text>
+    <text x="185" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Z 状态: M未观测</text>
+  </g>
+  <g id="example" filter="url(#cs)">
+    <rect x="850" y="220" width="370" height="180" rx="10" fill="#FFF"/>
+    <rect x="850" y="220" width="370" height="6" rx="3" fill="#27AE60"/>
+    <text x="870" y="250" font-family="Georgia, SimHei, serif" font-size="16" fill="#27AE60" font-weight="bold">现实案例</text>
+    <text x="870" y="278" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50" font-weight="bold">业务能力→合伙人←人脉关系</text>
+    <text x="870" y="310" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">不知道是否是合伙人(M未观测)</text>
+<text x="870" y="334" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">→ 业务能力和人脉关系</text>
+<text x="870" y="358" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">本来就是两码事，互不影响</text>
+<text x="870" y="382" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">→ 不翻垃圾桶就安全</text>
+  </g>
+  <g id="explanation">
+    <rect x="60" y="420" width="1160" height="250" rx="10" fill="#FFF" stroke="#D5D8DC" stroke-width="1"/>
+    <rect x="60" y="420" width="1160" height="6" rx="3" fill="#1A3C6E"/>
+    <text x="80" y="450" font-family="Georgia, SimHei, serif" font-size="16" fill="#1A3C6E" font-weight="bold">深入理解：球是怎么移动的</text>
+    <text x="80" y="505" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">球从X出发→Down到Z。Z未观测→Rule3：只允许Down。但Z无向下边，球卡死。</text>
+<text x="80" y="531" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">对撞节点'出厂设置'就是天然阻断——不翻垃圾桶，X和Y井水不犯河水。</text>
+<text x="80" y="557" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">Collider的安全模式。LLM正确保持M未观测时，系统不报警。</text>
+  </g>
+  <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">15</text><text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+</svg>

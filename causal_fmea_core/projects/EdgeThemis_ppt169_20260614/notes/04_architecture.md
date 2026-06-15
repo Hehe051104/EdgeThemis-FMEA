@@ -1,0 +1,1 @@
+来看系统架构的完整流水线。文本输入首先经过 LLM 生成器，基于 Qwen 2.5 模型和 JSON Schema 约束提取结构化因果图。然后进入 Rust 形式化验证引擎，同时进行 Kahn 环路检测、Bayesian Ball d-分离验证和 FMEA RPN 风险评估。如果检测到违规，拦截报告反馈给 LLM 重新生成；如果通过验证，交给 Reflector LLM 进行常识判断，最终输出经过验证的因果图和 FMEA 报告。

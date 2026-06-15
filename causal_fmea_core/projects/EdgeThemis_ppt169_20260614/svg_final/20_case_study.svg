@@ -1,0 +1,201 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+      <feOffset dx="0" dy="2" result="offsetblur" />
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor" />
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow" />
+      <feMerge><feMergeNode in="shadow" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="1280" height="720" fill="#FFFFFF" />
+  
+  <g id="p10-header">
+    <path fill="#1A3C6E" d="M62,40 H63 A2,2 0 0 1 65,42 V74 A2,2 0 0 1 63,76 H62 A2,2 0 0 1 60,74 V42 A2,2 0 0 1 62,40 Z" />
+    <text x="78" y="67" font-family="Georgia, SimHei, serif" font-size="34" font-weight="bold" fill="#1A3C6E">案例对比</text>
+    <text x="280" y="67" font-family="Arial, sans-serif" font-size="16" fill="#7F8C8D">：自反思闭环前后的因果图质量差异</text>
+    <text x="78" y="90" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D" letter-spacing="0.5">Case Study: Before vs After Self-Reflection</text>
+    <line x1="60" y1="104" x2="1220" y2="104" stroke="#D5D8DC" stroke-width="1" />
+  </g>
+<g id="stage-indicator" transform="translate(590, 14)">
+<path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M6,0 H634 A6,6 0 0 1 640,6 V36 A6,6 0 0 1 634,42 H6 A6,6 0 0 1 0,36 V6 A6,6 0 0 1 6,0 Z" />
+<circle cx="30" cy="14" r="6" fill="#D5D8DC" />
+<text x="30" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Input</text>
+<circle cx="110" cy="14" r="6" fill="#D5D8DC" />
+<text x="110" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Generator</text>
+<circle cx="190" cy="14" r="6" fill="#D5D8DC" />
+<text x="190" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Interning</text>
+<circle cx="275" cy="14" r="6" fill="#D5D8DC" />
+<text x="275" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Kahn Cycle</text>
+<circle cx="365" cy="14" r="6" fill="#D5D8DC" />
+<text x="365" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">d-Separation</text>
+<circle cx="450" cy="14" r="6" fill="#D5D8DC" />
+<text x="450" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">FMEA RPN</text>
+<circle cx="530" cy="14" r="6" fill="#D5D8DC" />
+<text x="530" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Reflector</text>
+<circle cx="605" cy="14" r="10" fill="#27AE60" />
+<text x="605" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27AE60" font-weight="bold">Output</text>
+<line x1="40" y1="14" x2="100" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="120" y1="14" x2="180" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="200" y1="14" x2="265" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="285" y1="14" x2="355" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="375" y1="14" x2="440" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="460" y1="14" x2="520" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="540" y1="14" x2="595" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<path fill="#FFF" stroke="#D5D8DC" stroke-width="0.5" d="M634,5 H686 A4,4 0 0 1 690,9 V31 A4,4 0 0 1 686,35 H634 A4,4 0 0 1 630,31 V9 A4,4 0 0 1 634,5 Z" />
+<circle cx="640" cy="14" r="3" fill="#E8B931" /><text x="648" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="640" cy="26" r="3" fill="#2E86DE" /><text x="648" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+
+
+
+  
+  <g id="p10-before">
+    <path fill="#FFFFFF" stroke="#E74C3C" stroke-width="2" filter="url(#cardShadow)" d="M72,120 H588 A12,12 0 0 1 600,132 V628 A12,12 0 0 1 588,640 H72 A12,12 0 0 1 60,628 V132 A12,12 0 0 1 72,120 Z" />
+    
+    <path fill="#E74C3C" d="M72,120 H588 A12,12 0 0 1 600,132 V153 A12,12 0 0 1 588,165 H72 A12,12 0 0 1 60,153 V132 A12,12 0 0 1 72,120 Z" />
+    <rect x="60" y="145" width="540" height="20" fill="#E74C3C" />
+    <text x="330" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#FFFFFF">Before — Config A (纯 LLM)</text>
+    
+    <g transform="translate(140, 270)">
+      
+      <circle cx="0" cy="0" r="28" fill="none" stroke="#E74C3C" stroke-width="2.5" />
+      <text x="0" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#E74C3C" font-weight="bold">A</text>
+      
+      <line x1="28" y1="-14" x2="92" y2="-54" stroke="#E74C3C" stroke-width="2.5" />
+      <polygon points="92,-54 82,-48 86,-58" fill="#E74C3C" />
+      
+      <circle cx="120" cy="-60" r="28" fill="none" stroke="#E74C3C" stroke-width="2.5" />
+      <text x="120" y="-54" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#E74C3C" font-weight="bold">B</text>
+      
+      <line x1="148" y1="-46" x2="212" y2="14" stroke="#E74C3C" stroke-width="2.5" />
+      <polygon points="212,14 204,8 210,20" fill="#E74C3C" />
+      
+      <circle cx="240" cy="0" r="28" fill="none" stroke="#E74C3C" stroke-width="2.5" />
+      <text x="240" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#E74C3C" font-weight="bold">C</text>
+      
+      <line x1="240" y1="28" x2="240" y2="82" stroke="#E74C3C" stroke-width="2" />
+      <polygon points="240,82 234,72 246,72" fill="#E74C3C" />
+      
+      <circle cx="240" cy="110" r="28" fill="none" stroke="#E74C3C" stroke-width="2.5" />
+      <text x="240" y="116" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#E74C3C" font-weight="bold">D</text>
+      
+      <path d="M 212,100 Q 100,130 20,20" fill="none" stroke="#E74C3C" stroke-width="3" stroke-dasharray="8,4" />
+      <polygon points="22,18 14,28 28,26" fill="#E74C3C" />
+      
+      <path fill="#E74C3C" d="M94,65 H146 A14,14 0 0 1 160,79 V79 A14,14 0 0 1 146,93 H94 A14,14 0 0 1 80,79 V79 A14,14 0 0 1 94,65 Z" />
+      <text x="120" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" font-weight="bold">环路!</text>
+    </g>
+    
+    <g transform="translate(90, 430)">
+      
+  <g transform="translate(0.0, 0.0) scale(0.8333333333333334)" fill="none" stroke="#E74C3C" stroke-width="2">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </g>
+      <text x="28" y="16" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C">存在环路 D→A，违反 DAG 约束</text>
+      
+  <g transform="translate(0.0, 32.0) scale(0.8333333333333334)" fill="none" stroke="#E74C3C" stroke-width="2">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </g>
+      <text x="28" y="48" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C">未进行 d-分离验证</text>
+      
+  <g transform="translate(0.0, 64.0) scale(0.8333333333333334)" fill="none" stroke="#E74C3C" stroke-width="2">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </g>
+      <text x="28" y="80" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C">无 FMEA 风险标注</text>
+      
+  <g transform="translate(0.0, 96.0) scale(0.8333333333333334)" fill="none" stroke="#E74C3C" stroke-width="2">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </g>
+      <text x="28" y="112" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C">无自纠错能力</text>
+    </g>
+  </g>
+  
+  <g id="p10-arrow">
+    <path fill="#1A3C6E" fill-opacity="0.1" d="M640,320 H640 A30,30 0 0 1 670,350 V370 A30,30 0 0 1 640,400 H640 A30,30 0 0 1 610,370 V350 A30,30 0 0 1 640,320 Z" />
+    <text x="640" y="355" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#1A3C60" font-weight="bold">→</text>
+    <text x="640" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1A3C6E">3 轮</text>
+    <text x="640" y="400" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1A3C6E">反思</text>
+  </g>
+  
+  <g id="p10-after">
+    <path fill="#FFFFFF" stroke="#27AE60" stroke-width="2" filter="url(#cardShadow)" d="M692,120 H1208 A12,12 0 0 1 1220,132 V628 A12,12 0 0 1 1208,640 H692 A12,12 0 0 1 680,628 V132 A12,12 0 0 1 692,120 Z" />
+    
+    <path fill="#27AE60" d="M692,120 H1208 A12,12 0 0 1 1220,132 V153 A12,12 0 0 1 1208,165 H692 A12,12 0 0 1 680,153 V132 A12,12 0 0 1 692,120 Z" />
+    <rect x="680" y="145" width="540" height="20" fill="#27AE60" />
+    <text x="950" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#FFFFFF">After — Config C (完整 EdgeThemis)</text>
+    
+    <g transform="translate(740, 270)">
+      
+      <circle cx="0" cy="0" r="28" fill="none" stroke="#27AE60" stroke-width="2.5" />
+      <text x="0" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#27AE60" font-weight="bold">A</text>
+      
+      <line x1="28" y1="-14" x2="92" y2="-54" stroke="#27AE60" stroke-width="2.5" />
+      <polygon points="92,-54 82,-48 86,-58" fill="#27AE60" />
+      
+      <path fill="#E74C3C" fill-opacity="0.15" d="M34,-50 H81 A4,4 0 0 1 85,-46 V-36 A4,4 0 0 1 81,-32 H34 A4,4 0 0 1 30,-36 V-46 A4,4 0 0 1 34,-50 Z" />
+      <text x="58" y="-37" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#E74C3C">RPN 850</text>
+      
+      <circle cx="120" cy="-60" r="28" fill="none" stroke="#27AE60" stroke-width="2.5" />
+      <text x="120" y="-54" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#27AE60" font-weight="bold">B</text>
+      
+      <line x1="148" y1="-46" x2="212" y2="14" stroke="#27AE60" stroke-width="2.5" />
+      <polygon points="212,14 204,8 210,20" fill="#27AE60" />
+      
+      <path fill="#E8B931" fill-opacity="0.15" d="M159,-28 H206 A4,4 0 0 1 210,-24 V-14 A4,4 0 0 1 206,-10 H159 A4,4 0 0 1 155,-14 V-24 A4,4 0 0 1 159,-28 Z" />
+      <text x="182" y="-15" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#E8B931">RPN 420</text>
+      
+      <circle cx="240" cy="0" r="28" fill="none" stroke="#27AE60" stroke-width="2.5" />
+      <text x="240" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#27AE60" font-weight="bold">C</text>
+      
+      <line x1="240" y1="28" x2="240" y2="82" stroke="#27AE60" stroke-width="2.5" />
+      <polygon points="240,82 234,72 246,72" fill="#27AE60" />
+      
+      <circle cx="240" cy="110" r="28" fill="none" stroke="#27AE60" stroke-width="2.5" />
+      <text x="240" y="116" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#27AE60" font-weight="bold">D</text>
+      
+      <line x1="0" y1="28" x2="0" y2="82" stroke="#27AE60" stroke-width="2.5" />
+      <polygon points="0,82 -6,72 6,72" fill="#27AE60" />
+      
+      <path fill="#27AE60" fill-opacity="0.15" d="M-31,40 H16 A4,4 0 0 1 20,44 V54 A4,4 0 0 1 16,58 H-31 A4,4 0 0 1 -35,54 V44 A4,4 0 0 1 -31,40 Z" />
+      <text x="-8" y="53" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#27AE60">RPN 210</text>
+    </g>
+    
+    <g transform="translate(710, 430)">
+      
+  <g transform="translate(0.0, 0.0) scale(0.8333333333333334)" fill="none" stroke="#27AE60" stroke-width="2">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M9 12l2 2l4 -4" />
+  </g>
+      <text x="28" y="16" font-family="Arial, sans-serif" font-size="14" fill="#27AE60">环路消除，DAG 合法性通过</text>
+      
+  <g transform="translate(0.0, 32.0) scale(0.8333333333333334)" fill="none" stroke="#27AE60" stroke-width="2">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M9 12l2 2l4 -4" />
+  </g>
+      <text x="28" y="48" font-family="Arial, sans-serif" font-size="14" fill="#27AE60">d-分离一致性验证通过</text>
+      
+  <g transform="translate(0.0, 64.0) scale(0.8333333333333334)" fill="none" stroke="#27AE60" stroke-width="2">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M9 12l2 2l4 -4" />
+  </g>
+      <text x="28" y="80" font-family="Arial, sans-serif" font-size="14" fill="#27AE60">每条边标注 FMEA RPN 风险值</text>
+      
+  <g transform="translate(0.0, 96.0) scale(0.8333333333333334)" fill="none" stroke="#27AE60" stroke-width="2">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M9 12l2 2l4 -4" />
+  </g>
+      <text x="28" y="112" font-family="Arial, sans-serif" font-size="14" fill="#27AE60">高风险边自动告警 (RPN &gt; 500)</text>
+    </g>
+  </g>
+  
+  <g id="p10-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">12</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

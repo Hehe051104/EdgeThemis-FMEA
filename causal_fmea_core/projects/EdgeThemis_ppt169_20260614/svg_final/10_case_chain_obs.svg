@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs><filter id="cs" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur in="SourceAlpha" stdDeviation="4" /><feOffset dx="0" dy="2" result="ob" /><feFlood flood-color="#000" flood-opacity="0.06" result="sc" /><feComposite in="sc" in2="ob" operator="in" result="s" /><feMerge><feMergeNode in="s" /><feMergeNode in="SourceGraphic" /></feMerge></filter></defs>
+  <rect width="1280" height="720" fill="#FFFFFF" />
+  <g id="header"><path fill="#1A3C6E" d="M62,30 H63 A2,2 0 0 1 65,32 V60 A2,2 0 0 1 63,62 H62 A2,2 0 0 1 60,60 V32 A2,2 0 0 1 62,30 Z" />
+  <text x="78" y="56" font-family="Georgia, SimHei, serif" font-size="28" font-weight="bold" fill="#1A3C6E">Case 1: 链式+已观测→阻断</text>
+  <text x="78" y="76" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">Chain X→M→Y · M observed → Blocked</text>
+  <line x1="60" y1="88" x2="1220" y2="88" stroke="#D5D8DC" stroke-width="1" /></g>
+<g id="stage-indicator" transform="translate(590, 14)">
+<path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M6,0 H634 A6,6 0 0 1 640,6 V36 A6,6 0 0 1 634,42 H6 A6,6 0 0 1 0,36 V6 A6,6 0 0 1 6,0 Z" />
+<circle cx="30" cy="14" r="6" fill="#D5D8DC" />
+<text x="30" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Input</text>
+<circle cx="110" cy="14" r="6" fill="#D5D8DC" />
+<text x="110" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Generator</text>
+<circle cx="190" cy="14" r="6" fill="#D5D8DC" />
+<text x="190" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Interning</text>
+<circle cx="275" cy="14" r="6" fill="#D5D8DC" />
+<text x="275" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Kahn Cycle</text>
+<circle cx="365" cy="14" r="10" fill="#1A3C6E" />
+<text x="365" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#1A3C6E" font-weight="bold">d-Separation</text>
+<circle cx="450" cy="14" r="6" fill="#D5D8DC" />
+<text x="450" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">FMEA RPN</text>
+<circle cx="530" cy="14" r="6" fill="#D5D8DC" />
+<text x="530" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Reflector</text>
+<circle cx="605" cy="14" r="6" fill="#D5D8DC" />
+<text x="605" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Output</text>
+<line x1="40" y1="14" x2="100" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="120" y1="14" x2="180" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="200" y1="14" x2="265" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="285" y1="14" x2="355" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="375" y1="14" x2="440" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="460" y1="14" x2="520" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="540" y1="14" x2="595" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<path fill="#FFF" stroke="#D5D8DC" stroke-width="0.5" d="M634,5 H686 A4,4 0 0 1 690,9 V31 A4,4 0 0 1 686,35 H634 A4,4 0 0 1 630,31 V9 A4,4 0 0 1 634,5 Z" />
+<circle cx="640" cy="14" r="3" fill="#E8B931" /><text x="648" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="640" cy="26" r="3" fill="#2E86DE" /><text x="648" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+
+  
+  <g id="dag" transform="translate(80, 120)">
+    <path fill="#FFF" stroke="#D5D8DC" stroke-width="1" d="M0,-10 H380 A10,10 0 0 1 390,0 V260 A10,10 0 0 1 380,270 H0 A10,10 0 0 1 -10,260 V0 A10,10 0 0 1 0,-10 Z" />
+    <text x="190" y="20" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#1A3C6E" font-weight="bold">Chain: X→M→Y</text>
+    <line x1="85.7" y1="89.0" x2="174.3" y2="51.0" stroke="#27AE60" stroke-width="3" />
+    <polygon points="174.3,51.0 161.3,66.4 154.2,49.8" fill="#27AE60" stroke="#FFF" stroke-width="1.5" />
+    <line x1="225.7" y1="51.0" x2="314.3" y2="89.0" stroke="#27AE60" stroke-width="3" />
+    <polygon points="314.3,89.0 294.2,90.2 301.3,73.6" fill="#27AE60" stroke="#FFF" stroke-width="1.5" />
+    <circle cx="60" cy="100" r="26" fill="#FFF" stroke="#27AE60" stroke-width="2.5" stroke-dasharray="5,3" />
+    <text x="60" y="106" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#27AE60" font-weight="bold">X</text>
+    <circle cx="200" cy="40" r="26" fill="#27AE60" fill-opacity="0.15" stroke="#27AE60" stroke-width="2.5" />
+    <text x="200" y="46" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#27AE60" font-weight="bold">M</text>
+    <text x="200" y="68" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27AE60" font-weight="bold">已观测 ✓</text>
+    <circle cx="340" cy="100" r="26" fill="#FFF" stroke="#27AE60" stroke-width="2.5" stroke-dasharray="5,3" />
+    <text x="340" y="106" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#27AE60" font-weight="bold">Y</text>
+  </g>
+  <g id="trace" transform="translate(500, 110)">
+    <path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M10,0 H310 A10,10 0 0 1 320,10 V250 A10,10 0 0 1 310,260 H10 A10,10 0 0 1 0,250 V10 A10,10 0 0 1 10,0 Z" />
+    <text x="160" y="28" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#1A3C6E" font-weight="bold">贝叶斯球移动轨迹</text>
+    <line x1="20" y1="38" x2="300" y2="38" stroke="#D5D8DC" stroke-width="1" />
+    <text x="20" y="60" font-family="Consolas, monospace" font-size="13" fill="#2C3E50">Step0: (X,Up)出发</text>
+<text x="20" y="82" font-family="Consolas, monospace" font-size="13" fill="#2C3E50">Step1: X未观测→Rule1→Up到M</text>
+<text x="20" y="104" font-family="Consolas, monospace" font-size="13" fill="#2C3E50">Step2: M已观测→Rule2</text>
+<text x="20" y="126" font-family="Consolas, monospace" font-size="13" fill="#2C3E50">  → 两个方向都阻断!</text>
+<text x="20" y="148" font-family="Consolas, monospace" font-size="13" fill="#2C3E50">  → 球卡死在M</text>
+<text x="20" y="170" font-family="Consolas, monospace" font-size="13" fill="#2C3E50"><tspan fill="#27AE60" font-weight="bold">→ return true (安全)</tspan></text>
+  </g>
+  <g id="verdict" transform="translate(850, 110)">
+    <path fill="#27AE60" fill-opacity="0.08" stroke="#27AE60" stroke-width="1.5" d="M10,0 H360 A10,10 0 0 1 370,10 V80 A10,10 0 0 1 360,90 H10 A10,10 0 0 1 0,80 V10 A10,10 0 0 1 10,0 Z" />
+    <text x="185" y="30" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#27AE60" font-weight="bold">判定: 规则2</text>
+    <text x="185" y="60" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#27AE60" font-weight="bold">X⊥Y 阻断</text>
+    <text x="185" y="82" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Z 状态: M已观测</text>
+  </g>
+  <g id="example" filter="url(#cs)">
+    <path fill="#FFF" d="M860,220 H1210 A10,10 0 0 1 1220,230 V390 A10,10 0 0 1 1210,400 H860 A10,10 0 0 1 850,390 V230 A10,10 0 0 1 860,220 Z" />
+    <path fill="#27AE60" d="M853,220 H1217 A3,3 0 0 1 1220,223 V223 A3,3 0 0 1 1217,226 H853 A3,3 0 0 1 850,223 V223 A3,3 0 0 1 853,220 Z" />
+    <text x="870" y="250" font-family="Georgia, SimHei, serif" font-size="16" fill="#27AE60" font-weight="bold">现实案例</text>
+    <text x="870" y="278" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50" font-weight="bold">药物→血压降低→头晕缓解</text>
+    <text x="870" y="310" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">已知血压确实降低了(M被观测)</text>
+<text x="870" y="334" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">→ 在'血压已降'前提下</text>
+<text x="870" y="358" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">用药(X)对头晕缓解(Y)无额外预测力</text>
+<text x="870" y="382" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">→ 路径被阻断</text>
+  </g>
+  <g id="explanation">
+    <path fill="#FFF" stroke="#D5D8DC" stroke-width="1" d="M70,420 H1210 A10,10 0 0 1 1220,430 V660 A10,10 0 0 1 1210,670 H70 A10,10 0 0 1 60,660 V430 A10,10 0 0 1 70,420 Z" />
+    <path fill="#1A3C6E" d="M63,420 H1217 A3,3 0 0 1 1220,423 V423 A3,3 0 0 1 1217,426 H63 A3,3 0 0 1 60,423 V423 A3,3 0 0 1 63,420 Z" />
+    <text x="80" y="450" font-family="Georgia, SimHei, serif" font-size="16" fill="#1A3C6E" font-weight="bold">深入理解：球是怎么移动的</text>
+    <text x="80" y="505" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">球从X出发→Up到M。M已观测→Rule2触发：两个方向都阻断。球卡死在M。</text>
+<text x="80" y="531" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">一旦知道中介M，起点X就无法给终点Y额外信息。</text>
+<text x="80" y="557" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">Chain的'安全模式'——中介被控制后，因果传导链被截断。</text>
+  </g>
+  <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">10</text><text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+</svg>

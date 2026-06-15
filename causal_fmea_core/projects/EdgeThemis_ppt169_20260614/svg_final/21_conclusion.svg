@@ -1,0 +1,160 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+      <feOffset dx="0" dy="2" result="offsetblur" />
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor" />
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow" />
+      <feMerge><feMergeNode in="shadow" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="1280" height="720" fill="#FFFFFF" />
+  
+  <g id="p11-header">
+    <path fill="#1A3C6E" d="M62,40 H63 A2,2 0 0 1 65,42 V74 A2,2 0 0 1 63,76 H62 A2,2 0 0 1 60,74 V42 A2,2 0 0 1 62,40 Z" />
+    <text x="78" y="67" font-family="Georgia, SimHei, serif" font-size="36" font-weight="bold" fill="#1A3C6E">结论与展望</text>
+    <text x="320" y="67" font-family="Arial, sans-serif" font-size="18" fill="#7F8C8D">Conclusion &amp; Future Work</text>
+    <line x1="60" y1="90" x2="1220" y2="90" stroke="#D5D8DC" stroke-width="1" />
+  </g>
+<g id="stage-indicator" transform="translate(590, 14)">
+<path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M6,0 H634 A6,6 0 0 1 640,6 V36 A6,6 0 0 1 634,42 H6 A6,6 0 0 1 0,36 V6 A6,6 0 0 1 6,0 Z" />
+<circle cx="30" cy="14" r="6" fill="#D5D8DC" />
+<text x="30" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Input</text>
+<circle cx="110" cy="14" r="6" fill="#D5D8DC" />
+<text x="110" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Generator</text>
+<circle cx="190" cy="14" r="6" fill="#D5D8DC" />
+<text x="190" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Interning</text>
+<circle cx="275" cy="14" r="6" fill="#D5D8DC" />
+<text x="275" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Kahn Cycle</text>
+<circle cx="365" cy="14" r="6" fill="#D5D8DC" />
+<text x="365" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">d-Separation</text>
+<circle cx="450" cy="14" r="6" fill="#D5D8DC" />
+<text x="450" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">FMEA RPN</text>
+<circle cx="530" cy="14" r="6" fill="#D5D8DC" />
+<text x="530" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Reflector</text>
+<circle cx="605" cy="14" r="10" fill="#27AE60" />
+<text x="605" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27AE60" font-weight="bold">Output</text>
+<line x1="40" y1="14" x2="100" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="120" y1="14" x2="180" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="200" y1="14" x2="265" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="285" y1="14" x2="355" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="375" y1="14" x2="440" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="460" y1="14" x2="520" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="540" y1="14" x2="595" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<path fill="#FFF" stroke="#D5D8DC" stroke-width="0.5" d="M634,5 H686 A4,4 0 0 1 690,9 V31 A4,4 0 0 1 686,35 H634 A4,4 0 0 1 630,31 V9 A4,4 0 0 1 634,5 Z" />
+<circle cx="640" cy="14" r="3" fill="#E8B931" /><text x="648" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="640" cy="26" r="3" fill="#2E86DE" /><text x="648" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+
+
+
+  
+  <g id="p11-conclusions">
+    <text x="60" y="130" font-family="Georgia, SimHei, serif" font-size="22" font-weight="bold" fill="#1A3C6E">结论</text>
+    <line x1="60" y1="142" x2="150" y2="142" stroke="#2E86DE" stroke-width="2" />
+    
+    <line x1="100" y1="170" x2="100" y2="580" stroke="#1A3C6E" stroke-width="3" stroke-opacity="0.15" />
+    
+    <g id="c1">
+      <circle cx="100" cy="200" r="24" fill="#1A3C6E" fill-opacity="0.12" />
+      <circle cx="100" cy="200" r="16" fill="#1A3C6E" />
+      <text x="100" y="206" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold">1</text>
+      <line x1="124" y1="200" x2="155" y2="200" stroke="#1A3C6E" stroke-width="2" stroke-dasharray="4,3" />
+      <g filter="url(#cardShadow)">
+        <path fill="#FFFFFF" d="M165,165 H605 A10,10 0 0 1 615,175 V245 A10,10 0 0 1 605,255 H165 A10,10 0 0 1 155,245 V175 A10,10 0 0 1 165,165 Z" />
+        <path fill="#1A3C6E" d="M157.50,165 H157.50 A2.50,3 0 0 1 160,168 V252 A2.50,3 0 0 1 157.50,255 H157.50 A2.50,3 0 0 1 155,252 V168 A2.50,3 0 0 1 157.50,165 Z" />
+      </g>
+      <text x="175" y="195" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">首次将 FMEA 工业风险评估</text>
+      <text x="175" y="218" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">与 LLM 因果推理结合</text>
+      <text x="175" y="243" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">实现因果边级别的风险量化（S/O/D → RPN）</text>
+    </g>
+    
+    <g id="c2">
+      <circle cx="100" cy="330" r="24" fill="#2E86DE" fill-opacity="0.12" />
+      <circle cx="100" cy="330" r="16" fill="#2E86DE" />
+      <text x="100" y="336" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold">2</text>
+      <line x1="124" y1="330" x2="155" y2="330" stroke="#2E86DE" stroke-width="2" stroke-dasharray="4,3" />
+      <g filter="url(#cardShadow)">
+        <path fill="#FFFFFF" d="M165,295 H605 A10,10 0 0 1 615,305 V375 A10,10 0 0 1 605,385 H165 A10,10 0 0 1 155,375 V305 A10,10 0 0 1 165,295 Z" />
+        <path fill="#2E86DE" d="M157.50,295 H157.50 A2.50,3 0 0 1 160,298 V382 A2.50,3 0 0 1 157.50,385 H157.50 A2.50,3 0 0 1 155,382 V298 A2.50,3 0 0 1 157.50,295 Z" />
+      </g>
+      <text x="175" y="325" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">Bayesian Ball d-分离 + Kahn 环路检测</text>
+      <text x="175" y="348" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">实现轻量级形式化验证</text>
+      <text x="175" y="373" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">O(V+E) 复杂度，Rust FFI 零拷贝调用</text>
+    </g>
+    
+    <g id="c3">
+      <circle cx="100" cy="460" r="24" fill="#E8B931" fill-opacity="0.12" />
+      <circle cx="100" cy="460" r="16" fill="#E8B931" />
+      <text x="100" y="466" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold">3</text>
+      <line x1="124" y1="460" x2="155" y2="460" stroke="#E8B931" stroke-width="2" stroke-dasharray="4,3" />
+      <g filter="url(#cardShadow)">
+        <path fill="#FFFFFF" d="M165,425 H605 A10,10 0 0 1 615,435 V505 A10,10 0 0 1 605,515 H165 A10,10 0 0 1 155,505 V435 A10,10 0 0 1 165,425 Z" />
+        <path fill="#E8B931" d="M157.50,425 H157.50 A2.50,3 0 0 1 160,428 V512 A2.50,3 0 0 1 157.50,515 H157.50 A2.50,3 0 0 1 155,512 V428 A2.50,3 0 0 1 157.50,425 Z" />
+      </g>
+      <text x="175" y="455" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">自反思闭环显著提升因果图逻辑一致性</text>
+      <text x="175" y="478" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">3 轮内修正率 &gt; 90%</text>
+      <text x="175" y="503" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">熔断机制保障系统稳定性</text>
+    </g>
+  </g>
+  
+  <line x1="640" y1="120" x2="640" y2="600" stroke="#D5D8DC" stroke-width="1" stroke-dasharray="6,4" />
+  
+  <g id="p11-future">
+    <text x="680" y="130" font-family="Georgia, SimHei, serif" font-size="22" font-weight="bold" fill="#7F8C8D">Future Work</text>
+    <line x1="680" y1="142" x2="830" y2="142" stroke="#D5D8DC" stroke-width="2" />
+    
+    <g id="f1" filter="url(#cardShadow)">
+      <path fill="#F5F7FA" d="M690,170 H1210 A10,10 0 0 1 1220,180 V270 A10,10 0 0 1 1210,280 H690 A10,10 0 0 1 680,270 V180 A10,10 0 0 1 690,170 Z" />
+      <path fill="#2E86DE" d="M682.50,170 H682.50 A2.50,3 0 0 1 685,173 V277 A2.50,3 0 0 1 682.50,280 H682.50 A2.50,3 0 0 1 680,277 V173 A2.50,3 0 0 1 682.50,170 Z" />
+      
+  <g transform="translate(700.0, 190.0) scale(1.1666666666666667)" fill="none" stroke="#2E86DE" stroke-width="2">
+    <path d="M5.931 6.936l1.275 4.249m5.607 5.609l4.251 1.275" />
+    <path d="M11.683 12.317l5.759 -5.759" />
+    <path d="M4 5.5a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" />
+    <path d="M17 5.5a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" />
+    <path d="M17 18.5a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" />
+    <path d="M4 15.5a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0 -9 0" />
+  </g>
+      <text x="740" y="210" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">扩展至更大规模因果图</text>
+      <text x="700" y="240" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">百节点级图结构，优化 Bayesian Ball 搜索效率</text>
+      <text x="700" y="262" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">支持分层 d-分离和增量验证</text>
+    </g>
+    
+    <g id="f2" filter="url(#cardShadow)">
+      <path fill="#F5F7FA" d="M690,300 H1210 A10,10 0 0 1 1220,310 V400 A10,10 0 0 1 1210,410 H690 A10,10 0 0 1 680,400 V310 A10,10 0 0 1 690,300 Z" />
+      <path fill="#27AE60" d="M682.50,300 H682.50 A2.50,3 0 0 1 685,303 V407 A2.50,3 0 0 1 682.50,410 H682.50 A2.50,3 0 0 1 680,407 V303 A2.50,3 0 0 1 682.50,300 Z" />
+      
+  <g transform="translate(700.0, 320.0) scale(1.1666666666666667)" fill="none" stroke="#27AE60" stroke-width="2">
+    <path d="M15.5 13a3.5 3.5 0 0 0 -3.5 3.5v1a3.5 3.5 0 0 0 7 0v-1.8" />
+    <path d="M8.5 13a3.5 3.5 0 0 1 3.5 3.5v1a3.5 3.5 0 0 1 -7 0v-1.8" />
+    <path d="M17.5 16a3.5 3.5 0 0 0 0 -7h-.5" />
+    <path d="M19 9.3v-2.8a3.5 3.5 0 0 0 -7 0" />
+    <path d="M6.5 16a3.5 3.5 0 0 1 0 -7h.5" />
+    <path d="M5 9.3v-2.8a3.5 3.5 0 0 1 7 0v10" />
+  </g>
+      <text x="740" y="340" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">引入 Human-in-the-loop</text>
+      <text x="700" y="370" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">领域专家审核高风险因果边</text>
+      <text x="700" y="392" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">结合人类反馈优化 FMEA 评分校准</text>
+    </g>
+    
+    <g id="f3" filter="url(#cardShadow)">
+      <path fill="#F5F7FA" d="M690,430 H1210 A10,10 0 0 1 1220,440 V530 A10,10 0 0 1 1210,540 H690 A10,10 0 0 1 680,530 V440 A10,10 0 0 1 690,430 Z" />
+      <path fill="#E8B931" d="M682.50,430 H682.50 A2.50,3 0 0 1 685,433 V537 A2.50,3 0 0 1 682.50,540 H682.50 A2.50,3 0 0 1 680,537 V433 A2.50,3 0 0 1 682.50,430 Z" />
+      
+  <g transform="translate(700.0, 450.0) scale(1.1666666666666667)" fill="none" stroke="#E8B931" stroke-width="2">
+    <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+    <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+  </g>
+      <text x="740" y="470" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">支持时序因果推理</text>
+      <text x="700" y="500" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">动态图更新，支持时间窗口内的因果发现</text>
+      <text x="700" y="522" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">融合 Granger causality 和结构因果模型</text>
+    </g>
+  </g>
+  
+  <g id="p11-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">13</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

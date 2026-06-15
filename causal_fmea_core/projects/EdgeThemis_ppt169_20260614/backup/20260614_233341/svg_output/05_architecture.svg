@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.08" result="shadowColor"/>
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2E86DE"/>
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#E8B931"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#7F8C8D"/>
+    </marker>
+  </defs>
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <!-- Header -->
+  <g id="p04-header">
+    <rect x="60" y="40" width="5" height="36" rx="2" fill="#1A3C6E"/>
+    <text x="78" y="67" font-family="Georgia, SimHei, serif" font-size="36" font-weight="bold" fill="#1A3C6E">系统架构</text>
+    <text x="290" y="67" font-family="Arial, sans-serif" font-size="18" fill="#7F8C8D">：从文本到验证因果图的完整流水线</text>
+    <text x="78" y="92" font-family="Arial, sans-serif" font-size="15" fill="#7F8C8D" letter-spacing="0.5">System Architecture: From Text to Verified Causal Graph</text>
+    <line x1="60" y1="108" x2="1220" y2="108" stroke="#D5D8DC" stroke-width="1"/>
+  </g>
+  <!-- Layer labels -->
+  <g id="p04-layers">
+    <rect x="60" y="130" width="80" height="24" rx="12" fill="#E8B931" fill-opacity="0.2"/>
+    <text x="100" y="147" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#E8B931" font-weight="bold">Python</text>
+    <rect x="560" y="130" width="60" height="24" rx="12" fill="#2E86DE" fill-opacity="0.2"/>
+    <text x="590" y="147" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2E86DE" font-weight="bold">Rust</text>
+  </g>
+  <!-- Main flow arrows (horizontal) -->
+  <g id="p04-arrows">
+    <!-- Input → LLM -->
+    <line x1="230" y1="250" x2="285" y2="250" stroke="#2E86DE" stroke-width="3" marker-end="url(#arrowBlue)"/>
+    <!-- LLM → Rust Engine -->
+    <line x1="500" y1="250" x2="575" y2="250" stroke="#2E86DE" stroke-width="3" marker-end="url(#arrowBlue)"/>
+    <!-- Rust → Decision -->
+    <line x1="810" y1="250" x2="865" y2="250" stroke="#2E86DE" stroke-width="3" marker-end="url(#arrowBlue)"/>
+    <!-- Decision → Reflector (No) -->
+    <line x1="960" y1="290" x2="960" y2="375" stroke="#27AE60" stroke-width="3" marker-end="url(#arrowBlue)"/>
+    <rect x="940" y="310" width="40" height="22" rx="4" fill="#FFFFFF"/>
+    <text x="960" y="326" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60" font-weight="bold">No</text>
+    <!-- Reflector → Output -->
+    <line x1="1060" y1="400" x2="1105" y2="400" stroke="#2E86DE" stroke-width="3" marker-end="url(#arrowBlue)"/>
+    <!-- Decision → Feedback loop (Yes) -->
+    <line x1="910" y1="210" x2="910" y2="170" stroke="#E8B931" stroke-width="3"/>
+    <path d="M 910,170 L 390,170 L 390,210" fill="none" stroke="#E8B931" stroke-width="3" stroke-dasharray="8,4" marker-end="url(#arrowOrange)"/>
+    <rect x="620" y="148" width="40" height="22" rx="4" fill="#FFFFFF"/>
+    <text x="640" y="164" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E8B931" font-weight="bold">Yes</text>
+  </g>
+  <!-- Stage 1: Input Text -->
+  <g id="stage-input">
+    <rect x="60" y="210" width="170" height="80" rx="40" fill="#1A3C6E" filter="url(#cardShadow)"/>
+    <text x="145" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF">Input</text>
+    <text x="145" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.8">自然语言文本</text>
+  </g>
+  <!-- Stage 2: LLM Generator -->
+  <g id="stage-llm">
+    <rect x="290" y="200" width="210" height="100" rx="10" fill="#E8B931" filter="url(#cardShadow)"/>
+    <rect x="290" y="200" width="210" height="6" rx="3" fill="#D4A017"/>
+    <text x="395" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#FFFFFF">LLM Generator</text>
+    <text x="395" y="262" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" fill-opacity="0.85">Qwen 2.5 · JSON Schema</text>
+    <text x="395" y="282" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.7">结构化因果图提取</text>
+  </g>
+  <!-- Stage 3: Rust Formal Engine -->
+  <g id="stage-rust">
+    <rect x="580" y="190" width="230" height="120" rx="10" fill="#2E86DE" filter="url(#cardShadow)"/>
+    <rect x="580" y="190" width="230" height="6" rx="3" fill="#1A6BC4"/>
+    <text x="695" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#FFFFFF">Rust Formal Engine</text>
+    <text x="695" y="252" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" fill-opacity="0.85">Kahn Cycle Detect</text>
+    <text x="695" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" fill-opacity="0.85">Bayesian Ball d-Sep</text>
+    <text x="695" y="288" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" fill-opacity="0.85">FMEA RPN Alert</text>
+  </g>
+  <!-- Stage 4: Decision Diamond -->
+  <g id="stage-decision">
+    <path d="M 960,210 L 1010,250 L 960,290 L 910,250 Z" fill="#E74C3C" filter="url(#cardShadow)"/>
+    <text x="960" y="247" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">Violation</text>
+    <text x="960" y="263" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.8">?</text>
+  </g>
+  <!-- Stage 5: Reflector -->
+  <g id="stage-reflector">
+    <rect x="890" y="380" width="170" height="80" rx="10" fill="#27AE60" filter="url(#cardShadow)"/>
+    <rect x="890" y="380" width="170" height="6" rx="3" fill="#1E8C4E"/>
+    <text x="975" y="418" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#FFFFFF">Reflector</text>
+    <text x="975" y="440" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.85">LLM 常识判断</text>
+  </g>
+  <!-- Stage 6: Output -->
+  <g id="stage-output">
+    <rect x="1110" y="360" width="150" height="120" rx="10" fill="#1A3C6E" filter="url(#cardShadow)"/>
+    <rect x="1110" y="360" width="150" height="6" rx="3" fill="#0F2445"/>
+    <text x="1185" y="405" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#FFFFFF">Output</text>
+    <text x="1185" y="428" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.85">Causal Graph</text>
+    <text x="1185" y="448" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.85">+ FMEA Report</text>
+    <text x="1185" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#FFFFFF" fill-opacity="0.6">Verified DAG</text>
+  </g>
+  <!-- Feedback loop label -->
+  <g id="p04-loop-label">
+    <rect x="390" y="136" width="200" height="28" rx="14" fill="#E8B931" fill-opacity="0.15"/>
+    <text x="490" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E8B931" font-weight="bold">反思循环（最多 5 轮）</text>
+  </g>
+  <!-- CausalEdge annotation -->
+  <g id="p04-edge-note" transform="translate(580, 340)">
+    <rect x="0" y="0" width="230" height="70" rx="8" fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1"/>
+    <text x="115" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">CausalEdge</text>
+    <text x="115" y="48" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#1A3C6E">{cause, effect, S, O, D}</text>
+  </g>
+  <!-- Footer -->
+  <g id="p04-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">05</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

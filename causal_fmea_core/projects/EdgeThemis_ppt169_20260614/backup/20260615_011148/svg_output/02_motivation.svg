@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor"/>
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <!-- Header -->
+  <g id="p02-header">
+    <rect x="60" y="40" width="5" height="36" rx="2" fill="#1A3C6E"/>
+    <text x="78" y="67" font-family="Georgia, SimHei, serif" font-size="34" font-weight="bold" fill="#1A3C6E">学术背景与动机</text>
+    <text x="420" y="67" font-family="Arial, sans-serif" font-size="16" fill="#7F8C8D">Academic Background &amp; Motivation</text>
+    <line x1="60" y1="90" x2="1220" y2="90" stroke="#D5D8DC" stroke-width="1"/>
+  </g>
+  <!-- Left column: Problem definition paper -->
+  <g id="p02-msr" filter="url(#cardShadow)">
+    <rect x="60" y="110" width="560" height="180" rx="10" fill="#FFFFFF"/>
+    <rect x="60" y="110" width="560" height="6" rx="3" fill="#E74C3C"/>
+    <rect x="80" y="130" width="140" height="26" rx="13" fill="#E74C3C" fill-opacity="0.15"/>
+    <text x="150" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#E74C3C" font-weight="bold">痛点定义</text>
+    <text x="80" y="185" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">MSR (2023): "Can LLMs Infer Causation</text>
+    <text x="80" y="208" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">from Correlation?"</text>
+    <text x="80" y="240" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">微软证明：LLM 是"因果复读机"(Causal Parrots)，</text>
+    <text x="80" y="262" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">只能记住语料中的词汇共现，遇到抽象变量就</text>
+    <text x="80" y="280" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C" font-weight="bold">彻底瞎蒙，表现等同于随机猜测。</text>
+  </g>
+  <!-- Right column: Solution paper -->
+  <g id="p02-reflexion" filter="url(#cardShadow)">
+    <rect x="660" y="110" width="560" height="180" rx="10" fill="#FFFFFF"/>
+    <rect x="660" y="110" width="560" height="6" rx="3" fill="#27AE60"/>
+    <rect x="680" y="130" width="140" height="26" rx="13" fill="#27AE60" fill-opacity="0.15"/>
+    <text x="750" y="148" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#27AE60" font-weight="bold">解决方案</text>
+    <text x="680" y="185" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">Reflexion (NeurIPS 2023):</text>
+    <text x="680" y="208" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">"Language Agents with Verbal RL"</text>
+    <text x="680" y="240" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">提出 Actor → Evaluator → Reflection 闭环。</text>
+    <text x="680" y="262" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">用自然语言给出强化信号，让 LLM 自我纠错。</text>
+    <text x="680" y="280" font-family="Arial, sans-serif" font-size="14" fill="#27AE60" font-weight="bold">但 Evaluator 是"软性的"，无法保证数学正确性。</text>
+  </g>
+  <!-- Middle: Evolution timeline -->
+  <g id="p02-evolution">
+    <text x="640" y="325" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="20" font-weight="bold" fill="#1A3C6E">因果推理方法进化史</text>
+    <!-- Timeline arrow -->
+    <line x1="100" y1="355" x2="1180" y2="355" stroke="#D5D8DC" stroke-width="2"/>
+    <polygon points="1180,355 1170,350 1170,360" fill="#D5D8DC"/>
+    <!-- Stage 1: Fine-tuning -->
+    <g id="stage-ft">
+      <circle cx="200" cy="355" r="18" fill="#E74C3C" fill-opacity="0.15"/>
+      <circle cx="200" cy="355" r="10" fill="#E74C3C"/>
+      <text x="200" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Fine-tuning</text>
+      <text x="200" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C">死记硬背</text>
+    </g>
+    <!-- Stage 2: CoT -->
+    <g id="stage-cot">
+      <circle cx="400" cy="355" r="18" fill="#E8B931" fill-opacity="0.15"/>
+      <circle cx="400" cy="355" r="10" fill="#E8B931"/>
+      <text x="400" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Explicit CoT</text>
+      <text x="400" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E8B931">模板背诵</text>
+    </g>
+    <!-- Stage 3: Multi-Agent -->
+    <g id="stage-multi">
+      <circle cx="600" cy="355" r="18" fill="#E8B931" fill-opacity="0.15"/>
+      <circle cx="600" cy="355" r="10" fill="#E8B931"/>
+      <text x="600" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Multi-Agent</text>
+      <text x="600" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E8B931">双模型辩论</text>
+    </g>
+    <!-- Stage 4: Tool Use -->
+    <g id="stage-tool">
+      <circle cx="800" cy="355" r="18" fill="#2E86DE" fill-opacity="0.15"/>
+      <circle cx="800" cy="355" r="10" fill="#2E86DE"/>
+      <text x="800" y="390" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Tool Use</text>
+      <text x="800" y="406" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#2E86DE">调用外部库</text>
+    </g>
+    <!-- Stage 5: EdgeThemis (highlighted) -->
+    <g id="stage-edge">
+      <circle cx="1020" cy="355" r="24" fill="#27AE60" fill-opacity="0.2"/>
+      <circle cx="1020" cy="355" r="14" fill="#27AE60"/>
+      <text x="1020" y="360" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#FFFFFF" font-weight="bold">Us</text>
+      <text x="1020" y="395" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60" font-weight="bold">EdgeThemis</text>
+      <text x="1020" y="412" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60">Neuro-Symbolic</text>
+    </g>
+  </g>
+  <!-- Bottom: EdgeThemis positioning -->
+  <g id="p02-positioning" filter="url(#cardShadow)">
+    <rect x="60" y="440" width="1160" height="230" rx="10" fill="#FFFFFF"/>
+    <rect x="60" y="440" width="1160" height="6" rx="3" fill="#1A3C6E"/>
+    <text x="80" y="480" font-family="Georgia, SimHei, serif" font-size="22" font-weight="bold" fill="#1A3C6E">EdgeThemis 的破局之道：用数学枷锁取代软性评估</text>
+    <!-- Comparison table -->
+    <rect x="80" y="500" width="350" height="40" rx="6" fill="#E74C3C" fill-opacity="0.08"/>
+    <text x="255" y="526" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C" font-weight="bold">传统方案：软性 Evaluator</text>
+    <rect x="450" y="500" width="30" height="40" rx="4" fill="#FFFFFF"/>
+    <text x="465" y="526" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#7F8C8D">→</text>
+    <rect x="500" y="500" width="350" height="40" rx="6" fill="#27AE60" fill-opacity="0.08"/>
+    <text x="675" y="526" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#27AE60" font-weight="bold">EdgeThemis：Rust 确定性测谎仪</text>
+    <!-- Left: traditional -->
+    <text x="100" y="555" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">• Reflexion 的 Evaluator 用自然语言判断对错</text>
+    <text x="100" y="578" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">• CRAwDAD 用两个 LLM 互相辩论（Token 浪费）</text>
+    <text x="100" y="601" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">• Causal Agent 调用 Python 因果库（延迟高）</text>
+    <text x="100" y="624" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C">→ 本质都是"文科生思维"，无法保证数学绝对正确</text>
+    <!-- Right: EdgeThemis -->
+    <text x="520" y="555" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">• Kahn 算法：<tspan font-weight="bold" fill="#1A3C6E">O(V+E)</tspan> 拓扑环路检测</text>
+    <text x="520" y="578" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">• Bayesian Ball：<tspan font-weight="bold" fill="#1A3C6E">O(V³)</tspan> d-分离断言提取</text>
+    <text x="520" y="601" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">• FMEA RPN：<tspan font-weight="bold" fill="#1A3C6E">100×S+10×O+D</tspan> 风险量化</text>
+    <text x="520" y="624" font-family="Arial, sans-serif" font-size="14" fill="#27AE60">→ 编译期确定性，微秒级拦截，零 GC 开销</text>
+    <!-- Bottom summary -->
+    <line x1="80" y1="642" x2="1200" y2="642" stroke="#D5D8DC" stroke-width="1"/>
+    <text x="640" y="662" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#1A3C6E" font-weight="bold">核心创新：用 Rust 图论算子取代 Reflexion 的软性 Evaluator，将确定性拉满</text>
+  </g>
+  <g id="p02-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">02</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

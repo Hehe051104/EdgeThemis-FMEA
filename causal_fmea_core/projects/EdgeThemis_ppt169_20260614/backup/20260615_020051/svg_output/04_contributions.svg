@@ -1,0 +1,131 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor"/>
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <linearGradient id="accentGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2E86DE"/>
+      <stop offset="100%" stop-color="#1A3C6E"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <!-- Header -->
+  <g id="p03-header">
+    <rect x="60" y="40" width="5" height="36" rx="2" fill="#1A3C6E"/>
+    <text x="78" y="67" font-family="Georgia, SimHei, serif" font-size="36" font-weight="bold" fill="#1A3C6E">本文贡献</text>
+    <text x="270" y="67" font-family="Arial, sans-serif" font-size="18" fill="#7F8C8D">：混合架构 + 形式化验证 + 自反思闭环</text>
+    <text x="78" y="92" font-family="Arial, sans-serif" font-size="15" fill="#7F8C8D" letter-spacing="0.5">Contributions: Hybrid Architecture + Formal Verification + Self-Reflection</text>
+    <line x1="60" y1="108" x2="1220" y2="108" stroke="#D5D8DC" stroke-width="1"/>
+  </g>
+<g id="stage-indicator" transform="translate(660, 14)">
+<rect x="0" y="0" width="560" height="42" rx="6" fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1"/>
+<circle cx="30" cy="15" r="6" fill="#D5D8DC"/>
+<text x="30" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Input</text>
+<circle cx="100" cy="15" r="9" fill="#1A3C6E"/>
+<text x="100" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#1A3C6E" font-weight="bold">Generator</text>
+<rect x="82" y="1" width="36" height="5" rx="2" fill="#E8B931" fill-opacity="0.7"/>
+<text x="100" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#E8B931" font-weight="bold">Python</text>
+<circle cx="175" cy="15" r="6" fill="#D5D8DC"/>
+<text x="175" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Cycle</text>
+<rect x="161" y="1" width="28" height="5" rx="2" fill="#2E86DE" fill-opacity="0.3"/>
+<text x="175" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2E86DE">Rust</text>
+<circle cx="250" cy="15" r="6" fill="#D5D8DC"/>
+<text x="250" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">d-Sep</text>
+<rect x="236" y="1" width="28" height="5" rx="2" fill="#2E86DE" fill-opacity="0.3"/>
+<text x="250" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2E86DE">Rust</text>
+<circle cx="325" cy="15" r="6" fill="#D5D8DC"/>
+<text x="325" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">FMEA</text>
+<rect x="311" y="1" width="28" height="5" rx="2" fill="#2E86DE" fill-opacity="0.3"/>
+<text x="325" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2E86DE">Rust</text>
+<circle cx="400" cy="15" r="6" fill="#D5D8DC"/>
+<text x="400" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Reflector</text>
+<rect x="382" y="1" width="36" height="5" rx="2" fill="#E8B931" fill-opacity="0.3"/>
+<text x="400" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#E8B931">Python</text>
+<circle cx="475" cy="15" r="6" fill="#D5D8DC"/>
+<text x="475" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Output</text>
+<line x1="36" y1="15" x2="106" y2="15" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="106" y1="15" x2="181" y2="15" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="181" y1="15" x2="256" y2="15" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="256" y1="15" x2="331" y2="15" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="331" y1="15" x2="406" y2="15" stroke="#D5D8DC" stroke-width="1.5"/>
+<rect x="490" y="5" width="60" height="30" rx="4" fill="#FFF" stroke="#D5D8DC" stroke-width="0.5"/>
+<circle cx="500" cy="14" r="3" fill="#E8B931"/>
+<text x="508" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="500" cy="26" r="3" fill="#2E86DE"/>
+<text x="508" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+
+  <!-- Three contribution cards -->
+  <g id="p03-cards">
+    <!-- Card 1: 混合架构 -->
+    <g id="contrib-1" filter="url(#cardShadow)">
+      <rect x="60" y="140" width="370" height="480" rx="12" fill="#FFFFFF"/>
+      <!-- Top accent bar -->
+      <rect x="60" y="140" width="370" height="8" rx="4" fill="#1A3C6E"/>
+      <!-- Number circle -->
+      <circle cx="245" cy="210" r="36" fill="#1A3C6E" fill-opacity="0.1"/>
+      <text x="245" y="220" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="32" font-weight="bold" fill="#1A3C6E">1</text>
+      <!-- Icon -->
+      <use data-icon="tabler-outline/affiliate" x="220" y="265" width="50" height="50" fill="#1A3C6E"/>
+      <!-- Title -->
+      <text x="245" y="345" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="22" font-weight="bold" fill="#2C3E50">混合架构</text>
+      <text x="245" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">Hybrid Architecture</text>
+      <!-- Divider -->
+      <line x1="100" y1="390" x2="390" y2="390" stroke="#D5D8DC" stroke-width="1"/>
+      <!-- Content -->
+      <text x="100" y="420" font-family="Arial, sans-serif" font-size="15" fill="#2C3E50">
+        <tspan x="100" dy="0">LLM 结构化提取</tspan>
+        <tspan x="100" dy="26">（JSON Schema 强制输出）</tspan>
+        <tspan x="100" dy="32">+</tspan>
+        <tspan x="100" dy="32">Rust 形式化验证引擎</tspan>
+        <tspan x="100" dy="26">（Kahn 环路检测</tspan>
+        <tspan x="100" dy="24">+ Bayesian Ball d-分离）</tspan>
+      </text>
+    </g>
+    <!-- Card 2: FMEA 风险量化 -->
+    <g id="contrib-2" filter="url(#cardShadow)">
+      <rect x="455" y="140" width="370" height="480" rx="12" fill="#FFFFFF"/>
+      <rect x="455" y="140" width="370" height="8" rx="4" fill="#2E86DE"/>
+      <circle cx="640" cy="210" r="36" fill="#2E86DE" fill-opacity="0.1"/>
+      <text x="640" y="220" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="32" font-weight="bold" fill="#2E86DE">2</text>
+      <use data-icon="tabler-outline/shield-check" x="615" y="265" width="50" height="50" fill="#2E86DE"/>
+      <text x="640" y="345" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="22" font-weight="bold" fill="#2C3E50">FMEA 风险量化</text>
+      <text x="640" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">FMEA Risk Scoring</text>
+      <line x1="495" y1="390" x2="785" y2="390" stroke="#D5D8DC" stroke-width="1"/>
+      <text x="495" y="420" font-family="Arial, sans-serif" font-size="15" fill="#2C3E50">
+        <tspan x="495" dy="0">将工业工程的</tspan>
+        <tspan x="495" dy="26" font-weight="bold" fill="#2E86DE">Failure Mode and</tspan>
+        <tspan x="495" dy="24" font-weight="bold" fill="#2E86DE">Effects Analysis</tspan>
+        <tspan x="495" dy="28">融入因果图每条边</tspan>
+        <tspan x="495" dy="28">RPN = 100×S + 10×O + D</tspan>
+      </text>
+    </g>
+    <!-- Card 3: 自反思纠错闭环 -->
+    <g id="contrib-3" filter="url(#cardShadow)">
+      <rect x="850" y="140" width="370" height="480" rx="12" fill="#FFFFFF"/>
+      <rect x="850" y="140" width="370" height="8" rx="4" fill="#E8B931"/>
+      <circle cx="1035" cy="210" r="36" fill="#E8B931" fill-opacity="0.1"/>
+      <text x="1035" y="220" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="32" font-weight="bold" fill="#E8B931">3</text>
+      <use data-icon="tabler-outline/refresh" x="1010" y="265" width="50" height="50" fill="#E8B931"/>
+      <text x="1035" y="345" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="22" font-weight="bold" fill="#2C3E50">自反思纠错闭环</text>
+      <text x="1035" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">Self-Reflection Loop</text>
+      <line x1="890" y1="390" x2="1180" y2="390" stroke="#D5D8DC" stroke-width="1"/>
+      <text x="890" y="420" font-family="Arial, sans-serif" font-size="15" fill="#2C3E50">
+        <tspan x="890" dy="0">验证失败 →</tspan>
+        <tspan x="890" dy="26">拦截报告反馈 LLM</tspan>
+        <tspan x="890" dy="32">→ 最多<tspan font-weight="bold" fill="#E8B931">5 轮</tspan>自动修正</tspan>
+        <tspan x="890" dy="28">熔断机制防止无限循环</tspan>
+      </text>
+    </g>
+  </g>
+  <!-- Footer -->
+  <g id="p03-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">04</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

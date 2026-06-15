@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor"/>
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <!-- Header -->
+  <g id="p11-header">
+    <rect x="60" y="40" width="5" height="36" rx="2" fill="#1A3C6E"/>
+    <text x="78" y="67" font-family="Georgia, SimHei, serif" font-size="36" font-weight="bold" fill="#1A3C6E">结论与展望</text>
+    <text x="320" y="67" font-family="Arial, sans-serif" font-size="18" fill="#7F8C8D">Conclusion &amp; Future Work</text>
+    <line x1="60" y1="90" x2="1220" y2="90" stroke="#D5D8DC" stroke-width="1"/>
+  </g>
+  <!-- LEFT: Conclusions -->
+  <g id="p11-conclusions">
+    <text x="60" y="130" font-family="Georgia, SimHei, serif" font-size="22" font-weight="bold" fill="#1A3C6E">结论</text>
+    <line x1="60" y1="142" x2="150" y2="142" stroke="#2E86DE" stroke-width="2"/>
+    <!-- Vertical track -->
+    <line x1="100" y1="170" x2="100" y2="580" stroke="#1A3C6E" stroke-width="3" stroke-opacity="0.15"/>
+    <!-- Item 1 -->
+    <g id="c1">
+      <circle cx="100" cy="200" r="24" fill="#1A3C6E" fill-opacity="0.12"/>
+      <circle cx="100" cy="200" r="16" fill="#1A3C6E"/>
+      <text x="100" y="206" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold">1</text>
+      <line x1="124" y1="200" x2="155" y2="200" stroke="#1A3C6E" stroke-width="2" stroke-dasharray="4,3"/>
+      <g filter="url(#cardShadow)">
+        <rect x="155" y="165" width="460" height="90" rx="10" fill="#FFFFFF"/>
+        <rect x="155" y="165" width="5" height="90" rx="3" fill="#1A3C6E"/>
+      </g>
+      <text x="175" y="195" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">首次将 FMEA 工业风险评估</text>
+      <text x="175" y="218" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">与 LLM 因果推理结合</text>
+      <text x="175" y="243" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">实现因果边级别的风险量化（S/O/D → RPN）</text>
+    </g>
+    <!-- Item 2 -->
+    <g id="c2">
+      <circle cx="100" cy="330" r="24" fill="#2E86DE" fill-opacity="0.12"/>
+      <circle cx="100" cy="330" r="16" fill="#2E86DE"/>
+      <text x="100" y="336" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold">2</text>
+      <line x1="124" y1="330" x2="155" y2="330" stroke="#2E86DE" stroke-width="2" stroke-dasharray="4,3"/>
+      <g filter="url(#cardShadow)">
+        <rect x="155" y="295" width="460" height="90" rx="10" fill="#FFFFFF"/>
+        <rect x="155" y="295" width="5" height="90" rx="3" fill="#2E86DE"/>
+      </g>
+      <text x="175" y="325" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">Bayesian Ball d-分离 + Kahn 环路检测</text>
+      <text x="175" y="348" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">实现轻量级形式化验证</text>
+      <text x="175" y="373" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">O(V+E) 复杂度，Rust FFI 零拷贝调用</text>
+    </g>
+    <!-- Item 3 -->
+    <g id="c3">
+      <circle cx="100" cy="460" r="24" fill="#E8B931" fill-opacity="0.12"/>
+      <circle cx="100" cy="460" r="16" fill="#E8B931"/>
+      <text x="100" y="466" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold">3</text>
+      <line x1="124" y1="460" x2="155" y2="460" stroke="#E8B931" stroke-width="2" stroke-dasharray="4,3"/>
+      <g filter="url(#cardShadow)">
+        <rect x="155" y="425" width="460" height="90" rx="10" fill="#FFFFFF"/>
+        <rect x="155" y="425" width="5" height="90" rx="3" fill="#E8B931"/>
+      </g>
+      <text x="175" y="455" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">自反思闭环显著提升因果图逻辑一致性</text>
+      <text x="175" y="478" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">3 轮内修正率 &gt; 90%</text>
+      <text x="175" y="503" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">熔断机制保障系统稳定性</text>
+    </g>
+  </g>
+  <!-- Vertical divider -->
+  <line x1="640" y1="120" x2="640" y2="600" stroke="#D5D8DC" stroke-width="1" stroke-dasharray="6,4"/>
+  <!-- RIGHT: Future Work -->
+  <g id="p11-future">
+    <text x="680" y="130" font-family="Georgia, SimHei, serif" font-size="22" font-weight="bold" fill="#7F8C8D">Future Work</text>
+    <line x1="680" y1="142" x2="830" y2="142" stroke="#D5D8DC" stroke-width="2"/>
+    <!-- Item 1 -->
+    <g id="f1" filter="url(#cardShadow)">
+      <rect x="680" y="170" width="540" height="110" rx="10" fill="#F5F7FA"/>
+      <rect x="680" y="170" width="5" height="110" rx="3" fill="#2E86DE"/>
+      <use data-icon="tabler-outline/affiliate" x="700" y="190" width="28" height="28" fill="#2E86DE"/>
+      <text x="740" y="210" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">扩展至更大规模因果图</text>
+      <text x="700" y="240" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">百节点级图结构，优化 Bayesian Ball 搜索效率</text>
+      <text x="700" y="262" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">支持分层 d-分离和增量验证</text>
+    </g>
+    <!-- Item 2 -->
+    <g id="f2" filter="url(#cardShadow)">
+      <rect x="680" y="300" width="540" height="110" rx="10" fill="#F5F7FA"/>
+      <rect x="680" y="300" width="5" height="110" rx="3" fill="#27AE60"/>
+      <use data-icon="tabler-outline/brain" x="700" y="320" width="28" height="28" fill="#27AE60"/>
+      <text x="740" y="340" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">引入 Human-in-the-loop</text>
+      <text x="700" y="370" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">领域专家审核高风险因果边</text>
+      <text x="700" y="392" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">结合人类反馈优化 FMEA 评分校准</text>
+    </g>
+    <!-- Item 3 -->
+    <g id="f3" filter="url(#cardShadow)">
+      <rect x="680" y="430" width="540" height="110" rx="10" fill="#F5F7FA"/>
+      <rect x="680" y="430" width="5" height="110" rx="3" fill="#E8B931"/>
+      <use data-icon="tabler-outline/refresh" x="700" y="450" width="28" height="28" fill="#E8B931"/>
+      <text x="740" y="470" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">支持时序因果推理</text>
+      <text x="700" y="500" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">动态图更新，支持时间窗口内的因果发现</text>
+      <text x="700" y="522" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">融合 Granger causality 和结构因果模型</text>
+    </g>
+  </g>
+  <!-- Footer -->
+  <g id="p11-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">11</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

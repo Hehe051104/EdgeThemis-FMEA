@@ -1,0 +1,1 @@
+Generator 节点是系统的起点。它接收自然语言文本，通过 JSON Schema 约束 LLM 强制输出结构化的 CausalEdge 数据结构，每条边包含 cause、effect、S、O、D 五个字段和推理过程。我们使用 Qwen 2.5 三 B 参数模型，四比特量化，通过 llama-server 的 OpenAI 兼容 API 调用。Pydantic 模型在 Python 层做最终校验，确保输出格式可被 Rust 引擎直接解析。

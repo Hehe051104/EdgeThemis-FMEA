@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+      <feOffset dx="0" dy="2" result="offsetblur" />
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor" />
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow" />
+      <feMerge><feMergeNode in="shadow" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+    <linearGradient id="accentGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2E86DE" />
+      <stop offset="100%" stop-color="#1A3C6E" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="1280" height="720" fill="#FFFFFF" />
+  
+  <g id="p03-header">
+    <path fill="#1A3C6E" d="M62,40 H63 A2,2 0 0 1 65,42 V74 A2,2 0 0 1 63,76 H62 A2,2 0 0 1 60,74 V42 A2,2 0 0 1 62,40 Z" />
+    <text x="78" y="67" font-family="Georgia, SimHei, serif" font-size="36" font-weight="bold" fill="#1A3C6E">本文贡献</text>
+    <text x="270" y="67" font-family="Arial, sans-serif" font-size="18" fill="#7F8C8D">：混合架构 + 形式化验证 + 自反思闭环</text>
+    <text x="78" y="92" font-family="Arial, sans-serif" font-size="15" fill="#7F8C8D" letter-spacing="0.5">Contributions: Hybrid Architecture + Formal Verification + Self-Reflection</text>
+    <line x1="60" y1="108" x2="1220" y2="108" stroke="#D5D8DC" stroke-width="1" />
+  </g>
+<g id="stage-indicator" transform="translate(660, 14)">
+<path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M6,0 H554 A6,6 0 0 1 560,6 V36 A6,6 0 0 1 554,42 H6 A6,6 0 0 1 0,36 V6 A6,6 0 0 1 6,0 Z" />
+<circle cx="30" cy="15" r="6" fill="#D5D8DC" />
+<text x="30" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Input</text>
+<circle cx="100" cy="15" r="9" fill="#1A3C6E" />
+<text x="100" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#1A3C6E" font-weight="bold">Generator</text>
+<path fill="#E8B931" fill-opacity="0.7" d="M84,1 H116 A2,2 0 0 1 118,3 V4 A2,2 0 0 1 116,6 H84 A2,2 0 0 1 82,4 V3 A2,2 0 0 1 84,1 Z" />
+<text x="100" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#E8B931" font-weight="bold">Python</text>
+<circle cx="175" cy="15" r="6" fill="#D5D8DC" />
+<text x="175" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Cycle</text>
+<path fill="#2E86DE" fill-opacity="0.3" d="M163,1 H187 A2,2 0 0 1 189,3 V4 A2,2 0 0 1 187,6 H163 A2,2 0 0 1 161,4 V3 A2,2 0 0 1 163,1 Z" />
+<text x="175" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2E86DE">Rust</text>
+<circle cx="250" cy="15" r="6" fill="#D5D8DC" />
+<text x="250" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">d-Sep</text>
+<path fill="#2E86DE" fill-opacity="0.3" d="M238,1 H262 A2,2 0 0 1 264,3 V4 A2,2 0 0 1 262,6 H238 A2,2 0 0 1 236,4 V3 A2,2 0 0 1 238,1 Z" />
+<text x="250" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2E86DE">Rust</text>
+<circle cx="325" cy="15" r="6" fill="#D5D8DC" />
+<text x="325" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">FMEA</text>
+<path fill="#2E86DE" fill-opacity="0.3" d="M313,1 H337 A2,2 0 0 1 339,3 V4 A2,2 0 0 1 337,6 H313 A2,2 0 0 1 311,4 V3 A2,2 0 0 1 313,1 Z" />
+<text x="325" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2E86DE">Rust</text>
+<circle cx="400" cy="15" r="6" fill="#D5D8DC" />
+<text x="400" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Reflector</text>
+<path fill="#E8B931" fill-opacity="0.3" d="M384,1 H416 A2,2 0 0 1 418,3 V4 A2,2 0 0 1 416,6 H384 A2,2 0 0 1 382,4 V3 A2,2 0 0 1 384,1 Z" />
+<text x="400" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#E8B931">Python</text>
+<circle cx="475" cy="15" r="6" fill="#D5D8DC" />
+<text x="475" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Output</text>
+<line x1="36" y1="15" x2="106" y2="15" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="106" y1="15" x2="181" y2="15" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="181" y1="15" x2="256" y2="15" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="256" y1="15" x2="331" y2="15" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="331" y1="15" x2="406" y2="15" stroke="#D5D8DC" stroke-width="1.5" />
+<path fill="#FFF" stroke="#D5D8DC" stroke-width="0.5" d="M494,5 H546 A4,4 0 0 1 550,9 V31 A4,4 0 0 1 546,35 H494 A4,4 0 0 1 490,31 V9 A4,4 0 0 1 494,5 Z" />
+<circle cx="500" cy="14" r="3" fill="#E8B931" />
+<text x="508" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="500" cy="26" r="3" fill="#2E86DE" />
+<text x="508" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+
+  
+  <g id="p03-cards">
+    
+    <g id="contrib-1" filter="url(#cardShadow)">
+      <path fill="#FFFFFF" d="M72,140 H418 A12,12 0 0 1 430,152 V608 A12,12 0 0 1 418,620 H72 A12,12 0 0 1 60,608 V152 A12,12 0 0 1 72,140 Z" />
+      
+      <path fill="#1A3C6E" d="M64,140 H426 A4,4 0 0 1 430,144 V144 A4,4 0 0 1 426,148 H64 A4,4 0 0 1 60,144 V144 A4,4 0 0 1 64,140 Z" />
+      
+      <circle cx="245" cy="210" r="36" fill="#1A3C6E" fill-opacity="0.1" />
+      <text x="245" y="220" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="32" font-weight="bold" fill="#1A3C6E">1</text>
+      
+      
+  <g transform="translate(220.0, 265.0) scale(2.0833333333333335)" fill="none" stroke="#1A3C6E" stroke-width="2">
+    <path d="M5.931 6.936l1.275 4.249m5.607 5.609l4.251 1.275" />
+    <path d="M11.683 12.317l5.759 -5.759" />
+    <path d="M4 5.5a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" />
+    <path d="M17 5.5a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" />
+    <path d="M17 18.5a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0" />
+    <path d="M4 15.5a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0 -9 0" />
+  </g>
+      
+      <text x="245" y="345" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="22" font-weight="bold" fill="#2C3E50">混合架构</text>
+      <text x="245" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">Hybrid Architecture</text>
+      
+      <line x1="100" y1="390" x2="390" y2="390" stroke="#D5D8DC" stroke-width="1" />
+      
+      <text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="100" y="420">LLM 结构化提取</text><text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="100" y="446">（JSON Schema 强制输出）</text><text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="100" y="478">+</text><text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="100" y="510">Rust 形式化验证引擎</text><text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="100" y="536">（Kahn 环路检测</text><text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="100" y="560">+ Bayesian Ball d-分离）</text></g>
+    
+    <g id="contrib-2" filter="url(#cardShadow)">
+      <path fill="#FFFFFF" d="M467,140 H813 A12,12 0 0 1 825,152 V608 A12,12 0 0 1 813,620 H467 A12,12 0 0 1 455,608 V152 A12,12 0 0 1 467,140 Z" />
+      <path fill="#2E86DE" d="M459,140 H821 A4,4 0 0 1 825,144 V144 A4,4 0 0 1 821,148 H459 A4,4 0 0 1 455,144 V144 A4,4 0 0 1 459,140 Z" />
+      <circle cx="640" cy="210" r="36" fill="#2E86DE" fill-opacity="0.1" />
+      <text x="640" y="220" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="32" font-weight="bold" fill="#2E86DE">2</text>
+      
+  <g transform="translate(615.0, 265.0) scale(2.0833333333333335)" fill="none" stroke="#2E86DE" stroke-width="2">
+    <path d="M11.46 20.846a12 12 0 0 1 -7.96 -14.846a12 12 0 0 0 8.5 -3a12 12 0 0 0 8.5 3a12 12 0 0 1 -.09 7.06" />
+    <path d="M15 19l2 2l4 -4" />
+  </g>
+      <text x="640" y="345" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="22" font-weight="bold" fill="#2C3E50">FMEA 风险量化</text>
+      <text x="640" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">FMEA Risk Scoring</text>
+      <line x1="495" y1="390" x2="785" y2="390" stroke="#D5D8DC" stroke-width="1" />
+      <text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="495" y="420">将工业工程的</text><text fill="#2E86DE" font-size="15" font-family="Arial, sans-serif" x="495" y="446" font-weight="bold">Failure Mode and</text><text fill="#2E86DE" font-size="15" font-family="Arial, sans-serif" x="495" y="470" font-weight="bold">Effects Analysis</text><text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="495" y="498">融入因果图每条边</text><text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="495" y="526">RPN = 100×S + 10×O + D</text></g>
+    
+    <g id="contrib-3" filter="url(#cardShadow)">
+      <path fill="#FFFFFF" d="M862,140 H1208 A12,12 0 0 1 1220,152 V608 A12,12 0 0 1 1208,620 H862 A12,12 0 0 1 850,608 V152 A12,12 0 0 1 862,140 Z" />
+      <path fill="#E8B931" d="M854,140 H1216 A4,4 0 0 1 1220,144 V144 A4,4 0 0 1 1216,148 H854 A4,4 0 0 1 850,144 V144 A4,4 0 0 1 854,140 Z" />
+      <circle cx="1035" cy="210" r="36" fill="#E8B931" fill-opacity="0.1" />
+      <text x="1035" y="220" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="32" font-weight="bold" fill="#E8B931">3</text>
+      
+  <g transform="translate(1010.0, 265.0) scale(2.0833333333333335)" fill="none" stroke="#E8B931" stroke-width="2">
+    <path d="M20 11a8.1 8.1 0 0 0 -15.5 -2m-.5 -4v4h4" />
+    <path d="M4 13a8.1 8.1 0 0 0 15.5 2m.5 4v-4h-4" />
+  </g>
+      <text x="1035" y="345" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="22" font-weight="bold" fill="#2C3E50">自反思纠错闭环</text>
+      <text x="1035" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">Self-Reflection Loop</text>
+      <line x1="890" y1="390" x2="1180" y2="390" stroke="#D5D8DC" stroke-width="1" />
+      <text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="890" y="420">验证失败 →</text><text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="890" y="446">拦截报告反馈 LLM</text><text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="890" y="478"><tspan>→ 最多<tspan font-weight="bold" fill="#E8B931">5 轮</tspan>自动修正</tspan>
+        </text><text fill="#2C3E50" font-size="15" font-family="Arial, sans-serif" x="890" y="506">熔断机制防止无限循环</text></g>
+  </g>
+  
+  <g id="p03-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">04</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

@@ -1,0 +1,140 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor"/>
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <!-- Header -->
+  <g id="p09-header">
+    <rect x="60" y="30" width="5" height="36" rx="2" fill="#1A3C6E"/>
+    <text x="78" y="57" font-family="Georgia, SimHei, serif" font-size="32" font-weight="bold" fill="#1A3C6E">消融实验</text>
+    <text x="280" y="57" font-family="Arial, sans-serif" font-size="16" fill="#7F8C8D">：形式化验证 + 自反思闭环显著提升因果图质量</text>
+    <text x="78" y="80" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D" letter-spacing="0.5">Ablation Study: Formal Verification + Self-Reflection Significantly Improve Graph Quality</text>
+    <line x1="60" y1="94" x2="1220" y2="94" stroke="#D5D8DC" stroke-width="1"/>
+  </g>
+  <!-- Comparison Table -->
+  <g id="p09-table">
+    <!-- Header Row -->
+    <rect x="60" y="110" width="220" height="48" rx="6" fill="#1A3C6E"/>
+    <text x="170" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">评估指标</text>
+    <!-- Config A header -->
+    <rect x="295" y="110" width="250" height="48" rx="6" fill="#E74C3C" filter="url(#cardShadow)"/>
+    <text x="420" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF">Config A</text>
+    <text x="420" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#FFFFFF" fill-opacity="0.8">纯 LLM</text>
+    <!-- Config B header -->
+    <rect x="560" y="110" width="250" height="48" rx="6" fill="#E8B931" filter="url(#cardShadow)"/>
+    <text x="685" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF">Config B</text>
+    <text x="685" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#FFFFFF" fill-opacity="0.8">+ Schema + Rust</text>
+    <!-- Config C header -->
+    <rect x="825" y="105" width="260" height="56" rx="6" fill="#27AE60" filter="url(#cardShadow)"/>
+    <rect x="945" y="97" width="60" height="20" rx="10" fill="#1A3C6E"/>
+    <text x="975" y="111" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF">Best</text>
+    <text x="955" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF">Config C</text>
+    <text x="955" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#FFFFFF" fill-opacity="0.8">+ Reflection</text>
+    <!-- Row 1: DAG legality -->
+    <g id="r1">
+      <rect x="60" y="168" width="220" height="68" rx="6" fill="#F5F7FA"/>
+      <text x="170" y="208" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="600" fill="#2C3E50">DAG 合法性</text>
+      <rect x="295" y="168" width="250" height="68" rx="4" fill="#E74C3C" fill-opacity="0.06"/>
+      <use data-icon="tabler-outline/x" x="390" y="185" width="24" height="24" fill="#E74C3C"/>
+      <text x="420" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C">可能含环路</text>
+      <rect x="560" y="168" width="250" height="68" rx="4" fill="#27AE60" fill-opacity="0.06"/>
+      <use data-icon="tabler-outline/circle-check" x="655" y="185" width="24" height="24" fill="#27AE60"/>
+      <text x="685" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60">环路被拦截</text>
+      <rect x="825" y="168" width="260" height="68" rx="4" fill="#27AE60" fill-opacity="0.06"/>
+      <use data-icon="tabler-outline/circle-check" x="920" y="185" width="24" height="24" fill="#27AE60"/>
+      <text x="955" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60">环路被拦截</text>
+    </g>
+    <!-- Row 2: d-separation consistency -->
+    <g id="r2">
+      <rect x="60" y="244" width="220" height="68" rx="6" fill="#FFFFFF"/>
+      <text x="170" y="284" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="600" fill="#2C3E50">d-分离一致性</text>
+      <rect x="295" y="244" width="250" height="68" rx="4" fill="#E74C3C" fill-opacity="0.06"/>
+      <use data-icon="tabler-outline/x" x="390" y="261" width="24" height="24" fill="#E74C3C"/>
+      <text x="420" y="286" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C">未验证</text>
+      <rect x="560" y="244" width="250" height="68" rx="4" fill="#E8B931" fill-opacity="0.06"/>
+      <use data-icon="tabler-outline/alert-triangle" x="655" y="261" width="24" height="24" fill="#E8B931"/>
+      <text x="685" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E8B931">检测不修正</text>
+      <text x="685" y="298" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">仅报告，不反馈</text>
+      <rect x="825" y="244" width="260" height="68" rx="4" fill="#27AE60" fill-opacity="0.06"/>
+      <use data-icon="tabler-outline/circle-check" x="920" y="261" width="24" height="24" fill="#27AE60"/>
+      <text x="955" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60">检测+自动修正</text>
+      <text x="955" y="298" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">Bayesian Ball 反馈</text>
+    </g>
+    <!-- Row 3: FMEA risk labeling -->
+    <g id="r3">
+      <rect x="60" y="320" width="220" height="68" rx="6" fill="#F5F7FA"/>
+      <text x="170" y="360" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="600" fill="#2C3E50">FMEA 风险标注</text>
+      <rect x="295" y="320" width="250" height="68" rx="4" fill="#E74C3C" fill-opacity="0.06"/>
+      <use data-icon="tabler-outline/x" x="390" y="337" width="24" height="24" fill="#E74C3C"/>
+      <text x="420" y="362" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C">无</text>
+      <rect x="560" y="320" width="250" height="68" rx="4" fill="#27AE60" fill-opacity="0.06"/>
+      <use data-icon="tabler-outline/circle-check" x="655" y="337" width="24" height="24" fill="#27AE60"/>
+      <text x="685" y="362" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60">有 (S/O/D)</text>
+      <rect x="825" y="320" width="260" height="68" rx="4" fill="#27AE60" fill-opacity="0.06"/>
+      <use data-icon="tabler-outline/circle-check" x="920" y="337" width="24" height="24" fill="#27AE60"/>
+      <text x="955" y="362" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60">有 (S/O/D)</text>
+    </g>
+    <!-- Row 4: Self-correction -->
+    <g id="r4">
+      <rect x="60" y="396" width="220" height="68" rx="6" fill="#FFFFFF"/>
+      <text x="170" y="436" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="600" fill="#2C3E50">自纠错能力</text>
+      <rect x="295" y="396" width="250" height="68" rx="4" fill="#E74C3C" fill-opacity="0.06"/>
+      <use data-icon="tabler-outline/x" x="390" y="413" width="24" height="24" fill="#E74C3C"/>
+      <text x="420" y="438" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C">无</text>
+      <rect x="560" y="396" width="250" height="68" rx="4" fill="#E74C3C" fill-opacity="0.06"/>
+      <use data-icon="tabler-outline/x" x="655" y="413" width="24" height="24" fill="#E74C3C"/>
+      <text x="685" y="438" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C">无</text>
+      <rect x="825" y="396" width="260" height="68" rx="4" fill="#27AE60" fill-opacity="0.06"/>
+      <use data-icon="tabler-outline/circle-check" x="920" y="413" width="24" height="24" fill="#27AE60"/>
+      <text x="955" y="432" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60">最多 5 轮</text>
+      <text x="955" y="450" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">自动反思修正</text>
+    </g>
+    <!-- Row 5: Overall quality -->
+    <g id="r5">
+      <rect x="60" y="472" width="220" height="68" rx="6" fill="#F5F7FA"/>
+      <text x="170" y="512" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#1A3C6E">综合图质量</text>
+      <rect x="295" y="472" width="250" height="68" rx="4" fill="#E74C3C" fill-opacity="0.1"/>
+      <text x="420" y="512" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#E74C3C" font-weight="bold">低</text>
+      <rect x="560" y="472" width="250" height="68" rx="4" fill="#E8B931" fill-opacity="0.1"/>
+      <text x="685" y="512" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#E8B931" font-weight="bold">中</text>
+      <rect x="825" y="472" width="260" height="68" rx="4" fill="#27AE60" fill-opacity="0.15"/>
+      <text x="955" y="512" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#27AE60" font-weight="bold">高</text>
+    </g>
+  </g>
+  <!-- Bar chart on bottom-right -->
+  <g id="p09-chart" transform="translate(60, 560)">
+    <!-- Chart background -->
+    <rect x="0" y="0" width="1160" height="120" rx="10" fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1"/>
+    <text x="30" y="28" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D" font-weight="bold">综合评分对比</text>
+    <!-- chart-plot-area: 80,45,1080,105 -->
+    <!-- Axis -->
+    <line x1="80" y1="105" x2="1080" y2="105" stroke="#D5D8DC" stroke-width="1"/>
+    <!-- Y-axis labels -->
+    <text x="70" y="50" text-anchor="end" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">100</text>
+    <text x="70" y="105" text-anchor="end" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">0</text>
+    <!-- Bar A: 40 -->
+    <rect x="200" y="81" width="180" height="24" rx="4" fill="#E74C3C" fill-opacity="0.7"/>
+    <text x="290" y="76" text-anchor="middle" font-family="Consolas, monospace" font-size="16" fill="#E74C3C" font-weight="bold">40</text>
+    <text x="290" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Config A</text>
+    <!-- Bar B: 70 -->
+    <rect x="490" y="63" width="180" height="42" rx="4" fill="#E8B931" fill-opacity="0.7"/>
+    <text x="580" y="58" text-anchor="middle" font-family="Consolas, monospace" font-size="16" fill="#E8B931" font-weight="bold">70</text>
+    <text x="580" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Config B</text>
+    <!-- Bar C: 95 -->
+    <rect x="780" y="48" width="180" height="57" rx="4" fill="#27AE60" fill-opacity="0.7"/>
+    <text x="870" y="43" text-anchor="middle" font-family="Consolas, monospace" font-size="16" fill="#27AE60" font-weight="bold">95</text>
+    <text x="870" y="115" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Config C</text>
+  </g>
+  <!-- Footer -->
+  <g id="p09-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">11</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

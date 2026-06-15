@@ -14,7 +14,7 @@
 
 ```text
 Causal_FMEA/
-├── qwen2.5.gguf                        # 量化模型权重 (~4GB, Q8_0)，纯算力燃料
+├── qwen2.5-3b-q4.gguf                  # 量化模型权重 (~2GB, Q4)，KV Cache 为 Q8_0
 ├── .devcontainer/                      # 基础设施层
 │   ├── Dockerfile                      # CUDA 12.4 + llama.cpp + Rust + maturin 全栈构建环境
 │   └── devcontainer.json               # GPU 直通配置，含生命周期自动编译钩子
@@ -63,7 +63,7 @@ $$\forall v_i \in V, \nexists \text{ path } v_i \rightarrow \dots \rightarrow v_
 每条数学公式随即被翻译为人类自然语言，作为反向 Prompt 注入 LLM 的"常识审判庭"。如果该断言在现实物理世界中荒谬至极，系统便利用"反证法"撕毁 LLM 伪造的因果图。
 
 **3. 边缘自适应风险评估 (FMEA RPN)**
-在确认图谱结构符合物理常识后，系统对每条因果边独立执行 FMEA 风险评分。S/O/D 各维度严格约束在 1-10 整数范围内，Rust 底层在构造时即拒绝越界输入。采用指数级加权公式以拉大严重度方差：
+在确认图谱结构符合物理常识后，系统对每条因果边独立执行 FMEA 风险评分。S/O/D 各维度严格约束在 1-10 整数范围内，Rust 底层在构造时即拒绝越界输入。采用线性加权公式，以拉大严重度方差：
 
 $$RPN=100 \cdot S+10 \cdot O+D$$
 

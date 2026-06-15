@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+      <feOffset dx="0" dy="2" result="offsetblur" />
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor" />
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow" />
+      <feMerge><feMergeNode in="shadow" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="1280" height="720" fill="#FFFFFF" />
+  
+  <g id="p08-header">
+    <path fill="#1A3C6E" d="M62,40 H63 A2,2 0 0 1 65,42 V74 A2,2 0 0 1 63,76 H62 A2,2 0 0 1 60,74 V42 A2,2 0 0 1 62,40 Z" />
+    <text x="78" y="67" font-family="Georgia, SimHei, serif" font-size="36" font-weight="bold" fill="#1A3C6E">实验配置</text>
+    <text x="310" y="67" font-family="Arial, sans-serif" font-size="18" fill="#7F8C8D">：Qwen 2.5-3B + 三组消融对比</text>
+    <text x="78" y="92" font-family="Arial, sans-serif" font-size="15" fill="#7F8C8D" letter-spacing="0.5">Experimental Setup</text>
+    <line x1="60" y1="108" x2="1220" y2="108" stroke="#D5D8DC" stroke-width="1" />
+  </g>
+<g id="stage-indicator" transform="translate(590, 14)">
+<path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M6,0 H634 A6,6 0 0 1 640,6 V36 A6,6 0 0 1 634,42 H6 A6,6 0 0 1 0,36 V6 A6,6 0 0 1 6,0 Z" />
+<circle cx="30" cy="14" r="6" fill="#D5D8DC" />
+<text x="30" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Input</text>
+<circle cx="110" cy="14" r="6" fill="#D5D8DC" />
+<text x="110" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Generator</text>
+<circle cx="190" cy="14" r="6" fill="#D5D8DC" />
+<text x="190" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Interning</text>
+<circle cx="275" cy="14" r="6" fill="#D5D8DC" />
+<text x="275" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Kahn Cycle</text>
+<circle cx="365" cy="14" r="6" fill="#D5D8DC" />
+<text x="365" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">d-Separation</text>
+<circle cx="450" cy="14" r="6" fill="#D5D8DC" />
+<text x="450" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">FMEA RPN</text>
+<circle cx="530" cy="14" r="6" fill="#D5D8DC" />
+<text x="530" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Reflector</text>
+<circle cx="605" cy="14" r="10" fill="#27AE60" />
+<text x="605" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27AE60" font-weight="bold">Output</text>
+<line x1="40" y1="14" x2="100" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="120" y1="14" x2="180" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="200" y1="14" x2="265" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="285" y1="14" x2="355" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="375" y1="14" x2="440" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="460" y1="14" x2="520" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="540" y1="14" x2="595" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<path fill="#FFF" stroke="#D5D8DC" stroke-width="0.5" d="M634,5 H686 A4,4 0 0 1 690,9 V31 A4,4 0 0 1 686,35 H634 A4,4 0 0 1 630,31 V9 A4,4 0 0 1 634,5 Z" />
+<circle cx="640" cy="14" r="3" fill="#E8B931" /><text x="648" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="640" cy="26" r="3" fill="#2E86DE" /><text x="648" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+
+
+
+  
+  <g id="p08-table">
+    
+    <g id="row-llm">
+      <path fill="#1A3C6E" fill-opacity="0.08" d="M68,130 H332 A8,8 0 0 1 340,138 V187 A8,8 0 0 1 332,195 H68 A8,8 0 0 1 60,187 V138 A8,8 0 0 1 68,130 Z" />
+      <text x="200" y="168" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1A3C6E" font-weight="bold">LLM 模型</text>
+      <path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M368,130 H1212 A8,8 0 0 1 1220,138 V187 A8,8 0 0 1 1212,195 H368 A8,8 0 0 1 360,187 V138 A8,8 0 0 1 368,130 Z" />
+      <text x="790" y="160" text-anchor="middle" font-family="Consolas, monospace" font-size="20" fill="#2C3E50" font-weight="bold">Qwen 2.5-3B</text>
+      <text x="790" y="182" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">Q4 量化 · 本地部署</text>
+    </g>
+    
+    <g id="row-inference">
+      <path fill="#1A3C6E" fill-opacity="0.08" d="M68,205 H332 A8,8 0 0 1 340,213 V262 A8,8 0 0 1 332,270 H68 A8,8 0 0 1 60,262 V213 A8,8 0 0 1 68,205 Z" />
+      <text x="200" y="243" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1A3C6E" font-weight="bold">推理框架</text>
+      <path fill="#FFFFFF" stroke="#D5D8DC" stroke-width="1" d="M368,205 H1212 A8,8 0 0 1 1220,213 V262 A8,8 0 0 1 1212,270 H368 A8,8 0 0 1 360,262 V213 A8,8 0 0 1 368,205 Z" />
+      <text x="790" y="235" text-anchor="middle" font-family="Consolas, monospace" font-size="18" fill="#2C3E50" font-weight="bold">llama-server</text>
+      <text x="790" y="257" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">OpenAI-compatible API · localhost:8080</text>
+    </g>
+    
+    <g id="row-context">
+      <path fill="#1A3C6E" fill-opacity="0.08" d="M68,280 H332 A8,8 0 0 1 340,288 V337 A8,8 0 0 1 332,345 H68 A8,8 0 0 1 60,337 V288 A8,8 0 0 1 68,280 Z" />
+      <text x="200" y="318" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1A3C6E" font-weight="bold">上下文窗口</text>
+      <path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M368,280 H1212 A8,8 0 0 1 1220,288 V337 A8,8 0 0 1 1212,345 H368 A8,8 0 0 1 360,337 V288 A8,8 0 0 1 368,280 Z" />
+      <text x="790" y="318" text-anchor="middle" font-family="Consolas, monospace" font-size="20" fill="#2C3E50" font-weight="bold">4096 tokens</text>
+    </g>
+    
+    <g id="row-json">
+      <path fill="#1A3C6E" fill-opacity="0.08" d="M68,355 H332 A8,8 0 0 1 340,363 V412 A8,8 0 0 1 332,420 H68 A8,8 0 0 1 60,412 V363 A8,8 0 0 1 68,355 Z" />
+      <text x="200" y="393" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1A3C6E" font-weight="bold">JSON 约束</text>
+      <path fill="#FFFFFF" stroke="#D5D8DC" stroke-width="1" d="M368,355 H1212 A8,8 0 0 1 1220,363 V412 A8,8 0 0 1 1212,420 H368 A8,8 0 0 1 360,412 V363 A8,8 0 0 1 368,355 Z" />
+      <text x="790" y="385" text-anchor="middle" font-family="Consolas, monospace" font-size="16" fill="#2C3E50" font-weight="bold">Pydantic schema → json_schema response format</text>
+      <text x="790" y="407" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">强制 LLM 输出符合 CausalEdge / ExtractedGraph 结构</text>
+    </g>
+    
+    <g id="row-scenarios">
+      <path fill="#1A3C6E" fill-opacity="0.08" d="M68,430 H332 A8,8 0 0 1 340,438 V487 A8,8 0 0 1 332,495 H68 A8,8 0 0 1 60,487 V438 A8,8 0 0 1 68,430 Z" />
+      <text x="200" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1A3C6E" font-weight="bold">测试场景</text>
+      <path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M368,430 H1212 A8,8 0 0 1 1220,438 V487 A8,8 0 0 1 1212,495 H368 A8,8 0 0 1 360,487 V438 A8,8 0 0 1 368,430 Z" />
+      <text x="790" y="460" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#2C3E50" font-weight="bold">医院感染链路 · 工业故障传播</text>
+      <text x="790" y="482" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">真实领域场景，含复杂因果关系和多层依赖</text>
+    </g>
+    
+    <g id="row-configs">
+      <path fill="#1A3C6E" fill-opacity="0.08" d="M68,510 H332 A8,8 0 0 1 340,518 V622 A8,8 0 0 1 332,630 H68 A8,8 0 0 1 60,622 V518 A8,8 0 0 1 68,510 Z" />
+      <text x="200" y="560" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1A3C6E" font-weight="bold">对比配置</text>
+      <path fill="#E74C3C" fill-opacity="0.08" stroke="#E74C3C" stroke-width="1.5" d="M368,510 H622 A8,8 0 0 1 630,518 V622 A8,8 0 0 1 622,630 H368 A8,8 0 0 1 360,622 V518 A8,8 0 0 1 368,510 Z" />
+      <text x="495" y="545" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#E74C3C" font-weight="bold">Config A</text>
+      <text x="495" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">纯 LLM</text>
+      <text x="495" y="592" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">无验证 · 无 FMEA</text>
+      <path fill="#E8B931" fill-opacity="0.08" stroke="#E8B931" stroke-width="1.5" d="M658,510 H912 A8,8 0 0 1 920,518 V622 A8,8 0 0 1 912,630 H658 A8,8 0 0 1 650,622 V518 A8,8 0 0 1 658,510 Z" />
+      <text x="785" y="545" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#E8B931" font-weight="bold">Config B</text>
+      <text x="785" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">+ Schema + Rust 验证</text>
+      <text x="785" y="592" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">环路检测 + d-分离 + FMEA</text>
+      <path fill="#27AE60" fill-opacity="0.08" stroke="#27AE60" stroke-width="1.5" d="M948,510 H1212 A8,8 0 0 1 1220,518 V622 A8,8 0 0 1 1212,630 H948 A8,8 0 0 1 940,622 V518 A8,8 0 0 1 948,510 Z" />
+      <text x="1080" y="545" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#27AE60" font-weight="bold">Config C</text>
+      <text x="1080" y="570" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">+ Reflection 闭环</text>
+      <text x="1080" y="592" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">完整 EdgeThemis</text>
+    </g>
+  </g>
+  
+  <g id="p08-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">10</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

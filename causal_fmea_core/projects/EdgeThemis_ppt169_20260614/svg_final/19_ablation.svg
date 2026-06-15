@@ -1,0 +1,217 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+      <feOffset dx="0" dy="2" result="offsetblur" />
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor" />
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow" />
+      <feMerge><feMergeNode in="shadow" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="1280" height="720" fill="#FFFFFF" />
+  
+  <g id="p09-header">
+    <path fill="#1A3C6E" d="M62,30 H63 A2,2 0 0 1 65,32 V64 A2,2 0 0 1 63,66 H62 A2,2 0 0 1 60,64 V32 A2,2 0 0 1 62,30 Z" />
+    <text x="78" y="57" font-family="Georgia, SimHei, serif" font-size="32" font-weight="bold" fill="#1A3C6E">消融实验</text>
+    <text x="280" y="57" font-family="Arial, sans-serif" font-size="16" fill="#7F8C8D">：形式化验证 + 自反思闭环显著提升因果图质量</text>
+    <text x="78" y="80" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D" letter-spacing="0.5">Ablation Study: Formal Verification + Self-Reflection Significantly Improve Graph Quality</text>
+    <line x1="60" y1="94" x2="1220" y2="94" stroke="#D5D8DC" stroke-width="1" />
+  </g>
+<g id="stage-indicator" transform="translate(590, 14)">
+<path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M6,0 H634 A6,6 0 0 1 640,6 V36 A6,6 0 0 1 634,42 H6 A6,6 0 0 1 0,36 V6 A6,6 0 0 1 6,0 Z" />
+<circle cx="30" cy="14" r="6" fill="#D5D8DC" />
+<text x="30" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Input</text>
+<circle cx="110" cy="14" r="6" fill="#D5D8DC" />
+<text x="110" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Generator</text>
+<circle cx="190" cy="14" r="6" fill="#D5D8DC" />
+<text x="190" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Interning</text>
+<circle cx="275" cy="14" r="6" fill="#D5D8DC" />
+<text x="275" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Kahn Cycle</text>
+<circle cx="365" cy="14" r="6" fill="#D5D8DC" />
+<text x="365" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">d-Separation</text>
+<circle cx="450" cy="14" r="6" fill="#D5D8DC" />
+<text x="450" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">FMEA RPN</text>
+<circle cx="530" cy="14" r="6" fill="#D5D8DC" />
+<text x="530" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Reflector</text>
+<circle cx="605" cy="14" r="10" fill="#27AE60" />
+<text x="605" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27AE60" font-weight="bold">Output</text>
+<line x1="40" y1="14" x2="100" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="120" y1="14" x2="180" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="200" y1="14" x2="265" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="285" y1="14" x2="355" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="375" y1="14" x2="440" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="460" y1="14" x2="520" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="540" y1="14" x2="595" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<path fill="#FFF" stroke="#D5D8DC" stroke-width="0.5" d="M634,5 H686 A4,4 0 0 1 690,9 V31 A4,4 0 0 1 686,35 H634 A4,4 0 0 1 630,31 V9 A4,4 0 0 1 634,5 Z" />
+<circle cx="640" cy="14" r="3" fill="#E8B931" /><text x="648" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="640" cy="26" r="3" fill="#2E86DE" /><text x="648" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+
+
+
+  
+  <g id="p09-table">
+    
+    <path fill="#1A3C6E" d="M66,110 H274 A6,6 0 0 1 280,116 V152 A6,6 0 0 1 274,158 H66 A6,6 0 0 1 60,152 V116 A6,6 0 0 1 66,110 Z" />
+    <text x="170" y="140" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">评估指标</text>
+    
+    <path fill="#E74C3C" filter="url(#cardShadow)" d="M301,110 H539 A6,6 0 0 1 545,116 V152 A6,6 0 0 1 539,158 H301 A6,6 0 0 1 295,152 V116 A6,6 0 0 1 301,110 Z" />
+    <text x="420" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF">Config A</text>
+    <text x="420" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#FFFFFF" fill-opacity="0.8">纯 LLM</text>
+    
+    <path fill="#E8B931" filter="url(#cardShadow)" d="M566,110 H804 A6,6 0 0 1 810,116 V152 A6,6 0 0 1 804,158 H566 A6,6 0 0 1 560,152 V116 A6,6 0 0 1 566,110 Z" />
+    <text x="685" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF">Config B</text>
+    <text x="685" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#FFFFFF" fill-opacity="0.8">+ Schema + Rust</text>
+    
+    <path fill="#27AE60" filter="url(#cardShadow)" d="M831,105 H1079 A6,6 0 0 1 1085,111 V155 A6,6 0 0 1 1079,161 H831 A6,6 0 0 1 825,155 V111 A6,6 0 0 1 831,105 Z" />
+    <path fill="#1A3C6E" d="M955,97 H995 A10,10 0 0 1 1005,107 V107 A10,10 0 0 1 995,117 H955 A10,10 0 0 1 945,107 V107 A10,10 0 0 1 955,97 Z" />
+    <text x="975" y="111" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#FFFFFF">Best</text>
+    <text x="955" y="133" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF">Config C</text>
+    <text x="955" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#FFFFFF" fill-opacity="0.8">+ Reflection</text>
+    
+    <g id="r1">
+      <path fill="#F5F7FA" d="M66,168 H274 A6,6 0 0 1 280,174 V230 A6,6 0 0 1 274,236 H66 A6,6 0 0 1 60,230 V174 A6,6 0 0 1 66,168 Z" />
+      <text x="170" y="208" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="600" fill="#2C3E50">DAG 合法性</text>
+      <path fill="#E74C3C" fill-opacity="0.06" d="M299,168 H541 A4,4 0 0 1 545,172 V232 A4,4 0 0 1 541,236 H299 A4,4 0 0 1 295,232 V172 A4,4 0 0 1 299,168 Z" />
+      
+  <g transform="translate(390.0, 185.0)" fill="none" stroke="#E74C3C" stroke-width="2">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </g>
+      <text x="420" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C">可能含环路</text>
+      <path fill="#27AE60" fill-opacity="0.06" d="M564,168 H806 A4,4 0 0 1 810,172 V232 A4,4 0 0 1 806,236 H564 A4,4 0 0 1 560,232 V172 A4,4 0 0 1 564,168 Z" />
+      
+  <g transform="translate(655.0, 185.0)" fill="none" stroke="#27AE60" stroke-width="2">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M9 12l2 2l4 -4" />
+  </g>
+      <text x="685" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60">环路被拦截</text>
+      <path fill="#27AE60" fill-opacity="0.06" d="M829,168 H1081 A4,4 0 0 1 1085,172 V232 A4,4 0 0 1 1081,236 H829 A4,4 0 0 1 825,232 V172 A4,4 0 0 1 829,168 Z" />
+      
+  <g transform="translate(920.0, 185.0)" fill="none" stroke="#27AE60" stroke-width="2">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M9 12l2 2l4 -4" />
+  </g>
+      <text x="955" y="210" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60">环路被拦截</text>
+    </g>
+    
+    <g id="r2">
+      <path fill="#FFFFFF" d="M66,244 H274 A6,6 0 0 1 280,250 V306 A6,6 0 0 1 274,312 H66 A6,6 0 0 1 60,306 V250 A6,6 0 0 1 66,244 Z" />
+      <text x="170" y="284" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="600" fill="#2C3E50">d-分离一致性</text>
+      <path fill="#E74C3C" fill-opacity="0.06" d="M299,244 H541 A4,4 0 0 1 545,248 V308 A4,4 0 0 1 541,312 H299 A4,4 0 0 1 295,308 V248 A4,4 0 0 1 299,244 Z" />
+      
+  <g transform="translate(390.0, 261.0)" fill="none" stroke="#E74C3C" stroke-width="2">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </g>
+      <text x="420" y="286" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C">未验证</text>
+      <path fill="#E8B931" fill-opacity="0.06" d="M564,244 H806 A4,4 0 0 1 810,248 V308 A4,4 0 0 1 806,312 H564 A4,4 0 0 1 560,308 V248 A4,4 0 0 1 564,244 Z" />
+      
+  <g transform="translate(655.0, 261.0)" fill="none" stroke="#E8B931" stroke-width="2">
+    <path d="M12 9v4" />
+    <path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636 -2.87l-8.106 -13.536a1.914 1.914 0 0 0 -3.274 0" />
+    <path d="M12 16h.01" />
+  </g>
+      <text x="685" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E8B931">检测不修正</text>
+      <text x="685" y="298" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">仅报告，不反馈</text>
+      <path fill="#27AE60" fill-opacity="0.06" d="M829,244 H1081 A4,4 0 0 1 1085,248 V308 A4,4 0 0 1 1081,312 H829 A4,4 0 0 1 825,308 V248 A4,4 0 0 1 829,244 Z" />
+      
+  <g transform="translate(920.0, 261.0)" fill="none" stroke="#27AE60" stroke-width="2">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M9 12l2 2l4 -4" />
+  </g>
+      <text x="955" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60">检测+自动修正</text>
+      <text x="955" y="298" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">Bayesian Ball 反馈</text>
+    </g>
+    
+    <g id="r3">
+      <path fill="#F5F7FA" d="M66,320 H274 A6,6 0 0 1 280,326 V382 A6,6 0 0 1 274,388 H66 A6,6 0 0 1 60,382 V326 A6,6 0 0 1 66,320 Z" />
+      <text x="170" y="360" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="600" fill="#2C3E50">FMEA 风险标注</text>
+      <path fill="#E74C3C" fill-opacity="0.06" d="M299,320 H541 A4,4 0 0 1 545,324 V384 A4,4 0 0 1 541,388 H299 A4,4 0 0 1 295,384 V324 A4,4 0 0 1 299,320 Z" />
+      
+  <g transform="translate(390.0, 337.0)" fill="none" stroke="#E74C3C" stroke-width="2">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </g>
+      <text x="420" y="362" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C">无</text>
+      <path fill="#27AE60" fill-opacity="0.06" d="M564,320 H806 A4,4 0 0 1 810,324 V384 A4,4 0 0 1 806,388 H564 A4,4 0 0 1 560,384 V324 A4,4 0 0 1 564,320 Z" />
+      
+  <g transform="translate(655.0, 337.0)" fill="none" stroke="#27AE60" stroke-width="2">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M9 12l2 2l4 -4" />
+  </g>
+      <text x="685" y="362" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60">有 (S/O/D)</text>
+      <path fill="#27AE60" fill-opacity="0.06" d="M829,320 H1081 A4,4 0 0 1 1085,324 V384 A4,4 0 0 1 1081,388 H829 A4,4 0 0 1 825,384 V324 A4,4 0 0 1 829,320 Z" />
+      
+  <g transform="translate(920.0, 337.0)" fill="none" stroke="#27AE60" stroke-width="2">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M9 12l2 2l4 -4" />
+  </g>
+      <text x="955" y="362" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60">有 (S/O/D)</text>
+    </g>
+    
+    <g id="r4">
+      <path fill="#FFFFFF" d="M66,396 H274 A6,6 0 0 1 280,402 V458 A6,6 0 0 1 274,464 H66 A6,6 0 0 1 60,458 V402 A6,6 0 0 1 66,396 Z" />
+      <text x="170" y="436" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="600" fill="#2C3E50">自纠错能力</text>
+      <path fill="#E74C3C" fill-opacity="0.06" d="M299,396 H541 A4,4 0 0 1 545,400 V460 A4,4 0 0 1 541,464 H299 A4,4 0 0 1 295,460 V400 A4,4 0 0 1 299,396 Z" />
+      
+  <g transform="translate(390.0, 413.0)" fill="none" stroke="#E74C3C" stroke-width="2">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </g>
+      <text x="420" y="438" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C">无</text>
+      <path fill="#E74C3C" fill-opacity="0.06" d="M564,396 H806 A4,4 0 0 1 810,400 V460 A4,4 0 0 1 806,464 H564 A4,4 0 0 1 560,460 V400 A4,4 0 0 1 564,396 Z" />
+      
+  <g transform="translate(655.0, 413.0)" fill="none" stroke="#E74C3C" stroke-width="2">
+    <path d="M18 6l-12 12" />
+    <path d="M6 6l12 12" />
+  </g>
+      <text x="685" y="438" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E74C3C">无</text>
+      <path fill="#27AE60" fill-opacity="0.06" d="M829,396 H1081 A4,4 0 0 1 1085,400 V460 A4,4 0 0 1 1081,464 H829 A4,4 0 0 1 825,460 V400 A4,4 0 0 1 829,396 Z" />
+      
+  <g transform="translate(920.0, 413.0)" fill="none" stroke="#27AE60" stroke-width="2">
+    <path d="M3 12a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
+    <path d="M9 12l2 2l4 -4" />
+  </g>
+      <text x="955" y="432" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60">最多 5 轮</text>
+      <text x="955" y="450" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">自动反思修正</text>
+    </g>
+    
+    <g id="r5">
+      <path fill="#F5F7FA" d="M66,472 H274 A6,6 0 0 1 280,478 V534 A6,6 0 0 1 274,540 H66 A6,6 0 0 1 60,534 V478 A6,6 0 0 1 66,472 Z" />
+      <text x="170" y="512" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#1A3C6E">综合图质量</text>
+      <path fill="#E74C3C" fill-opacity="0.1" d="M299,472 H541 A4,4 0 0 1 545,476 V536 A4,4 0 0 1 541,540 H299 A4,4 0 0 1 295,536 V476 A4,4 0 0 1 299,472 Z" />
+      <text x="420" y="512" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#E74C3C" font-weight="bold">低</text>
+      <path fill="#E8B931" fill-opacity="0.1" d="M564,472 H806 A4,4 0 0 1 810,476 V536 A4,4 0 0 1 806,540 H564 A4,4 0 0 1 560,536 V476 A4,4 0 0 1 564,472 Z" />
+      <text x="685" y="512" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#E8B931" font-weight="bold">中</text>
+      <path fill="#27AE60" fill-opacity="0.15" d="M829,472 H1081 A4,4 0 0 1 1085,476 V536 A4,4 0 0 1 1081,540 H829 A4,4 0 0 1 825,536 V476 A4,4 0 0 1 829,472 Z" />
+      <text x="955" y="512" text-anchor="middle" font-family="Arial, sans-serif" font-size="22" fill="#27AE60" font-weight="bold">高</text>
+    </g>
+  </g>
+  
+  <g id="p09-chart" transform="translate(60, 555)">
+    <path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M10,0 H1150 A10,10 0 0 1 1160,10 V100 A10,10 0 0 1 1150,110 H10 A10,10 0 0 1 0,100 V10 A10,10 0 0 1 10,0 Z" />
+    <text x="30" y="22" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D" font-weight="bold">综合评分对比</text>
+    <line x1="80" y1="95" x2="1080" y2="95" stroke="#D5D8DC" stroke-width="1" />
+    <text x="70" y="42" text-anchor="end" font-family="Arial, sans-serif" font-size="10" fill="#7F8C8D">100</text>
+    <text x="70" y="95" text-anchor="end" font-family="Arial, sans-serif" font-size="10" fill="#7F8C8D">0</text>
+    
+    <path fill="#E74C3C" fill-opacity="0.7" d="M204,73 H376 A4,4 0 0 1 380,77 V91 A4,4 0 0 1 376,95 H204 A4,4 0 0 1 200,91 V77 A4,4 0 0 1 204,73 Z" />
+    <text x="290" y="68" text-anchor="middle" font-family="Consolas, monospace" font-size="14" fill="#E74C3C" font-weight="bold">40</text>
+    <text x="290" y="104" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">Config A</text>
+    
+    <path fill="#E8B931" fill-opacity="0.7" d="M494,57 H666 A4,4 0 0 1 670,61 V91 A4,4 0 0 1 666,95 H494 A4,4 0 0 1 490,91 V61 A4,4 0 0 1 494,57 Z" />
+    <text x="580" y="52" text-anchor="middle" font-family="Consolas, monospace" font-size="14" fill="#E8B931" font-weight="bold">70</text>
+    <text x="580" y="104" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">Config B</text>
+    
+    <path fill="#27AE60" fill-opacity="0.7" d="M784,44 H956 A4,4 0 0 1 960,48 V91 A4,4 0 0 1 956,95 H784 A4,4 0 0 1 780,91 V48 A4,4 0 0 1 784,44 Z" />
+    <text x="870" y="39" text-anchor="middle" font-family="Consolas, monospace" font-size="14" fill="#27AE60" font-weight="bold">95</text>
+    <text x="870" y="104" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">Config C</text>
+  </g>
+  
+  <g id="p09-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">11</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

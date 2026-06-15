@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+<defs><filter id="cs" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur in="SourceAlpha" stdDeviation="4"/><feOffset dx="0" dy="2" result="ob"/><feFlood flood-color="#000" flood-opacity="0.06" result="sc"/><feComposite in="sc" in2="ob" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<rect width="1280" height="720" fill="#FFFFFF"/>
+<g id="header"><rect x="60" y="30" width="5" height="32" rx="2" fill="#1A3C6E"/>
+<text x="78" y="56" font-family="Georgia, SimHei, serif" font-size="28" font-weight="bold" fill="#1A3C6E">Kahn 环路检测：拓扑排序拦截逻辑死循环</text>
+<text x="78" y="76" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">Kahn Cycle Detection: O(V+E) Topological Sort</text>
+<line x1="60" y1="88" x2="1220" y2="88" stroke="#D5D8DC" stroke-width="1"/></g>
+<g id="stage-indicator" transform="translate(590, 14)">
+<rect x="0" y="0" width="640" height="42" rx="6" fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1"/>
+<circle cx="30" cy="14" r="6" fill="#D5D8DC"/>
+<text x="30" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Input</text>
+<circle cx="110" cy="14" r="6" fill="#D5D8DC"/>
+<text x="110" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Generator</text>
+<circle cx="190" cy="14" r="6" fill="#D5D8DC"/>
+<text x="190" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Interning</text>
+<circle cx="275" cy="14" r="10" fill="#2E86DE"/>
+<text x="275" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#2E86DE" font-weight="bold">Kahn Cycle</text>
+<circle cx="365" cy="14" r="6" fill="#D5D8DC"/>
+<text x="365" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">d-Separation</text>
+<circle cx="450" cy="14" r="6" fill="#D5D8DC"/>
+<text x="450" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">FMEA RPN</text>
+<circle cx="530" cy="14" r="6" fill="#D5D8DC"/>
+<text x="530" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Reflector</text>
+<circle cx="605" cy="14" r="6" fill="#D5D8DC"/>
+<text x="605" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Output</text>
+<line x1="40" y1="14" x2="100" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="120" y1="14" x2="180" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="200" y1="14" x2="265" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="285" y1="14" x2="355" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="375" y1="14" x2="440" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="460" y1="14" x2="520" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="540" y1="14" x2="595" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<rect x="630" y="5" width="60" height="30" rx="4" fill="#FFF" stroke="#D5D8DC" stroke-width="0.5"/>
+<circle cx="640" cy="14" r="3" fill="#E8B931"/><text x="648" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="640" cy="26" r="3" fill="#2E86DE"/><text x="648" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+<g id="algo" filter="url(#cs)">
+  <rect x="60" y="105" width="560" height="320" rx="10" fill="#FFF"/>
+  <rect x="60" y="105" width="560" height="6" rx="3" fill="#2E86DE"/>
+  <text x="80" y="140" font-family="Georgia, SimHei, serif" font-size="18" fill="#1A3C6E" font-weight="bold">算法流程</text>
+  <text x="80" y="170" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">1. 统计每个节点的<tspan font-weight="bold" fill="#1A3C6E">入度</tspan>（被指向的次数）</text>
+  <text x="80" y="196" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">2. 将所有入度=0 的"自由节点"推入队列</text>
+  <text x="80" y="222" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">3. 像<tspan font-weight="bold" fill="#1A3C6E">剥洋葱</tspan>一样层层拆解：</text>
+  <text x="100" y="248" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">• 出队一个节点，processed++</text>
+  <text x="100" y="274" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">• 将其所有邻居的入度-1</text>
+  <text x="100" y="300" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">• 入度=0 的邻居入队</text>
+  <text x="80" y="330" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">4. 终极审判：processed == n ? <tspan fill="#27AE60" font-weight="bold">无环</tspan> : <tspan fill="#E74C3C" font-weight="bold">有环!</tspan></text>
+  <text x="80" y="360" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">复杂度：O(V+E) · 空间：O(V)</text>
+  <text x="80" y="380" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">algorithms.rs → kahn_cycle_detect(graph) -> bool</text>
+  <text x="80" y="400" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">注入阶段即拦截自环边 v→v（add_edge 时检查）</text>
+</g>
+<g id="example" filter="url(#cs)">
+  <rect x="640" y="105" width="580" height="320" rx="10" fill="#FFF"/>
+  <rect x="640" y="105" width="580" height="6" rx="3" fill="#2E86DE"/>
+  <text x="660" y="140" font-family="Georgia, SimHei, serif" font-size="18" fill="#1A3C6E" font-weight="bold">示例：检测到环路</text>
+  <!-- DAG with cycle -->
+  <g transform="translate(700, 200)">
+    <circle cx="0" cy="0" r="24" fill="none" stroke="#E74C3C" stroke-width="2.5" stroke-dasharray="5,3"/>
+    <text x="0" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C" font-weight="bold">A</text>
+    <line x1="24" y1="-12" x2="76" y2="-36" stroke="#2E86DE" stroke-width="2.5"/>
+    <polygon points="76,-36 68,-30 72,-40" fill="#2E86DE"/>
+    <circle cx="100" cy="-36" r="24" fill="none" stroke="#E74C3C" stroke-width="2.5" stroke-dasharray="5,3"/>
+    <text x="100" y="-30" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C" font-weight="bold">B</text>
+    <line x1="124" y1="-24" x2="176" y2="0" stroke="#2E86DE" stroke-width="2.5"/>
+    <polygon points="176,0 168,-6 172,8" fill="#2E86DE"/>
+    <circle cx="200" cy="0" r="24" fill="none" stroke="#E74C3C" stroke-width="2.5" stroke-dasharray="5,3"/>
+    <text x="200" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C" font-weight="bold">C</text>
+    <path d="M 176,16 Q 100,60 24,16" fill="none" stroke="#E74C3C" stroke-width="3" stroke-dasharray="8,4"/>
+    <polygon points="26,14 18,22 30,22" fill="#E74C3C"/>
+  </g>
+  <text x="800" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#E74C3C" font-weight="bold">A→B→C→A 环路!</text>
+  <!-- Kahn steps -->
+  <text x="680" y="340" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">入度：A=1, B=1, C=1</text>
+  <text x="680" y="365" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">入度=0 的节点：<tspan fill="#E74C3C" font-weight="bold">无！</tspan></text>
+  <text x="680" y="390" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">processed=0 ≠ n=3 → <tspan fill="#E74C3C" font-weight="bold">有环！触发熔断！</tspan></text>
+  <text x="680" y="415" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">→ 生成拦截报告，反馈 LLM 重写</text>
+</g>
+<text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">08</text><text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+</svg>

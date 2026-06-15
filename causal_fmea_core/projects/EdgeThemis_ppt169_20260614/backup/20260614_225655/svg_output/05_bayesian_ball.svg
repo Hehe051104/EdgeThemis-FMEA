@@ -1,0 +1,202 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor"/>
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <marker id="arrowRed" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#E74C3C"/>
+    </marker>
+    <marker id="arrowGreen" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 Z" fill="#27AE60"/>
+    </marker>
+  </defs>
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <!-- Header -->
+  <g id="p05-header">
+    <rect x="60" y="30" width="5" height="36" rx="2" fill="#1A3C6E"/>
+    <text x="78" y="57" font-family="Georgia, SimHei, serif" font-size="34" font-weight="bold" fill="#1A3C6E">Bayesian Ball d-分离</text>
+    <text x="480" y="57" font-family="Arial, sans-serif" font-size="16" fill="#7F8C8D">：6 种路径活跃/阻断判定规则</text>
+    <text x="78" y="80" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D" letter-spacing="0.5">Bayesian Ball d-Separation: 6 Path Activation/Blocking Rules</text>
+    <line x1="60" y1="94" x2="1220" y2="94" stroke="#D5D8DC" stroke-width="1"/>
+  </g>
+  <!-- 6-Case Table -->
+  <g id="p05-table">
+    <!-- Table Header -->
+    <rect x="60" y="108" width="1160" height="42" rx="6" fill="#1A3C6E"/>
+    <text x="145" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">结构类型</text>
+    <text x="350" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">图示</text>
+    <text x="510" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">Z 含 M?</text>
+    <text x="660" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">d-分离判定</text>
+    <text x="940" y="135" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">直觉解释</text>
+    <!-- Row 1: Chain, Z contains M → blocked (GREEN) -->
+    <g id="row-1">
+      <rect x="60" y="155" width="1160" height="62" rx="4" fill="#27AE60" fill-opacity="0.06"/>
+      <rect x="60" y="155" width="6" height="62" rx="3" fill="#27AE60"/>
+      <text x="145" y="182" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">链式 (Chain)</text>
+      <text x="145" y="202" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#7F8C8D">X→M→Y</text>
+      <!-- Mini DAG -->
+      <g transform="translate(310, 175)">
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#27AE60" stroke-width="2"/>
+        <text x="0" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">X</text>
+        <line x1="14" y1="-5" x2="46" y2="-5" stroke="#27AE60" stroke-width="2.5"/>
+        <polygon points="46,-5 39,-9 39,-1" fill="#27AE60"/>
+        <circle cx="60" cy="-5" r="14" fill="#27AE60" fill-opacity="0.2" stroke="#27AE60" stroke-width="2"/>
+        <text x="60" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">M</text>
+        <line x1="74" y1="-5" x2="106" y2="-5" stroke="#27AE60" stroke-width="2.5"/>
+        <polygon points="106,-5 99,-9 99,-1" fill="#27AE60"/>
+        <circle cx="120" cy="0" r="14" fill="none" stroke="#27AE60" stroke-width="2"/>
+        <text x="120" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">Y</text>
+      </g>
+      <text x="510" y="191" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#27AE60" font-weight="bold">是</text>
+      <rect x="600" y="167" width="120" height="38" rx="19" fill="#27AE60" fill-opacity="0.15"/>
+      <text x="660" y="191" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#27AE60" font-weight="bold">X⊥Y 阻断</text>
+      <text x="940" y="183" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">M 被观测，信息传递截断</text>
+      <text x="940" y="203" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">M is observed → path blocked</text>
+    </g>
+    <!-- Row 2: Chain, Z not contains M → connected (RED) -->
+    <g id="row-2">
+      <rect x="60" y="222" width="1160" height="62" rx="4" fill="#E74C3C" fill-opacity="0.06"/>
+      <rect x="60" y="222" width="6" height="62" rx="3" fill="#E74C3C"/>
+      <text x="145" y="249" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">链式 (Chain)</text>
+      <text x="145" y="269" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#7F8C8D">X→M→Y</text>
+      <g transform="translate(310, 242)">
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#E74C3C" stroke-width="2"/>
+        <text x="0" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">X</text>
+        <line x1="14" y1="-5" x2="46" y2="-5" stroke="#E74C3C" stroke-width="2.5"/>
+        <polygon points="46,-5 39,-9 39,-1" fill="#E74C3C"/>
+        <circle cx="60" cy="-5" r="14" fill="none" stroke="#E74C3C" stroke-width="2" stroke-dasharray="3,2"/>
+        <text x="60" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">M</text>
+        <line x1="74" y1="-5" x2="106" y2="-5" stroke="#E74C3C" stroke-width="2.5"/>
+        <polygon points="106,-5 99,-9 99,-1" fill="#E74C3C"/>
+        <circle cx="120" cy="0" r="14" fill="none" stroke="#E74C3C" stroke-width="2"/>
+        <text x="120" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">Y</text>
+      </g>
+      <text x="510" y="258" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#E74C3C" font-weight="bold">否</text>
+      <rect x="600" y="234" width="120" height="38" rx="19" fill="#E74C3C" fill-opacity="0.15"/>
+      <text x="660" y="258" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C" font-weight="bold">X¬⊥Y 连通</text>
+      <text x="940" y="250" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">M 未观测，影响可传递</text>
+      <text x="940" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">M unobserved → path open</text>
+    </g>
+    <!-- Row 3: Fork, Z contains M → blocked (GREEN) -->
+    <g id="row-3">
+      <rect x="60" y="289" width="1160" height="62" rx="4" fill="#27AE60" fill-opacity="0.06"/>
+      <rect x="60" y="289" width="6" height="62" rx="3" fill="#27AE60"/>
+      <text x="145" y="316" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">共因 (Fork)</text>
+      <text x="145" y="336" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#7F8C8D">X←M→Y</text>
+      <g transform="translate(310, 309)">
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#27AE60" stroke-width="2"/>
+        <text x="0" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">X</text>
+        <line x1="14" y1="-5" x2="46" y2="-5" stroke="#27AE60" stroke-width="2.5"/>
+        <polygon points="14,-5 21,-9 21,-1" fill="#27AE60"/>
+        <circle cx="60" cy="-5" r="14" fill="#27AE60" fill-opacity="0.2" stroke="#27AE60" stroke-width="2"/>
+        <text x="60" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">M</text>
+        <line x1="74" y1="-5" x2="106" y2="-5" stroke="#27AE60" stroke-width="2.5"/>
+        <polygon points="106,-5 99,-9 99,-1" fill="#27AE60"/>
+        <circle cx="120" cy="0" r="14" fill="none" stroke="#27AE60" stroke-width="2"/>
+        <text x="120" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">Y</text>
+      </g>
+      <text x="510" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#27AE60" font-weight="bold">是</text>
+      <rect x="600" y="301" width="120" height="38" rx="19" fill="#27AE60" fill-opacity="0.15"/>
+      <text x="660" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#27AE60" font-weight="bold">X⊥Y 阻断</text>
+      <text x="940" y="317" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">M 被观测，共同原因被控制</text>
+      <text x="940" y="337" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">M observed → confounder controlled</text>
+    </g>
+    <!-- Row 4: Fork, Z not contains M → connected (RED) -->
+    <g id="row-4">
+      <rect x="60" y="356" width="1160" height="62" rx="4" fill="#E74C3C" fill-opacity="0.06"/>
+      <rect x="60" y="356" width="6" height="62" rx="3" fill="#E74C3C"/>
+      <text x="145" y="383" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">共因 (Fork)</text>
+      <text x="145" y="403" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#7F8C8D">X←M→Y</text>
+      <g transform="translate(310, 376)">
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#E74C3C" stroke-width="2"/>
+        <text x="0" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">X</text>
+        <line x1="14" y1="-5" x2="46" y2="-5" stroke="#E74C3C" stroke-width="2.5"/>
+        <polygon points="14,-5 21,-9 21,-1" fill="#E74C3C"/>
+        <circle cx="60" cy="-5" r="14" fill="none" stroke="#E74C3C" stroke-width="2" stroke-dasharray="3,2"/>
+        <text x="60" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">M</text>
+        <line x1="74" y1="-5" x2="106" y2="-5" stroke="#E74C3C" stroke-width="2.5"/>
+        <polygon points="106,-5 99,-9 99,-1" fill="#E74C3C"/>
+        <circle cx="120" cy="0" r="14" fill="none" stroke="#E74C3C" stroke-width="2"/>
+        <text x="120" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">Y</text>
+      </g>
+      <text x="510" y="392" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#E74C3C" font-weight="bold">否</text>
+      <rect x="600" y="368" width="120" height="38" rx="19" fill="#E74C3C" fill-opacity="0.15"/>
+      <text x="660" y="392" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C" font-weight="bold">X¬⊥Y 连通</text>
+      <text x="940" y="384" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">M 未观测，共享隐藏混杂</text>
+      <text x="940" y="404" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">M unobserved → hidden confounder</text>
+    </g>
+    <!-- Row 5: Collider, Z contains M → ACTIVATED (RED, special) -->
+    <g id="row-5">
+      <rect x="60" y="423" width="1160" height="62" rx="4" fill="#E74C3C" fill-opacity="0.06"/>
+      <rect x="60" y="423" width="6" height="62" rx="3" fill="#E74C3C"/>
+      <text x="145" y="450" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">对撞 (Collider)</text>
+      <text x="145" y="470" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#7F8C8D">X→M←Y</text>
+      <g transform="translate(310, 443)">
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#E74C3C" stroke-width="2"/>
+        <text x="0" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">X</text>
+        <line x1="14" y1="-5" x2="46" y2="-5" stroke="#E74C3C" stroke-width="2.5"/>
+        <polygon points="46,-5 39,-9 39,-1" fill="#E74C3C"/>
+        <circle cx="60" cy="-5" r="14" fill="#E74C3C" fill-opacity="0.2" stroke="#E74C3C" stroke-width="2"/>
+        <text x="60" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">M</text>
+        <line x1="74" y1="-5" x2="106" y2="-5" stroke="#E74C3C" stroke-width="2.5"/>
+        <polygon points="74,-5 81,-9 81,-1" fill="#E74C3C"/>
+        <circle cx="120" cy="0" r="14" fill="none" stroke="#E74C3C" stroke-width="2"/>
+        <text x="120" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#E74C3C" font-weight="bold">Y</text>
+      </g>
+      <text x="510" y="459" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#E74C3C" font-weight="bold">是</text>
+      <rect x="600" y="435" width="130" height="38" rx="19" fill="#E74C3C" fill-opacity="0.2"/>
+      <text x="665" y="459" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C" font-weight="bold">X¬⊥Y 激活</text>
+      <text x="940" y="451" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">观测 M 产生<tspan fill="#E74C3C" font-weight="bold"> explaining away</tspan></text>
+      <text x="940" y="471" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Observing M activates X↔Y dependency</text>
+    </g>
+    <!-- Row 6: Collider, Z not contains M → blocked (GREEN) -->
+    <g id="row-6">
+      <rect x="60" y="490" width="1160" height="62" rx="4" fill="#27AE60" fill-opacity="0.06"/>
+      <rect x="60" y="490" width="6" height="62" rx="3" fill="#27AE60"/>
+      <text x="145" y="517" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#2C3E50">对撞 (Collider)</text>
+      <text x="145" y="537" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#7F8C8D">X→M←Y</text>
+      <g transform="translate(310, 510)">
+        <circle cx="0" cy="0" r="14" fill="none" stroke="#27AE60" stroke-width="2"/>
+        <text x="0" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">X</text>
+        <line x1="14" y1="-5" x2="46" y2="-5" stroke="#27AE60" stroke-width="2.5"/>
+        <polygon points="46,-5 39,-9 39,-1" fill="#27AE60"/>
+        <circle cx="60" cy="-5" r="14" fill="none" stroke="#27AE60" stroke-width="2" stroke-dasharray="3,2"/>
+        <text x="60" y="0" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">M</text>
+        <line x1="74" y1="-5" x2="106" y2="-5" stroke="#27AE60" stroke-width="2.5"/>
+        <polygon points="74,-5 81,-9 81,-1" fill="#27AE60"/>
+        <circle cx="120" cy="0" r="14" fill="none" stroke="#27AE60" stroke-width="2"/>
+        <text x="120" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#27AE60" font-weight="bold">Y</text>
+      </g>
+      <text x="510" y="526" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#27AE60" font-weight="bold">否</text>
+      <rect x="600" y="502" width="120" height="38" rx="19" fill="#27AE60" fill-opacity="0.15"/>
+      <text x="660" y="526" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#27AE60" font-weight="bold">X⊥Y 阻断</text>
+      <text x="940" y="518" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50">M 未观测，对撞天然阻断</text>
+      <text x="940" y="538" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">M unobserved → collider blocks naturally</text>
+    </g>
+  </g>
+  <!-- Callout box: Collider counter-intuitive -->
+  <g id="p05-callout">
+    <rect x="60" y="570" width="1160" height="60" rx="8" fill="#E74C3C" fill-opacity="0.08" stroke="#E74C3C" stroke-width="1.5"/>
+    <use data-icon="tabler-outline/alert-triangle" x="80" y="583" width="32" height="32" fill="#E74C3C"/>
+    <text x="125" y="596" font-family="Georgia, SimHei, serif" font-size="16" font-weight="bold" fill="#E74C3C">关键反直觉点：</text>
+    <text x="360" y="596" font-family="Arial, sans-serif" font-size="15" fill="#2C3E50">Collider（对撞）结构中，<tspan fill="#E74C3C" font-weight="bold">观测 M 反而激活</tspan> X↔Y 依赖关系</text>
+    <text x="360" y="618" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">（explaining away effect）——这与链式和共因结构的行为<tspan font-weight="bold">恰好相反</tspan></text>
+  </g>
+  <!-- Legend -->
+  <g id="p05-legend" transform="translate(950, 578)">
+    <circle cx="0" cy="0" r="6" fill="#27AE60" fill-opacity="0.3"/>
+    <text x="12" y="4" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">= 阻断 (blocked)</text>
+    <circle cx="140" cy="0" r="6" fill="#E74C3C" fill-opacity="0.3"/>
+    <text x="152" y="4" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">= 活跃 (active)</text>
+  </g>
+  <!-- Footer -->
+  <g id="p05-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">05</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

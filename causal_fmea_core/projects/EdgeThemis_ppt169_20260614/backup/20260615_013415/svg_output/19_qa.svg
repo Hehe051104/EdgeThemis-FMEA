@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <linearGradient id="navyBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1A3C6E"/>
+      <stop offset="100%" stop-color="#0F2445"/>
+    </linearGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="1280" height="720" fill="url(#navyBg)"/>
+  <!-- Decorative elements -->
+  <circle cx="200" cy="150" r="120" fill="none" stroke="#2E86DE" stroke-width="1" stroke-opacity="0.1"/>
+  <circle cx="200" cy="150" r="180" fill="none" stroke="#2E86DE" stroke-width="0.8" stroke-opacity="0.06"/>
+  <circle cx="1080" cy="550" r="100" fill="none" stroke="#E8B931" stroke-width="1" stroke-opacity="0.08"/>
+  <circle cx="1080" cy="550" r="160" fill="none" stroke="#E8B931" stroke-width="0.8" stroke-opacity="0.05"/>
+  <!-- Small dots -->
+  <circle cx="300" cy="100" r="3" fill="#2E86DE" fill-opacity="0.3"/>
+  <circle cx="950" cy="180" r="2.5" fill="#E8B931" fill-opacity="0.25"/>
+  <circle cx="1100" cy="350" r="3.5" fill="#2E86DE" fill-opacity="0.2"/>
+  <!-- Title -->
+  <text x="640" y="300" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="56" font-weight="bold" fill="#FFFFFF">感谢聆听</text>
+  <text x="640" y="355" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="30" fill="#FFFFFF" fill-opacity="0.7" font-style="italic">Thank You</text>
+  <!-- Accent line -->
+  <rect x="540" y="380" width="200" height="3" fill="#2E86DE" rx="1"/>
+  <!-- Q&A -->
+  <text x="640" y="440" text-anchor="middle" font-family="Arial, sans-serif" font-size="36" fill="#E8B931" font-weight="bold">Q &amp; A</text>
+  <!-- Project name -->
+  <text x="640" y="510" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#FFFFFF" fill-opacity="0.5">EdgeThemis — Causal Reasoning with Formal Verification</text>
+  <!-- Footer -->
+  <text x="640" y="680" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" fill-opacity="0.3">[Author] · [University] · 2026</text>
+</svg>

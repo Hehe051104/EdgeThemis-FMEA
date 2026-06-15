@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="nodeShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="6" />
+      <feOffset dx="0" dy="3" result="offsetblur" />
+      <feFlood flood-color="#000000" flood-opacity="0.12" result="shadowColor" />
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow" />
+      <feMerge><feMergeNode in="shadow" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+      <feOffset dx="0" dy="2" result="offsetblur" />
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor" />
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow" />
+      <feMerge><feMergeNode in="shadow" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+  </defs>
+  
+  <rect width="1280" height="720" fill="#FFFFFF" />
+  
+  <g id="p07-header">
+    <path fill="#1A3C6E" d="M62,40 H63 A2,2 0 0 1 65,42 V74 A2,2 0 0 1 63,76 H62 A2,2 0 0 1 60,74 V42 A2,2 0 0 1 62,40 Z" />
+    <text x="78" y="67" font-family="Georgia, SimHei, serif" font-size="34" font-weight="bold" fill="#1A3C6E">自反思纠错闭环</text>
+    <text x="430" y="67" font-family="Arial, sans-serif" font-size="16" fill="#7F8C8D">：LLM 自动修正因果图的迭代流程</text>
+    <text x="78" y="90" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D" letter-spacing="0.5">Self-Reflection Loop: Automated Iterative Correction</text>
+    <line x1="60" y1="104" x2="1220" y2="104" stroke="#D5D8DC" stroke-width="1" />
+  </g>
+<g id="stage-indicator" transform="translate(590, 14)">
+<path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M6,0 H634 A6,6 0 0 1 640,6 V36 A6,6 0 0 1 634,42 H6 A6,6 0 0 1 0,36 V6 A6,6 0 0 1 6,0 Z" />
+<circle cx="30" cy="14" r="6" fill="#D5D8DC" />
+<text x="30" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Input</text>
+<circle cx="110" cy="14" r="6" fill="#D5D8DC" />
+<text x="110" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Generator</text>
+<circle cx="190" cy="14" r="6" fill="#D5D8DC" />
+<text x="190" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Interning</text>
+<circle cx="275" cy="14" r="6" fill="#D5D8DC" />
+<text x="275" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Kahn Cycle</text>
+<circle cx="365" cy="14" r="6" fill="#D5D8DC" />
+<text x="365" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">d-Separation</text>
+<circle cx="450" cy="14" r="6" fill="#D5D8DC" />
+<text x="450" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">FMEA RPN</text>
+<circle cx="530" cy="14" r="10" fill="#E8B931" />
+<text x="530" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#E8B931" font-weight="bold">Reflector</text>
+<circle cx="605" cy="14" r="6" fill="#D5D8DC" />
+<text x="605" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Output</text>
+<line x1="40" y1="14" x2="100" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="120" y1="14" x2="180" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="200" y1="14" x2="265" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="285" y1="14" x2="355" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="375" y1="14" x2="440" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="460" y1="14" x2="520" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="540" y1="14" x2="595" y2="14" stroke="#D5D8DC" stroke-width="1.5" />
+<path fill="#FFF" stroke="#D5D8DC" stroke-width="0.5" d="M634,5 H686 A4,4 0 0 1 690,9 V31 A4,4 0 0 1 686,35 H634 A4,4 0 0 1 630,31 V9 A4,4 0 0 1 634,5 Z" />
+<circle cx="640" cy="14" r="3" fill="#E8B931" /><text x="648" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="640" cy="26" r="3" fill="#2E86DE" /><text x="648" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+
+
+
+  
+  <g id="p07-cycle" transform="translate(0, 10)">
+    
+    <circle cx="350" cy="380" r="170" fill="none" stroke="#E8E8E8" stroke-width="1.5" stroke-dasharray="6,4" />
+    <circle cx="350" cy="380" r="110" fill="none" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="4,4" />
+    
+    <text x="350" y="370" text-anchor="middle" font-family="Georgia, SimHei, serif" font-size="20" font-weight="bold" fill="#1A3C6E">Reflection</text>
+    <text x="350" y="395" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">最多 5 轮熔断</text>
+    
+    
+    <path d="M 410,230 Q 500,250 510,340" stroke="#2E86DE" stroke-width="2.5" fill="none" stroke-opacity="0.5" />
+    <polygon points="515,342 508,334 512,348" fill="#2E86DE" fill-opacity="0.6" />
+    
+    <path d="M 510,400 Q 520,490 430,530" stroke="#E74C3C" stroke-width="2.5" fill="none" stroke-opacity="0.5" />
+    <polygon points="428,535 438,528 424,528" fill="#E74C3C" fill-opacity="0.6" />
+    
+    <path d="M 380,540 Q 300,560 250,500" stroke="#E8B931" stroke-width="2.5" fill="none" stroke-opacity="0.5" />
+    <polygon points="247,496 254,506 240,502" fill="#E8B931" fill-opacity="0.6" />
+    
+    <path d="M 240,430 Q 210,340 280,240" stroke="#27AE60" stroke-width="2.5" fill="none" stroke-opacity="0.5" />
+    <polygon points="283,238 274,246 288,246" fill="#27AE60" fill-opacity="0.6" />
+    
+    <g id="node-generate">
+      <circle cx="350" cy="220" r="48" fill="#2E86DE" filter="url(#nodeShadow)" />
+      <text x="350" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">01</text>
+      <text x="350" y="235" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.85">Generate</text>
+    </g>
+    
+    <g id="node-validate">
+      <circle cx="520" cy="370" r="48" fill="#E74C3C" filter="url(#nodeShadow)" />
+      <text x="520" y="365" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">02</text>
+      <text x="520" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.85">Validate</text>
+    </g>
+    
+    <g id="node-intercept">
+      <circle cx="380" cy="530" r="48" fill="#E8B931" filter="url(#nodeShadow)" />
+      <text x="380" y="525" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">03</text>
+      <text x="380" y="545" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.85">Intercept</text>
+    </g>
+    
+    <g id="node-retry">
+      <circle cx="230" cy="420" r="48" fill="#27AE60" filter="url(#nodeShadow)" />
+      <text x="230" y="415" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">04</text>
+      <text x="230" y="435" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.85">Retry</text>
+    </g>
+  </g>
+  
+  <g id="p07-rounds">
+    
+    <g id="round-1" filter="url(#cardShadow)">
+      <path fill="#FFFFFF" d="M650,130 H1210 A10,10 0 0 1 1220,140 V260 A10,10 0 0 1 1210,270 H650 A10,10 0 0 1 640,260 V140 A10,10 0 0 1 650,130 Z" />
+      <path fill="#E74C3C" d="M643,130 H643 A3,3 0 0 1 646,133 V267 A3,3 0 0 1 643,270 H643 A3,3 0 0 1 640,267 V133 A3,3 0 0 1 643,130 Z" />
+      <path fill="#E74C3C" d="M674,145 H726 A14,14 0 0 1 740,159 V159 A14,14 0 0 1 726,173 H674 A14,14 0 0 1 660,159 V159 A14,14 0 0 1 674,145 Z" />
+      <text x="700" y="164" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" font-weight="bold">Round 1</text>
+      <text x="760" y="164" font-family="Arial, sans-serif" font-size="15" fill="#2C3E50" font-weight="bold">LLM 提取 → Rust 检测到环路</text>
+      <text fill="#2C3E50" font-size="14" font-family="Arial, sans-serif" x="660" y="195">提取结果：A→B→C→A（含循环）</text><text fill="#2C3E50" font-size="14" font-family="Arial, sans-serif" x="660" y="220"><tspan>Rust Kahn 检测：发现<tspan fill="#E74C3C" font-weight="bold">环路</tspan>，违反 DAG 约束</tspan>
+      </text><text x="660" y="248" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">→ 拦截报告反馈 LLM 生成器</text>
+    </g>
+    
+    <g id="round-2" filter="url(#cardShadow)">
+      <path fill="#FFFFFF" d="M650,290 H1210 A10,10 0 0 1 1220,300 V420 A10,10 0 0 1 1210,430 H650 A10,10 0 0 1 640,420 V300 A10,10 0 0 1 650,290 Z" />
+      <path fill="#E8B931" d="M643,290 H643 A3,3 0 0 1 646,293 V427 A3,3 0 0 1 643,430 H643 A3,3 0 0 1 640,427 V293 A3,3 0 0 1 643,290 Z" />
+      <path fill="#E8B931" d="M674,305 H726 A14,14 0 0 1 740,319 V319 A14,14 0 0 1 726,333 H674 A14,14 0 0 1 660,319 V319 A14,14 0 0 1 674,305 Z" />
+      <text x="700" y="324" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" font-weight="bold">Round 2</text>
+      <text x="760" y="324" font-family="Arial, sans-serif" font-size="15" fill="#2C3E50" font-weight="bold">LLM 修正 → 环路消除，但 d-分离违反</text>
+      <text fill="#2C3E50" font-size="14" font-family="Arial, sans-serif" x="660" y="355">环路已消除，DAG 合法性通过</text><text fill="#2C3E50" font-size="14" font-family="Arial, sans-serif" x="660" y="380"><tspan>Bayesian Ball 检测：X 和 Y 应<tspan fill="#E8B931" font-weight="bold">条件独立</tspan>但存在活跃路径</tspan>
+      </text><text x="660" y="408" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">→ 拦截报告再次反馈 LLM</text>
+    </g>
+    
+    <g id="round-3" filter="url(#cardShadow)">
+      <path fill="#FFFFFF" d="M650,450 H1210 A10,10 0 0 1 1220,460 V580 A10,10 0 0 1 1210,590 H650 A10,10 0 0 1 640,580 V460 A10,10 0 0 1 650,450 Z" />
+      <path fill="#27AE60" d="M643,450 H643 A3,3 0 0 1 646,453 V587 A3,3 0 0 1 643,590 H643 A3,3 0 0 1 640,587 V453 A3,3 0 0 1 643,450 Z" />
+      <path fill="#27AE60" d="M674,465 H726 A14,14 0 0 1 740,479 V479 A14,14 0 0 1 726,493 H674 A14,14 0 0 1 660,479 V479 A14,14 0 0 1 674,465 Z" />
+      <text x="700" y="484" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" font-weight="bold">Round 3</text>
+      <text x="760" y="484" font-family="Arial, sans-serif" font-size="15" fill="#2C3E50" font-weight="bold">LLM 再次修正 → 全部验证通过</text>
+      <text fill="#2C3E50" font-size="14" font-family="Arial, sans-serif" x="660" y="515"><tspan>DAG 合法性：<tspan fill="#27AE60" font-weight="bold">✓ 无环路</tspan></tspan>
+      </text><text fill="#2C3E50" font-size="14" font-family="Arial, sans-serif" x="660" y="540"><tspan>d-分离一致性：<tspan fill="#27AE60" font-weight="bold">✓ 条件独立关系正确</tspan></tspan>
+      </text><text fill="#2C3E50" font-size="14" font-family="Arial, sans-serif" x="660" y="568"><tspan>FMEA RPN：<tspan fill="#27AE60" font-weight="bold">✓ 风险标注完成</tspan></tspan>
+      </text></g>
+  </g>
+  
+  <g id="p07-fuse">
+    <path fill="#1A3C6E" fill-opacity="0.08" d="M68,630 H552 A8,8 0 0 1 560,638 V662 A8,8 0 0 1 552,670 H68 A8,8 0 0 1 60,662 V638 A8,8 0 0 1 68,630 Z" />
+    
+  <g transform="translate(75.0, 638.0)" fill="none" stroke="#1A3C6E" stroke-width="2">
+    <path d="M11.46 20.846a12 12 0 0 1 -7.96 -14.846a12 12 0 0 0 8.5 -3a12 12 0 0 0 8.5 3a12 12 0 0 1 -.09 7.06" />
+    <path d="M15 19l2 2l4 -4" />
+  </g>
+    <text x="110" y="655" font-family="Arial, sans-serif" font-size="14" fill="#1A3C6E" font-weight="bold">熔断机制：最多 5 轮，防止无限循环</text>
+  </g>
+  
+  <g id="p07-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">09</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

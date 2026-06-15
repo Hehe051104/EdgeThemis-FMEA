@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor"/>
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <!-- Header -->
+  <g id="p06-header">
+    <rect x="60" y="40" width="5" height="36" rx="2" fill="#1A3C6E"/>
+    <text x="78" y="67" font-family="Georgia, SimHei, serif" font-size="36" font-weight="bold" fill="#1A3C6E">FMEA 风险评分</text>
+    <text x="420" y="67" font-family="Arial, sans-serif" font-size="18" fill="#7F8C8D">：将工业工程方法论融入因果图</text>
+    <text x="78" y="92" font-family="Arial, sans-serif" font-size="15" fill="#7F8C8D" letter-spacing="0.5">FMEA Risk Scoring on Causal Edges</text>
+    <line x1="60" y1="108" x2="1220" y2="108" stroke="#D5D8DC" stroke-width="1"/>
+  </g>
+<g id="stage-indicator" transform="translate(660, 14)">
+<rect x="0" y="0" width="560" height="42" rx="6" fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1"/>
+<circle cx="30" cy="15" r="6" fill="#D5D8DC"/>
+<text x="30" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Input</text>
+<circle cx="100" cy="15" r="6" fill="#D5D8DC"/>
+<text x="100" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Generator</text>
+<rect x="82" y="1" width="36" height="5" rx="2" fill="#E8B931" fill-opacity="0.3"/>
+<text x="100" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#E8B931">Python</text>
+<circle cx="175" cy="15" r="6" fill="#D5D8DC"/>
+<text x="175" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Cycle</text>
+<rect x="161" y="1" width="28" height="5" rx="2" fill="#2E86DE" fill-opacity="0.3"/>
+<text x="175" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2E86DE">Rust</text>
+<circle cx="250" cy="15" r="6" fill="#D5D8DC"/>
+<text x="250" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">d-Sep</text>
+<rect x="236" y="1" width="28" height="5" rx="2" fill="#2E86DE" fill-opacity="0.3"/>
+<text x="250" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2E86DE">Rust</text>
+<circle cx="325" cy="15" r="9" fill="#1A3C6E"/>
+<text x="325" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#1A3C6E" font-weight="bold">FMEA</text>
+<rect x="311" y="1" width="28" height="5" rx="2" fill="#2E86DE" fill-opacity="0.7"/>
+<text x="325" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2E86DE" font-weight="bold">Rust</text>
+<circle cx="400" cy="15" r="6" fill="#D5D8DC"/>
+<text x="400" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Reflector</text>
+<rect x="382" y="1" width="36" height="5" rx="2" fill="#E8B931" fill-opacity="0.3"/>
+<text x="400" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#E8B931">Python</text>
+<circle cx="475" cy="15" r="6" fill="#D5D8DC"/>
+<text x="475" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Output</text>
+<line x1="36" y1="15" x2="106" y2="15" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="106" y1="15" x2="181" y2="15" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="181" y1="15" x2="256" y2="15" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="256" y1="15" x2="331" y2="15" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="331" y1="15" x2="406" y2="15" stroke="#D5D8DC" stroke-width="1.5"/>
+<rect x="490" y="5" width="60" height="30" rx="4" fill="#FFF" stroke="#D5D8DC" stroke-width="0.5"/>
+<circle cx="500" cy="14" r="3" fill="#E8B931"/>
+<text x="508" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="500" cy="26" r="3" fill="#2E86DE"/>
+<text x="508" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+
+  <!-- Parameter Table -->
+  <g id="p06-table">
+    <!-- Table header -->
+    <rect x="60" y="125" width="560" height="42" rx="6" fill="#1A3C6E"/>
+    <text x="180" y="152" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#FFFFFF">维度</text>
+    <text x="400" y="152" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#FFFFFF">含义</text>
+    <text x="560" y="152" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#FFFFFF">取值</text>
+    <!-- Row S -->
+    <rect x="60" y="172" width="560" height="50" rx="4" fill="#F5F7FA"/>
+    <text x="180" y="202" text-anchor="middle" font-family="Consolas, monospace" font-size="18" fill="#E74C3C" font-weight="bold">S</text>
+    <text x="180" y="215" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">(Severity)</text>
+    <text x="400" y="202" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#2C3E50">失效后果严重度</text>
+    <text x="560" y="202" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">1 - 10</text>
+    <!-- Row O -->
+    <rect x="60" y="227" width="560" height="50" rx="4" fill="#FFFFFF"/>
+    <text x="180" y="257" text-anchor="middle" font-family="Consolas, monospace" font-size="18" fill="#E8B931" font-weight="bold">O</text>
+    <text x="180" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">(Occurrence)</text>
+    <text x="400" y="257" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#2C3E50">失效发生概率</text>
+    <text x="560" y="257" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">1 - 10</text>
+    <!-- Row D -->
+    <rect x="60" y="282" width="560" height="50" rx="4" fill="#F5F7FA"/>
+    <text x="180" y="312" text-anchor="middle" font-family="Consolas, monospace" font-size="18" fill="#2E86DE" font-weight="bold">D</text>
+    <text x="180" y="325" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#7F8C8D">(Detection)</text>
+    <text x="400" y="312" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#2C3E50">失效检测难度</text>
+    <text x="560" y="312" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50" font-weight="bold">1 - 10</text>
+    <!-- Row RPN -->
+    <rect x="60" y="337" width="560" height="55" rx="4" fill="#1A3C6E" fill-opacity="0.08"/>
+    <text x="180" y="370" text-anchor="middle" font-family="Consolas, monospace" font-size="18" fill="#1A3C6E" font-weight="bold">RPN</text>
+    <text x="400" y="365" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#2C3E50">风险优先数</text>
+    <text x="400" y="383" text-anchor="middle" font-family="Consolas, monospace" font-size="13" fill="#7F8C8D">100×S + 10×O + D</text>
+    <text x="560" y="370" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#1A3C6E" font-weight="bold">≤ 1110</text>
+  </g>
+  <!-- Right side: RPN formula visual -->
+  <g id="p06-formula" transform="translate(680, 140)">
+    <rect x="0" y="0" width="540" height="240" rx="12" fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1"/>
+    <text x="270" y="35" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#7F8C8D" font-weight="bold">RPN 计算公式</text>
+    <text x="270" y="80" text-anchor="middle" font-family="Consolas, monospace" font-size="28" fill="#1A3C6E" font-weight="bold">RPN = 100×S + 10×O + D</text>
+    <line x1="40" y1="100" x2="500" y2="100" stroke="#D5D8DC" stroke-width="1"/>
+    <!-- Weight visualization -->
+    <text x="60" y="135" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">权重分配：</text>
+    <!-- S bar -->
+    <rect x="60" y="150" width="300" height="20" rx="4" fill="#E74C3C" fill-opacity="0.2"/>
+    <rect x="60" y="150" width="270" height="20" rx="4" fill="#E74C3C"/>
+    <text x="340" y="165" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50" font-weight="bold">S × 100</text>
+    <!-- O bar -->
+    <rect x="60" y="178" width="300" height="20" rx="4" fill="#E8B931" fill-opacity="0.2"/>
+    <rect x="60" y="178" width="30" height="20" rx="4" fill="#E8B931"/>
+    <text x="340" y="193" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50" font-weight="bold">O × 10</text>
+    <!-- D bar -->
+    <rect x="60" y="206" width="300" height="20" rx="4" fill="#2E86DE" fill-opacity="0.2"/>
+    <rect x="60" y="206" width="3" height="20" rx="2" fill="#2E86DE"/>
+    <text x="340" y="221" font-family="Arial, sans-serif" font-size="13" fill="#2C3E50" font-weight="bold">D × 1</text>
+  </g>
+  <!-- Example section -->
+  <g id="p06-example">
+    <text x="60" y="435" font-family="Georgia, SimHei, serif" font-size="22" font-weight="bold" fill="#1A3C6E">实例演示</text>
+    <line x1="60" y1="448" x2="200" y2="448" stroke="#2E86DE" stroke-width="2"/>
+    <!-- Example card -->
+    <g filter="url(#cardShadow)">
+      <rect x="60" y="465" width="1160" height="170" rx="12" fill="#FFFFFF" stroke="#E74C3C" stroke-width="2"/>
+      <!-- Causal edge diagram -->
+      <g transform="translate(100, 520)">
+        <rect x="0" y="0" width="200" height="60" rx="8" fill="#1A3C6E"/>
+        <text x="100" y="37" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#FFFFFF" font-weight="bold">未消毒手术器械</text>
+        <!-- Arrow -->
+        <line x1="210" y1="30" x2="310" y2="30" stroke="#E74C3C" stroke-width="3"/>
+        <polygon points="310,30 300,24 300,36" fill="#E74C3C"/>
+        <rect x="320" y="0" width="160" height="60" rx="8" fill="#E74C3C"/>
+        <text x="400" y="37" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#FFFFFF" font-weight="bold">术后感染</text>
+      </g>
+      <!-- S/O/D values -->
+      <g transform="translate(700, 485)">
+        <rect x="0" y="0" width="120" height="50" rx="8" fill="#E74C3C" fill-opacity="0.1"/>
+        <text x="60" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Severity</text>
+        <text x="60" y="44" text-anchor="middle" font-family="Consolas, monospace" font-size="20" fill="#E74C3C" font-weight="bold">S = 9</text>
+        <rect x="140" y="0" width="120" height="50" rx="8" fill="#E8B931" fill-opacity="0.1"/>
+        <text x="200" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Occurrence</text>
+        <text x="200" y="44" text-anchor="middle" font-family="Consolas, monospace" font-size="20" fill="#E8B931" font-weight="bold">O = 4</text>
+        <rect x="280" y="0" width="120" height="50" rx="8" fill="#2E86DE" fill-opacity="0.1"/>
+        <text x="340" y="22" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">Detection</text>
+        <text x="340" y="44" text-anchor="middle" font-family="Consolas, monospace" font-size="20" fill="#2E86DE" font-weight="bold">D = 6</text>
+      </g>
+      <!-- RPN result -->
+      <g transform="translate(700, 555)">
+        <text x="0" y="20" font-family="Arial, sans-serif" font-size="16" fill="#2C3E50">RPN = 100×9 + 10×4 + 6 = </text>
+        <text x="350" y="20" font-family="Consolas, monospace" font-size="28" fill="#E74C3C" font-weight="bold">946</text>
+        <rect x="440" y="-5" width="100" height="35" rx="17" fill="#E74C3C"/>
+        <text x="490" y="18" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#FFFFFF" font-weight="bold">&gt; 500</text>
+      </g>
+      <!-- Alert -->
+      <g transform="translate(700, 600)">
+        <use data-icon="tabler-outline/alert-triangle" x="0" y="-12" width="20" height="20" fill="#E74C3C"/>
+        <text x="28" y="0" font-family="Arial, sans-serif" font-size="15" fill="#E74C3C" font-weight="bold">高风险告警</text>
+        <text x="160" y="0" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">触发条件：RPN &gt; 500 或 S ≥ 9</text>
+      </g>
+    </g>
+    <!-- First mention note -->
+    <text x="60" y="660" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D" font-style="italic">这是 FMEA 工业工程方法论首次与 LLM 因果推理结合 —— 每条因果边都携带可量化的风险指标</text>
+  </g>
+  <!-- Footer -->
+  <g id="p06-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">08</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

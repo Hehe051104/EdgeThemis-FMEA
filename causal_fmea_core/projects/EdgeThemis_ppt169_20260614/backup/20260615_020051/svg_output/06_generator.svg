@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+<defs><filter id="cs" x="-10%" y="-10%" width="120%" height="120%"><feGaussianBlur in="SourceAlpha" stdDeviation="4"/><feOffset dx="0" dy="2" result="ob"/><feFlood flood-color="#000" flood-opacity="0.06" result="sc"/><feComposite in="sc" in2="ob" operator="in" result="s"/><feMerge><feMergeNode in="s"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<rect width="1280" height="720" fill="#FFFFFF"/>
+<g id="header"><rect x="60" y="30" width="5" height="32" rx="2" fill="#1A3C6E"/>
+<text x="78" y="56" font-family="Georgia, SimHei, serif" font-size="28" font-weight="bold" fill="#1A3C6E">Generator 节点：LLM 结构化提取</text>
+<text x="78" y="76" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D">Structured Causal Graph Extraction via JSON Schema</text>
+<line x1="60" y1="88" x2="1220" y2="88" stroke="#D5D8DC" stroke-width="1"/></g>
+<g id="stage-indicator" transform="translate(590, 14)">
+<rect x="0" y="0" width="640" height="42" rx="6" fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1"/>
+<circle cx="30" cy="14" r="6" fill="#D5D8DC"/>
+<text x="30" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Input</text>
+<circle cx="110" cy="14" r="10" fill="#E8B931"/>
+<text x="110" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#E8B931" font-weight="bold">Generator</text>
+<circle cx="190" cy="14" r="6" fill="#D5D8DC"/>
+<text x="190" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Interning</text>
+<circle cx="275" cy="14" r="6" fill="#D5D8DC"/>
+<text x="275" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Kahn Cycle</text>
+<circle cx="365" cy="14" r="6" fill="#D5D8DC"/>
+<text x="365" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">d-Separation</text>
+<circle cx="450" cy="14" r="6" fill="#D5D8DC"/>
+<text x="450" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">FMEA RPN</text>
+<circle cx="530" cy="14" r="6" fill="#D5D8DC"/>
+<text x="530" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Reflector</text>
+<circle cx="605" cy="14" r="6" fill="#D5D8DC"/>
+<text x="605" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Output</text>
+<line x1="40" y1="14" x2="100" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="120" y1="14" x2="180" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="200" y1="14" x2="265" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="285" y1="14" x2="355" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="375" y1="14" x2="440" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="460" y1="14" x2="520" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="540" y1="14" x2="595" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<rect x="630" y="5" width="60" height="30" rx="4" fill="#FFF" stroke="#D5D8DC" stroke-width="0.5"/>
+<circle cx="640" cy="14" r="3" fill="#E8B931"/><text x="648" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="640" cy="26" r="3" fill="#2E86DE"/><text x="648" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+<g id="overview" filter="url(#cs)">
+  <rect x="60" y="105" width="560" height="300" rx="10" fill="#FFF"/>
+  <rect x="60" y="105" width="560" height="6" rx="3" fill="#E8B931"/>
+  <text x="80" y="140" font-family="Georgia, SimHei, serif" font-size="18" fill="#1A3C6E" font-weight="bold">工作流程</text>
+  <text x="80" y="170" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">1. 接收自然语言文本输入</text>
+  <text x="80" y="196" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">2. 通过<tspan font-weight="bold" fill="#1A3C6E">JSON Schema</tspan>约束 LLM 输出格式</text>
+  <text x="80" y="222" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">3. 强制输出<tspan font-weight="bold" fill="#1A3C6E">CausalEdge</tspan>结构：</text>
+  <text x="100" y="248" font-family="Consolas, monospace" font-size="13" fill="#2E86DE">{cause, effect, S, O, D, reasoning}</text>
+  <text x="80" y="278" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">4. 同时输出<tspan font-weight="bold" fill="#1A3C6E">reasoning_process</tspan>（CoT 推理链）</text>
+  <text x="80" y="304" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">5. Pydantic 模型校验：ExtractedGraph</text>
+  <text x="80" y="330" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50">6. 模型：<tspan font-weight="bold" fill="#1A3C6E">Qwen 2.5-3B</tspan> (Q4 量化, 4096 tokens)</text>
+  <text x="80" y="360" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">OpenAI-compatible API · llama-server · localhost:8080</text>
+  <text x="80" y="388" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">Python 层 · nodes.py → generate_graph_node()</text>
+</g>
+<g id="json-example" filter="url(#cs)">
+  <rect x="640" y="105" width="580" height="300" rx="10" fill="#FFF"/>
+  <rect x="640" y="105" width="580" height="6" rx="3" fill="#2E86DE"/>
+  <text x="660" y="140" font-family="Georgia, SimHei, serif" font-size="18" fill="#1A3C6E" font-weight="bold">输出 JSON 示例</text>
+  <text x="660" y="170" font-family="Consolas, monospace" font-size="12" fill="#2C3E50">{</text>
+  <text x="680" y="190" font-family="Consolas, monospace" font-size="12" fill="#2C3E50">"edges": [</text>
+  <text x="700" y="210" font-family="Consolas, monospace" font-size="12" fill="#2C3E50">{</text>
+  <text x="720" y="230" font-family="Consolas, monospace" font-size="12" fill="#2E86DE">"cause": "消毒外包"</text>
+  <text x="720" y="250" font-family="Consolas, monospace" font-size="12" fill="#2E86DE">"effect": "术后感染"</text>
+  <text x="720" y="270" font-family="Consolas, monospace" font-size="12" fill="#E8B931">"S": 9, "O": 4, "D": 6</text>
+  <text x="720" y="290" font-family="Consolas, monospace" font-size="12" fill="#7F8C8D">"reasoning": "..."</text>
+  <text x="700" y="310" font-family="Consolas, monospace" font-size="12" fill="#2C3E50">}]</text>
+  <text x="680" y="330" font-family="Consolas, monospace" font-size="12" fill="#2C3E50">"reasoning_process": "...",</text>
+  <text x="680" y="350" font-family="Consolas, monospace" font-size="12" fill="#2C3E50">"nodes": [...]</text>
+  <text x="660" y="380" font-family="Consolas, monospace" font-size="12" fill="#2C3E50">}</text>
+</g>
+<g id="note">
+  <rect x="60" y="420" width="1160" height="55" rx="8" fill="#E8B931" fill-opacity="0.08"/>
+  <text x="80" y="448" font-family="Arial, sans-serif" font-size="14" fill="#2C3E50"><tspan font-weight="bold" fill="#1A3C6E">关键设计：</tspan>JSON Schema 约束确保 LLM 输出可被 Rust 引擎直接解析，无需后处理。Pydantic 校验在 Python 层兜底。</text>
+  <text x="80" y="468" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">agent_state_machine.py 定义 CausalEdge / ExtractedGraph / ReflectorVerdict / CausalAgentState</text>
+</g>
+<text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">06</text><text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+</svg>

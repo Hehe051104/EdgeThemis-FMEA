@@ -1,0 +1,1 @@
+实验配置方面，我们使用 Qwen 2.5 三 B 参数模型，四比特量化，通过 llama-server 本地部署，运行在八 GB 显存的 RTX 4060 上。三组消融对比分别是：Config A 纯 LLM 无验证，Config B 加上 Schema 约束和 Rust 验证，Config C 在此基础上加入自反思闭环。

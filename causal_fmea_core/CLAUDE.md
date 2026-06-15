@@ -14,12 +14,13 @@ The system is a hybrid Python/Rust codebase. Rust handles performance-critical g
 ```bash
 maturin develop --release
 ```
+Requires Python 3.10+ (the PyO3 binding uses `abi3-py310` stable ABI). The compiled module installs into the active venv.
 
 **Start the local LLM inference server (required for the pipeline):**
 ```bash
 cd scripts && bash run_llama_server.sh
 ```
-Requires `llama-server` (from llama.cpp) on PATH and a Qwen 2.5 GGUF model at `../../qwen2.5-3b-q4.gguf` relative to `scripts/`.
+Requires `llama-server` (from llama.cpp) on PATH and a Qwen 2.5 GGUF model at `../../qwen2.5-3b-q4.gguf` relative to `scripts/`. Listens on `127.0.0.1:8080`.
 
 **Run the main pipeline:**
 ```bash
@@ -35,6 +36,7 @@ cd python/causal_fmea && python demo_compare.py
 ```bash
 cd testpy && python <filename>.py
 ```
+These are manual verification scripts, not automated tests. There is no test runner or formal test framework.
 
 ## Architecture
 
@@ -47,12 +49,14 @@ cd testpy && python <filename>.py
 
 ### Python Pipeline (`python/causal_fmea/`)
 
+Not a proper Python package (no `__init__.py`) — must be run from within the directory (`cd python/causal_fmea && python app.py`). Python dependencies (`langgraph`, `openai`, `pydantic`) are not declared in `pyproject.toml`; install them manually into the venv.
+
 - **`agent_state_machine.py`** — Pydantic models (`CausalEdge`, `ExtractedGraph`, `ReflectorVerdict`) and the `CausalAgentState` TypedDict that flows through LangGraph.
 - **`nodes.py`** — Three LangGraph node functions:
   - `generate_graph_node`: calls local LLM (via OpenAI-compatible API on port 8080) to extract structured causal graph from text
   - `validate_graph_node`: FFI into Rust for cycle detection + d-separation claim extraction + FMEA RPN alerting
   - `reflector_node`: LLM judges whether d-separation claims are common-sense violations
-- **`app.py`** — LangGraph state machine assembly. Wiring: START → generate → validate → (route: retry/reflector/end) → reflector → (route: retry/end). Physical fuse at 3 interception attempts.
+- **`app.py`** — LangGraph state machine assembly. Wiring: START → generate → validate → (route: retry/reflector/end) → reflector → (route: retry/end). Circuit breaker at 5 interception attempts.
 - **`context_guard.py`** — `AgentContext` context manager for Rust engine lifecycle and memory cleanup.
 - **`demo_compare.py`** — Ablation study comparing three configs: pure LLM, LLM+Schema+Rust validation, full EdgeThemis with reflection loop.
 
@@ -61,7 +65,7 @@ cd testpy && python <filename>.py
 - **String interning**: Rust side uses `IndexSet<String>` behind `Arc<Mutex<...>>` for deduplication and O(1) ID lookup. Python sends string pairs; Rust converts to integer IDs for graph operations.
 - **LLM communication**: Uses OpenAI-compatible API (`openai` Python client) pointing at `llama-server` on localhost:8080. Not using `llama-cpp-python` bindings — the C++ server manages VRAM independently.
 - **JSON Schema enforcement**: LLM outputs are constrained via `json_schema` response format matching Pydantic model schemas.
-- **Self-correction loop**: When Rust detects violations (cycles or d-separation issues), the interception report is fed back to the generator LLM as a "system warning" for up to 3 retries.
+- **Self-correction loop**: When Rust detects violations (cycles or d-separation issues), the interception report is fed back to the generator LLM as a "system warning" for up to 5 retries.
 - **FMEA scoring**: Each causal edge carries S/O/D scores (1-10). RPN > 500 or S >= 9 triggers high-risk alerts.
 
 ## Dependencies
@@ -70,3 +74,7 @@ cd testpy && python <filename>.py
 - **Python**: `langgraph`, `openai`, `pydantic`, `causal_fmea_core` (the compiled Rust extension)
 - **External**: `llama-server` (llama.cpp) for local LLM inference
 - **Build tool**: `maturin` (>=1.13)
+
+## CI/CD
+
+GitHub Actions (`.github/workflows/CI.yml`) builds multi-platform wheels via `PyO3/maturin-action@v1` and publishes to PyPI on tags. CI only builds — it does not run any tests.

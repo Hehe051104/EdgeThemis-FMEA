@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4" />
+      <feOffset dx="0" dy="2" result="offsetblur" />
+      <feFlood flood-color="#000000" flood-opacity="0.08" result="shadowColor" />
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow" />
+      <feMerge><feMergeNode in="shadow" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+    <marker id="arrowBlue" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#2E86DE" />
+    </marker>
+    <marker id="arrowOrange" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#E8B931" />
+    </marker>
+    <marker id="arrowGray" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 Z" fill="#7F8C8D" />
+    </marker>
+  </defs>
+  
+  <rect width="1280" height="720" fill="#FFFFFF" />
+  
+  <g id="p04-header">
+    <path fill="#1A3C6E" d="M62,40 H63 A2,2 0 0 1 65,42 V74 A2,2 0 0 1 63,76 H62 A2,2 0 0 1 60,74 V42 A2,2 0 0 1 62,40 Z" />
+    <text x="78" y="67" font-family="Georgia, SimHei, serif" font-size="36" font-weight="bold" fill="#1A3C6E">系统架构</text>
+    <text x="290" y="67" font-family="Arial, sans-serif" font-size="18" fill="#7F8C8D">：从文本到验证因果图的完整流水线</text>
+    <text x="78" y="92" font-family="Arial, sans-serif" font-size="15" fill="#7F8C8D" letter-spacing="0.5">System Architecture: From Text to Verified Causal Graph</text>
+    <line x1="60" y1="108" x2="1220" y2="108" stroke="#D5D8DC" stroke-width="1" />
+  </g>
+<g id="stage-indicator" transform="translate(660, 14)">
+<path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M6,0 H554 A6,6 0 0 1 560,6 V36 A6,6 0 0 1 554,42 H6 A6,6 0 0 1 0,36 V6 A6,6 0 0 1 6,0 Z" />
+<circle cx="30" cy="15" r="6" fill="#2E86DE" fill-opacity="0.3" />
+<text x="30" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Input</text>
+<circle cx="100" cy="15" r="6" fill="#2E86DE" fill-opacity="0.3" />
+<text x="100" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Generator</text>
+<path fill="#E8B931" fill-opacity="0.3" d="M84,1 H116 A2,2 0 0 1 118,3 V4 A2,2 0 0 1 116,6 H84 A2,2 0 0 1 82,4 V3 A2,2 0 0 1 84,1 Z" />
+<text x="100" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#E8B931">Python</text>
+<circle cx="175" cy="15" r="6" fill="#2E86DE" fill-opacity="0.3" />
+<text x="175" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Cycle</text>
+<path fill="#2E86DE" fill-opacity="0.3" d="M163,1 H187 A2,2 0 0 1 189,3 V4 A2,2 0 0 1 187,6 H163 A2,2 0 0 1 161,4 V3 A2,2 0 0 1 163,1 Z" />
+<text x="175" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2E86DE">Rust</text>
+<circle cx="250" cy="15" r="6" fill="#2E86DE" fill-opacity="0.3" />
+<text x="250" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">d-Sep</text>
+<path fill="#2E86DE" fill-opacity="0.3" d="M238,1 H262 A2,2 0 0 1 264,3 V4 A2,2 0 0 1 262,6 H238 A2,2 0 0 1 236,4 V3 A2,2 0 0 1 238,1 Z" />
+<text x="250" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2E86DE">Rust</text>
+<circle cx="325" cy="15" r="6" fill="#2E86DE" fill-opacity="0.3" />
+<text x="325" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">FMEA</text>
+<path fill="#2E86DE" fill-opacity="0.3" d="M313,1 H337 A2,2 0 0 1 339,3 V4 A2,2 0 0 1 337,6 H313 A2,2 0 0 1 311,4 V3 A2,2 0 0 1 313,1 Z" />
+<text x="325" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#2E86DE">Rust</text>
+<circle cx="400" cy="15" r="6" fill="#2E86DE" fill-opacity="0.3" />
+<text x="400" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Reflector</text>
+<path fill="#E8B931" fill-opacity="0.3" d="M384,1 H416 A2,2 0 0 1 418,3 V4 A2,2 0 0 1 416,6 H384 A2,2 0 0 1 382,4 V3 A2,2 0 0 1 384,1 Z" />
+<text x="400" y="5" text-anchor="middle" font-family="Arial, sans-serif" font-size="6" fill="#E8B931">Python</text>
+<circle cx="475" cy="15" r="6" fill="#2E86DE" fill-opacity="0.3" />
+<text x="475" y="36" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" fill="#7F8C8D">Output</text>
+<line x1="36" y1="15" x2="106" y2="15" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="106" y1="15" x2="181" y2="15" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="181" y1="15" x2="256" y2="15" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="256" y1="15" x2="331" y2="15" stroke="#D5D8DC" stroke-width="1.5" />
+<line x1="331" y1="15" x2="406" y2="15" stroke="#D5D8DC" stroke-width="1.5" />
+<path fill="#FFF" stroke="#D5D8DC" stroke-width="0.5" d="M494,5 H546 A4,4 0 0 1 550,9 V31 A4,4 0 0 1 546,35 H494 A4,4 0 0 1 490,31 V9 A4,4 0 0 1 494,5 Z" />
+<circle cx="500" cy="14" r="3" fill="#E8B931" />
+<text x="508" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="500" cy="26" r="3" fill="#2E86DE" />
+<text x="508" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+
+  
+  <g id="p04-layers">
+    <path fill="#E8B931" fill-opacity="0.2" d="M72,130 H128 A12,12 0 0 1 140,142 V142 A12,12 0 0 1 128,154 H72 A12,12 0 0 1 60,142 V142 A12,12 0 0 1 72,130 Z" />
+    <text x="100" y="147" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#E8B931" font-weight="bold">Python</text>
+    <path fill="#2E86DE" fill-opacity="0.2" d="M572,130 H608 A12,12 0 0 1 620,142 V142 A12,12 0 0 1 608,154 H572 A12,12 0 0 1 560,142 V142 A12,12 0 0 1 572,130 Z" />
+    <text x="590" y="147" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#2E86DE" font-weight="bold">Rust</text>
+  </g>
+  
+  <g id="p04-arrows">
+    
+    <line x1="230" y1="250" x2="285" y2="250" stroke="#2E86DE" stroke-width="3" marker-end="url(#arrowBlue)" />
+    
+    <line x1="500" y1="250" x2="575" y2="250" stroke="#2E86DE" stroke-width="3" marker-end="url(#arrowBlue)" />
+    
+    <line x1="810" y1="250" x2="865" y2="250" stroke="#2E86DE" stroke-width="3" marker-end="url(#arrowBlue)" />
+    
+    <line x1="960" y1="290" x2="960" y2="375" stroke="#27AE60" stroke-width="3" marker-end="url(#arrowBlue)" />
+    <path fill="#FFFFFF" d="M944,310 H976 A4,4 0 0 1 980,314 V328 A4,4 0 0 1 976,332 H944 A4,4 0 0 1 940,328 V314 A4,4 0 0 1 944,310 Z" />
+    <text x="960" y="326" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#27AE60" font-weight="bold">No</text>
+    
+    <line x1="1060" y1="400" x2="1105" y2="400" stroke="#2E86DE" stroke-width="3" marker-end="url(#arrowBlue)" />
+    
+    <line x1="910" y1="210" x2="910" y2="170" stroke="#E8B931" stroke-width="3" />
+    <path d="M 910,170 L 390,170 L 390,210" fill="none" stroke="#E8B931" stroke-width="3" stroke-dasharray="8,4" marker-end="url(#arrowOrange)" />
+    <path fill="#FFFFFF" d="M624,148 H656 A4,4 0 0 1 660,152 V166 A4,4 0 0 1 656,170 H624 A4,4 0 0 1 620,166 V152 A4,4 0 0 1 624,148 Z" />
+    <text x="640" y="164" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E8B931" font-weight="bold">Yes</text>
+  </g>
+  
+  <g id="stage-input">
+    <path fill="#1A3C6E" filter="url(#cardShadow)" d="M100,210 H190 A40,40 0 0 1 230,250 V250 A40,40 0 0 1 190,290 H100 A40,40 0 0 1 60,250 V250 A40,40 0 0 1 100,210 Z" />
+    <text x="145" y="248" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#FFFFFF">Input</text>
+    <text x="145" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.8">自然语言文本</text>
+  </g>
+  
+  <g id="stage-llm">
+    <path fill="#E8B931" filter="url(#cardShadow)" d="M300,200 H490 A10,10 0 0 1 500,210 V290 A10,10 0 0 1 490,300 H300 A10,10 0 0 1 290,290 V210 A10,10 0 0 1 300,200 Z" />
+    <path fill="#D4A017" d="M293,200 H497 A3,3 0 0 1 500,203 V203 A3,3 0 0 1 497,206 H293 A3,3 0 0 1 290,203 V203 A3,3 0 0 1 293,200 Z" />
+    <text x="395" y="240" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#FFFFFF">LLM Generator</text>
+    <text x="395" y="262" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" fill-opacity="0.85">Qwen 2.5 · JSON Schema</text>
+    <text x="395" y="282" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.7">结构化因果图提取</text>
+  </g>
+  
+  <g id="stage-rust">
+    <path fill="#2E86DE" filter="url(#cardShadow)" d="M590,190 H800 A10,10 0 0 1 810,200 V300 A10,10 0 0 1 800,310 H590 A10,10 0 0 1 580,300 V200 A10,10 0 0 1 590,190 Z" />
+    <path fill="#1A6BC4" d="M583,190 H807 A3,3 0 0 1 810,193 V193 A3,3 0 0 1 807,196 H583 A3,3 0 0 1 580,193 V193 A3,3 0 0 1 583,190 Z" />
+    <text x="695" y="228" text-anchor="middle" font-family="Arial, sans-serif" font-size="17" font-weight="bold" fill="#FFFFFF">Rust Formal Engine</text>
+    <text x="695" y="252" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" fill-opacity="0.85">Kahn Cycle Detect</text>
+    <text x="695" y="270" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" fill-opacity="0.85">Bayesian Ball d-Sep</text>
+    <text x="695" y="288" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" fill-opacity="0.85">FMEA RPN Alert</text>
+  </g>
+  
+  <g id="stage-decision">
+    <path d="M 960,210 L 1010,250 L 960,290 L 910,250 Z" fill="#E74C3C" filter="url(#cardShadow)" />
+    <text x="960" y="247" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="#FFFFFF">Violation</text>
+    <text x="960" y="263" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.8">?</text>
+  </g>
+  
+  <g id="stage-reflector">
+    <path fill="#27AE60" filter="url(#cardShadow)" d="M900,380 H1050 A10,10 0 0 1 1060,390 V450 A10,10 0 0 1 1050,460 H900 A10,10 0 0 1 890,450 V390 A10,10 0 0 1 900,380 Z" />
+    <path fill="#1E8C4E" d="M893,380 H1057 A3,3 0 0 1 1060,383 V383 A3,3 0 0 1 1057,386 H893 A3,3 0 0 1 890,383 V383 A3,3 0 0 1 893,380 Z" />
+    <text x="975" y="418" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#FFFFFF">Reflector</text>
+    <text x="975" y="440" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.85">LLM 常识判断</text>
+  </g>
+  
+  <g id="stage-output">
+    <path fill="#1A3C6E" filter="url(#cardShadow)" d="M1120,360 H1250 A10,10 0 0 1 1260,370 V470 A10,10 0 0 1 1250,480 H1120 A10,10 0 0 1 1110,470 V370 A10,10 0 0 1 1120,360 Z" />
+    <path fill="#0F2445" d="M1113,360 H1257 A3,3 0 0 1 1260,363 V363 A3,3 0 0 1 1257,366 H1113 A3,3 0 0 1 1110,363 V363 A3,3 0 0 1 1113,360 Z" />
+    <text x="1185" y="405" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" font-weight="bold" fill="#FFFFFF">Output</text>
+    <text x="1185" y="428" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.85">Causal Graph</text>
+    <text x="1185" y="448" text-anchor="middle" font-family="Arial, sans-serif" font-size="12" fill="#FFFFFF" fill-opacity="0.85">+ FMEA Report</text>
+    <text x="1185" y="468" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#FFFFFF" fill-opacity="0.6">Verified DAG</text>
+  </g>
+  
+  <g id="p04-loop-label">
+    <path fill="#E8B931" fill-opacity="0.15" d="M404,136 H576 A14,14 0 0 1 590,150 V150 A14,14 0 0 1 576,164 H404 A14,14 0 0 1 390,150 V150 A14,14 0 0 1 404,136 Z" />
+    <text x="490" y="155" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#E8B931" font-weight="bold">反思循环（最多 5 轮）</text>
+  </g>
+  
+  <g id="p04-edge-note" transform="translate(580, 340)">
+    <path fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1" d="M8,0 H222 A8,8 0 0 1 230,8 V62 A8,8 0 0 1 222,70 H8 A8,8 0 0 1 0,62 V8 A8,8 0 0 1 8,0 Z" />
+    <text x="115" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#7F8C8D">CausalEdge</text>
+    <text x="115" y="48" text-anchor="middle" font-family="Consolas, monospace" font-size="12" fill="#1A3C6E">{cause, effect, S, O, D}</text>
+  </g>
+  
+  <g id="p04-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">05</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

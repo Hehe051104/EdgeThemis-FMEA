@@ -1,0 +1,169 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="2" result="offsetblur"/>
+      <feFlood flood-color="#000000" flood-opacity="0.06" result="shadowColor"/>
+      <feComposite in="shadowColor" in2="offsetblur" operator="in" result="shadow"/>
+      <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="1280" height="720" fill="#FFFFFF"/>
+  <!-- Header -->
+  <g id="p10-header">
+    <rect x="60" y="40" width="5" height="36" rx="2" fill="#1A3C6E"/>
+    <text x="78" y="67" font-family="Georgia, SimHei, serif" font-size="34" font-weight="bold" fill="#1A3C6E">案例对比</text>
+    <text x="280" y="67" font-family="Arial, sans-serif" font-size="16" fill="#7F8C8D">：自反思闭环前后的因果图质量差异</text>
+    <text x="78" y="90" font-family="Arial, sans-serif" font-size="14" fill="#7F8C8D" letter-spacing="0.5">Case Study: Before vs After Self-Reflection</text>
+    <line x1="60" y1="104" x2="1220" y2="104" stroke="#D5D8DC" stroke-width="1"/>
+  </g>
+<g id="stage-indicator" transform="translate(590, 14)">
+<rect x="0" y="0" width="640" height="42" rx="6" fill="#F5F7FA" stroke="#D5D8DC" stroke-width="1"/>
+<circle cx="30" cy="14" r="6" fill="#D5D8DC"/>
+<text x="30" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Input</text>
+<circle cx="110" cy="14" r="6" fill="#D5D8DC"/>
+<text x="110" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Generator</text>
+<circle cx="190" cy="14" r="6" fill="#D5D8DC"/>
+<text x="190" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Interning</text>
+<circle cx="275" cy="14" r="6" fill="#D5D8DC"/>
+<text x="275" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Kahn Cycle</text>
+<circle cx="365" cy="14" r="6" fill="#D5D8DC"/>
+<text x="365" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">d-Separation</text>
+<circle cx="450" cy="14" r="6" fill="#D5D8DC"/>
+<text x="450" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">FMEA RPN</text>
+<circle cx="530" cy="14" r="6" fill="#D5D8DC"/>
+<text x="530" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Reflector</text>
+<circle cx="605" cy="14" r="10" fill="#27AE60"/>
+<text x="605" y="38" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="#27AE60" font-weight="bold">Output</text>
+<line x1="40" y1="14" x2="100" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="120" y1="14" x2="180" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="200" y1="14" x2="265" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="285" y1="14" x2="355" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="375" y1="14" x2="440" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="460" y1="14" x2="520" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<line x1="540" y1="14" x2="595" y2="14" stroke="#D5D8DC" stroke-width="1.5"/>
+<rect x="630" y="5" width="60" height="30" rx="4" fill="#FFF" stroke="#D5D8DC" stroke-width="0.5"/>
+<circle cx="640" cy="14" r="3" fill="#E8B931"/><text x="648" y="17" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Python</text>
+<circle cx="640" cy="26" r="3" fill="#2E86DE"/><text x="648" y="29" font-family="Arial, sans-serif" font-size="7" fill="#7F8C8D">Rust</text>
+</g>
+
+
+
+  <!-- LEFT: Before (Config A) -->
+  <g id="p10-before">
+    <rect x="60" y="120" width="540" height="520" rx="12" fill="#FFFFFF" stroke="#E74C3C" stroke-width="2" filter="url(#cardShadow)"/>
+    <!-- Label -->
+    <rect x="60" y="120" width="540" height="45" rx="12" fill="#E74C3C"/>
+    <rect x="60" y="145" width="540" height="20" fill="#E74C3C"/>
+    <text x="330" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#FFFFFF">Before — Config A (纯 LLM)</text>
+    <!-- Broken DAG -->
+    <g transform="translate(140, 270)">
+      <!-- Node A -->
+      <circle cx="0" cy="0" r="28" fill="none" stroke="#E74C3C" stroke-width="2.5"/>
+      <text x="0" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#E74C3C" font-weight="bold">A</text>
+      <!-- A→B -->
+      <line x1="28" y1="-14" x2="92" y2="-54" stroke="#E74C3C" stroke-width="2.5"/>
+      <polygon points="92,-54 82,-48 86,-58" fill="#E74C3C"/>
+      <!-- Node B -->
+      <circle cx="120" cy="-60" r="28" fill="none" stroke="#E74C3C" stroke-width="2.5"/>
+      <text x="120" y="-54" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#E74C3C" font-weight="bold">B</text>
+      <!-- B→C -->
+      <line x1="148" y1="-46" x2="212" y2="14" stroke="#E74C3C" stroke-width="2.5"/>
+      <polygon points="212,14 204,8 210,20" fill="#E74C3C"/>
+      <!-- Node C -->
+      <circle cx="240" cy="0" r="28" fill="none" stroke="#E74C3C" stroke-width="2.5"/>
+      <text x="240" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#E74C3C" font-weight="bold">C</text>
+      <!-- C→D -->
+      <line x1="240" y1="28" x2="240" y2="82" stroke="#E74C3C" stroke-width="2"/>
+      <polygon points="240,82 234,72 246,72" fill="#E74C3C"/>
+      <!-- Node D -->
+      <circle cx="240" cy="110" r="28" fill="none" stroke="#E74C3C" stroke-width="2.5"/>
+      <text x="240" y="116" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#E74C3C" font-weight="bold">D</text>
+      <!-- D→A (CYCLE!) -->
+      <path d="M 212,100 Q 100,130 20,20" fill="none" stroke="#E74C3C" stroke-width="3" stroke-dasharray="8,4"/>
+      <polygon points="22,18 14,28 28,26" fill="#E74C3C"/>
+      <!-- Cycle label -->
+      <rect x="80" y="65" width="80" height="28" rx="14" fill="#E74C3C"/>
+      <text x="120" y="84" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" fill="#FFFFFF" font-weight="bold">环路!</text>
+    </g>
+    <!-- Problems list -->
+    <g transform="translate(90, 430)">
+      <use data-icon="tabler-outline/x" x="0" y="0" width="20" height="20" fill="#E74C3C"/>
+      <text x="28" y="16" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C">存在环路 D→A，违反 DAG 约束</text>
+      <use data-icon="tabler-outline/x" x="0" y="32" width="20" height="20" fill="#E74C3C"/>
+      <text x="28" y="48" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C">未进行 d-分离验证</text>
+      <use data-icon="tabler-outline/x" x="0" y="64" width="20" height="20" fill="#E74C3C"/>
+      <text x="28" y="80" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C">无 FMEA 风险标注</text>
+      <use data-icon="tabler-outline/x" x="0" y="96" width="20" height="20" fill="#E74C3C"/>
+      <text x="28" y="112" font-family="Arial, sans-serif" font-size="14" fill="#E74C3C">无自纠错能力</text>
+    </g>
+  </g>
+  <!-- MIDDLE: Arrow -->
+  <g id="p10-arrow">
+    <rect x="610" y="320" width="60" height="80" rx="30" fill="#1A3C6E" fill-opacity="0.1"/>
+    <text x="640" y="355" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#1A3C60" font-weight="bold">→</text>
+    <text x="640" y="385" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1A3C6E">3 轮</text>
+    <text x="640" y="400" text-anchor="middle" font-family="Arial, sans-serif" font-size="11" fill="#1A3C6E">反思</text>
+  </g>
+  <!-- RIGHT: After (Config C) -->
+  <g id="p10-after">
+    <rect x="680" y="120" width="540" height="520" rx="12" fill="#FFFFFF" stroke="#27AE60" stroke-width="2" filter="url(#cardShadow)"/>
+    <!-- Label -->
+    <rect x="680" y="120" width="540" height="45" rx="12" fill="#27AE60"/>
+    <rect x="680" y="145" width="540" height="20" fill="#27AE60"/>
+    <text x="950" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="bold" fill="#FFFFFF">After — Config C (完整 EdgeThemis)</text>
+    <!-- Clean DAG -->
+    <g transform="translate(740, 270)">
+      <!-- Node A -->
+      <circle cx="0" cy="0" r="28" fill="none" stroke="#27AE60" stroke-width="2.5"/>
+      <text x="0" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#27AE60" font-weight="bold">A</text>
+      <!-- A→B -->
+      <line x1="28" y1="-14" x2="92" y2="-54" stroke="#27AE60" stroke-width="2.5"/>
+      <polygon points="92,-54 82,-48 86,-58" fill="#27AE60"/>
+      <!-- FMEA label on A→B -->
+      <rect x="30" y="-50" width="55" height="18" rx="4" fill="#E74C3C" fill-opacity="0.15"/>
+      <text x="58" y="-37" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#E74C3C">RPN 850</text>
+      <!-- Node B -->
+      <circle cx="120" cy="-60" r="28" fill="none" stroke="#27AE60" stroke-width="2.5"/>
+      <text x="120" y="-54" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#27AE60" font-weight="bold">B</text>
+      <!-- B→C -->
+      <line x1="148" y1="-46" x2="212" y2="14" stroke="#27AE60" stroke-width="2.5"/>
+      <polygon points="212,14 204,8 210,20" fill="#27AE60"/>
+      <!-- FMEA label on B→C -->
+      <rect x="155" y="-28" width="55" height="18" rx="4" fill="#E8B931" fill-opacity="0.15"/>
+      <text x="182" y="-15" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#E8B931">RPN 420</text>
+      <!-- Node C -->
+      <circle cx="240" cy="0" r="28" fill="none" stroke="#27AE60" stroke-width="2.5"/>
+      <text x="240" y="6" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#27AE60" font-weight="bold">C</text>
+      <!-- C→D -->
+      <line x1="240" y1="28" x2="240" y2="82" stroke="#27AE60" stroke-width="2.5"/>
+      <polygon points="240,82 234,72 246,72" fill="#27AE60"/>
+      <!-- Node D -->
+      <circle cx="240" cy="110" r="28" fill="none" stroke="#27AE60" stroke-width="2.5"/>
+      <text x="240" y="116" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#27AE60" font-weight="bold">D</text>
+      <!-- A→D (clean edge, no cycle) -->
+      <line x1="0" y1="28" x2="0" y2="82" stroke="#27AE60" stroke-width="2.5"/>
+      <polygon points="0,82 -6,72 6,72" fill="#27AE60"/>
+      <!-- FMEA label on A→D -->
+      <rect x="-35" y="40" width="55" height="18" rx="4" fill="#27AE60" fill-opacity="0.15"/>
+      <text x="-8" y="53" text-anchor="middle" font-family="Consolas, monospace" font-size="10" fill="#27AE60">RPN 210</text>
+    </g>
+    <!-- Improvements list -->
+    <g transform="translate(710, 430)">
+      <use data-icon="tabler-outline/circle-check" x="0" y="0" width="20" height="20" fill="#27AE60"/>
+      <text x="28" y="16" font-family="Arial, sans-serif" font-size="14" fill="#27AE60">环路消除，DAG 合法性通过</text>
+      <use data-icon="tabler-outline/circle-check" x="0" y="32" width="20" height="20" fill="#27AE60"/>
+      <text x="28" y="48" font-family="Arial, sans-serif" font-size="14" fill="#27AE60">d-分离一致性验证通过</text>
+      <use data-icon="tabler-outline/circle-check" x="0" y="64" width="20" height="20" fill="#27AE60"/>
+      <text x="28" y="80" font-family="Arial, sans-serif" font-size="14" fill="#27AE60">每条边标注 FMEA RPN 风险值</text>
+      <use data-icon="tabler-outline/circle-check" x="0" y="96" width="20" height="20" fill="#27AE60"/>
+      <text x="28" y="112" font-family="Arial, sans-serif" font-size="14" fill="#27AE60">高风险边自动告警 (RPN &gt; 500)</text>
+    </g>
+  </g>
+  <!-- Footer -->
+  <g id="p10-footer">
+    <text x="60" y="695" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">12</text>
+    <text x="1220" y="695" text-anchor="end" font-family="Arial, sans-serif" font-size="12" fill="#7F8C8D">EdgeThemis</text>
+  </g>
+</svg>

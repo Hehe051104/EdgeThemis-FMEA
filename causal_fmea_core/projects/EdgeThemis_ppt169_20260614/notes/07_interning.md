@@ -1,0 +1,1 @@
+字符串驻留池是 Rust 引擎的基础设施。LLM 输出的节点名是字符串，但 Rust 图算法操作的是整数 ID。我们用 IndexSet 配合 Arc 和 Mutex 实现了一个线程安全的驻留池，同一节点名只存一次，查找复杂度 O(1)。Python 通过 FFI 的 inject_edges 方法将边列表传入 Rust，Rust 端自动完成字符串到整数的映射。底层的 CompactCausalGraph 用一维扁平邻接表存储，CPU 缓存友好。
